@@ -220,14 +220,8 @@
             lucide.createIcons();
 
             setTimeout(() => {
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
-                btnText.textContent = 'Sign In';
-                btnIcon.setAttribute('data-lucide', 'arrow-right');
-                btnIcon.classList.remove('animate-spin');
-                lucide.createIcons();
-
-                alert('Successfully signed in as ' + userIdInput.value.trim() + '!');
+                // Navigate to dashboard URL on successful login
+                window.location.href = 'https://github.com/Gautamgs21/AutoCareManager/blob/main/dashboard.html';
             }, 500);
         });
     </script>
