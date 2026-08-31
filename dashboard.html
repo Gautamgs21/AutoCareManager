@@ -162,7 +162,39 @@
     <main class="pt-20 pb-24 md:pb-8 px-p-lg max-w-[672px] mx-auto space-y-6">
         <h2 class="text-[30px] font-extrabold text-on-surface mb-3 tracking-wider">Welcome "User",</h2>
         
-        <!-- Three Summary Cards -->
+        <!-- Quick Actions -->
+        <section>
+            <h2 class="font-headline-card text-headline-card text-on-surface mb-3">QUICK ACTIONS</h2>
+            <div class="grid grid-cols-3 gap-3">
+                <a href="vehicles.html" class="bg-surface-container-lowest hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-xl p-4 border border-slate-border shadow-sm flex flex-col items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-primary" data-icon="add_circle">add_circle</span>
+                    <span class="font-label-xs text-label-xs text-on-surface-variant text-center">Add Vehicle</span>
+                </a>
+                <a href="fuel.html" class="bg-surface-container-lowest hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-xl p-4 border border-slate-border shadow-sm flex flex-col items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-primary" data-icon="local_gas_station">local_gas_station</span>
+                    <span class="font-label-xs text-label-xs text-on-surface-variant text-center">Log Fuel</span>
+                </a>
+                <a href="service.html" class="bg-surface-container-lowest hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-xl p-4 border border-slate-border shadow-sm flex flex-col items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-primary" data-icon="build">build</span>
+                    <span class="font-label-xs text-label-xs text-on-surface-variant text-center">Log Service</span>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Mileage Champion -->
+        <section>
+            <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-sm p-p-xl flex items-center gap-4 bg-gradient-to-r from-primary-fixed to-surface-container-lowest">
+                <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0 text-on-primary">
+                    <span class="material-symbols-outlined text-2xl">emoji_events</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-card text-headline-card text-on-surface mb-1">Mileage Champion of the Month</h3>
+                    <p class="font-body-standard text-body-standard text-slate-text-secondary">Honda City (MH12AB1234) - 15.5 km/l</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Three Summary Cards (moved here) -->
         <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <!-- Card 1: Total Expenses -->
             <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-sm p-p-xl flex flex-col justify-between min-h-[160px]">
@@ -208,38 +240,6 @@
                     <span>Open Refuelling History</span>
                     <span class="material-symbols-outlined text-sm">arrow_forward</span>
                 </button>
-            </div>
-        </section>
-
-        <!-- Quick Actions -->
-        <section>
-            <h2 class="font-headline-card text-headline-card text-on-surface mb-3">QUICK ACTIONS</h2>
-            <div class="grid grid-cols-3 gap-3">
-                <a href="vehicles.html" class="bg-surface-container-lowest hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-xl p-4 border border-slate-border shadow-sm flex flex-col items-center justify-center gap-2">
-                    <span class="material-symbols-outlined text-primary" data-icon="add_circle">add_circle</span>
-                    <span class="font-label-xs text-label-xs text-on-surface-variant text-center">Add Vehicle</span>
-                </a>
-                <a href="fuel.html" class="bg-surface-container-lowest hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-xl p-4 border border-slate-border shadow-sm flex flex-col items-center justify-center gap-2">
-                    <span class="material-symbols-outlined text-primary" data-icon="local_gas_station">local_gas_station</span>
-                    <span class="font-label-xs text-label-xs text-on-surface-variant text-center">Log Fuel</span>
-                </a>
-                <a href="service.html" class="bg-surface-container-lowest hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-xl p-4 border border-slate-border shadow-sm flex flex-col items-center justify-center gap-2">
-                    <span class="material-symbols-outlined text-primary" data-icon="build">build</span>
-                    <span class="font-label-xs text-label-xs text-on-surface-variant text-center">Log Service</span>
-                </a>
-            </div>
-        </section>
-        
-        <!-- Mileage Champion -->
-        <section>
-            <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-sm p-p-xl flex items-center gap-4 bg-gradient-to-r from-primary-fixed to-surface-container-lowest">
-                <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0 text-on-primary">
-                    <span class="material-symbols-outlined text-2xl">emoji_events</span>
-                </div>
-                <div>
-                    <h3 class="font-headline-card text-headline-card text-on-surface mb-1">Mileage Champion of the Month</h3>
-                    <p class="font-body-standard text-body-standard text-slate-text-secondary">Honda City (MH12AB1234) - 15.5 km/l</p>
-                </div>
             </div>
         </section>
         
