@@ -1,335 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoCare - Fleet & Vehicle Intelligence System</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>AutoCare - Dashboard</title>
+    
     <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts (Inter + Material Symbols) -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#85f8c4",
+                        "outline": "#737686",
+                        "on-primary-fixed": "#00174b",
+                        "surface-tint": "#0053db",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "on-surface-variant": "#434655",
+                        "tertiary-fixed-dim": "#68dba9",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "status-overdue": "#dc2626",
+                        "surface-container-highest": "#e0e3e5",
+                        "status-warning": "#f59e0b",
+                        "on-primary-container": "#eeefff",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-tertiary-fixed": "#002114",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed": "#111c2d",
+                        "secondary": "#545f73",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-tertiary-container": "#bdffdc",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-container": "#007d57",
+                        "secondary-container": "#d5e0f8",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "slate-text-secondary": "#475569",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c3c6d7",
+                        "tertiary": "#006243",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "status-active": "#059669",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#b4c5ff",
+                        "on-surface": "#191c1e",
+                        "primary": "#004ac6",
+                        "slate-border": "#e2e8f0",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "status-valid": "#3b82f6",
+                        "primary-container": "#2563eb",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "on-secondary-container": "#586377"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "p-lg": "16px",
+                        "p-sm": "10px",
+                        "p-2xl": "24px",
+                        "unit": "4px",
+                        "p-xl": "20px",
+                        "p-md": "12px",
+                        "max-width-app": "672px"
+                    },
+                    "fontFamily": {
+                        "display-metrics": ["Inter"],
+                        "body-standard": ["Inter"],
+                        "micro-nav": ["Inter"],
+                        "body-semibold": ["Inter"],
+                        "headline-card": ["Inter"],
+                        "label-xs": ["Inter"],
+                        "headline-page": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-metrics": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-standard": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "micro-nav": ["10px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-semibold": ["14px", { "lineHeight": "1.5", "fontWeight": "600" }],
+                        "headline-card": ["16px", { "lineHeight": "1.4", "fontWeight": "700" }],
+                        "label-xs": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-page": ["18px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+    
+    <script>
+        function toggleCollapse(id) {
+            const el = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                el.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
 </head>
-<body id="app-body" class="min-h-screen bg-[#f7f9fb] dark:bg-slate-950 flex flex-col justify-between items-center transition-colors text-lg pt-20 pb-24">
+<body class="bg-background text-on-background font-body-standard antialiased">
 
     <!-- TOP APP BAR -->
-    <header id="top-bar" class="fixed top-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+    <header id="top-bar" class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-colors">
         <div class="max-w-6xl mx-auto h-16 px-4 sm:px-8 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <button
-                    id="top-logo-btn"
-                    class="flex items-center gap-3 text-left group cursor-pointer focus:outline-hidden"
-                    aria-label="AutoCare Dashboard"
-                >
+                <a href="dashboard.html" id="top-logo-btn" class="flex items-center gap-3 text-left group cursor-pointer focus:outline-none" aria-label="AutoCare Dashboard">
                     <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shadow-xs border border-slate-100 overflow-hidden">
-                        <img src="https://github.com/Gautamgs21/AutoCareManager/blob/4af2d708a8ab950c414bd751dc8cc1c354604d29/assets/logo.png?raw=true" alt="Logo" class="w-6 h-6 object-contain" />
+                        <i data-lucide="car" class="w-5 h-5 text-emerald-600"></i>
                     </div>
                     <div>
-                        <span class="font-bold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">
-                            AutoCare <span class="text-emerald-600 dark:text-emerald-400 font-semibold text-xs sm:text-sm">v1.0</span>
+                        <span class="font-bold text-lg sm:text-xl tracking-tight text-slate-900">
+                            AutoCare <span class="text-emerald-600 font-semibold text-xs sm:text-sm">v1.0</span>
                         </span>
                     </div>
-                </button>
+                </a>
             </div>
-
             <div class="flex items-center gap-2.5 sm:gap-4">
-                <button
-                    id="top-profile-btn"
-                    class="relative rounded-full p-0.5 border-2 border-slate-200 dark:border-slate-700 shadow-xs hover:scale-105 transition-all cursor-pointer"
-                    aria-label="Profile and Settings"
-                >
-                    <img
-                        src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=300&auto=format&fit=crop"
-                        alt="Profile avatar"
-                        class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover bg-slate-100 dark:bg-slate-800"
-                        referrerpolicy="no-referrer"
-                    />
-                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
-                </button>
+                <a href="settings.html" id="top-profile-btn" class="relative rounded-full p-0.5 border-2 border-slate-200 shadow-xs hover:scale-105 transition-all cursor-pointer" aria-label="Profile and Settings">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=300&auto=format&fit=crop" alt="Profile avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover bg-slate-100" referrerpolicy="no-referrer" />
+                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- MAIN APP CONTENT (Dashboard Page Only) -->
-    <main id="main-content" class="w-full flex-1 flex flex-col justify-center items-center p-4 sm:p-6">
-        <div id="view-dashboard" class="w-full max-w-6xl space-y-6 pb-12">
-            <!-- 1. Primary Action Controls & Fuel Rate Banner -->
-            <section class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-5 sm:p-6 shadow-xs space-y-5">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4">
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                            <h1 class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-                                Welcome Gautam,
-                            </h1>
-                        </div>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                            Precision fuel telemetry and per-vehicle mileage monitoring
-                        </p>
+    <!-- MAIN CONTENT - DASHBOARD -->
+    <main class="pt-20 pb-24 md:pb-8 px-p-lg max-w-[672px] mx-auto space-y-6">
+        <h2 class="text-[30px] font-extrabold text-on-surface mb-3 tracking-wider">Welcome "User",</h2>
+        
+        <!-- Three Summary Cards -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Card 1: Total Expenses -->
+            <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-sm p-p-xl flex flex-col justify-between min-h-[160px]">
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="font-label-xs text-label-xs text-slate-text-secondary uppercase tracking-wider">Total Expenses for the Month</span>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button
-                            type="button"
-                            id="dash-add-veh-btn"
-                            class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1.5 cursor-pointer"
-                        >
-                            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                            <span>Add Vehicle</span>
-                        </button>
-                    </div>
+                    <h3 class="text-2xl font-black text-on-surface mt-1">₹14,580</h3>
+                    <p class="text-xs text-slate-text-secondary mt-1">12 Refills • 3 Services</p>
                 </div>
+                <div class="pt-3 border-t border-slate-border text-xs font-bold text-slate-text-secondary flex items-center justify-between">
+                    <span>Distance: 2,450 km</span>
+                    <span>Avg: 38.4 km/L</span>
+                </div>
+            </div>
 
-                <!-- 3 Primary Action Buttons -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                    <button
-                        type="button"
-                        id="dash-fuel-btn"
-                        class="p-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white shadow-md transition-all flex items-center gap-3.5 cursor-pointer group text-left"
-                    >
-                        <div class="w-11 h-11 rounded-xl bg-emerald-500/50 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                            <i data-lucide="fuel" class="w-5 h-5"></i>
+            <!-- Card 2: Mileage Champion -->
+            <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-sm p-p-xl flex flex-col justify-between min-h-[160px]">
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="font-label-xs text-label-xs text-slate-text-secondary uppercase tracking-wider">Mileage Champion of the Month</span>
+                        <span class="material-symbols-outlined text-amber-500 text-xl">emoji_events</span>
+                    </div>
+                    <h3 class="text-xl font-black text-on-surface mt-1 truncate">Honda Activa 6G</h3>
+                    <p class="text-xs font-bold text-status-active mt-1">45.2 km/L Efficiency</p>
+                </div>
+                <button type="button" class="text-xs font-bold text-primary flex items-center justify-between pt-3 border-t border-slate-border hover:underline cursor-pointer w-full">
+                    <span>View All Efficiency Curves</span>
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+            </div>
+
+            <!-- Card 3: Total Fuel Consumed -->
+            <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-sm p-p-xl flex flex-col justify-between min-h-[160px]">
+                <div>
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="font-label-xs text-label-xs text-slate-text-secondary uppercase tracking-wider">Total Fuel Consumed</span>
+                    </div>
+                    <h3 class="text-2xl font-black text-on-surface mt-1">68.4 Liters</h3>
+                    <p class="text-xs text-slate-text-secondary mt-1">Across all 2 registered vehicles</p>
+                </div>
+                <button type="button" class="text-xs font-bold text-primary flex items-center justify-between pt-3 border-t border-slate-border hover:underline cursor-pointer w-full">
+                    <span>Open Refuelling History</span>
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section>
+            <h2 class="font-headline-card text-headline-card text-on-surface mb-3">QUICK ACTIONS</h2>
+            <div class="grid grid-cols-3 gap-3">
+                <a href="vehicles.html" class="bg-surface-container-lowest hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-xl p-4 border border-slate-border shadow-sm flex flex-col items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-primary" data-icon="add_circle">add_circle</span>
+                    <span class="font-label-xs text-label-xs text-on-surface-variant text-center">Add Vehicle</span>
+                </a>
+                <a href="fuel.html" class="bg-surface-container-lowest hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-xl p-4 border border-slate-border shadow-sm flex flex-col items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-primary" data-icon="local_gas_station">local_gas_station</span>
+                    <span class="font-label-xs text-label-xs text-on-surface-variant text-center">Log Fuel</span>
+                </a>
+                <a href="service.html" class="bg-surface-container-lowest hover:bg-surface-container-high transition-colors active:scale-95 duration-200 rounded-xl p-4 border border-slate-border shadow-sm flex flex-col items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-primary" data-icon="build">build</span>
+                    <span class="font-label-xs text-label-xs text-on-surface-variant text-center">Log Service</span>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Mileage Champion -->
+        <section>
+            <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-sm p-p-xl flex items-center gap-4 bg-gradient-to-r from-primary-fixed to-surface-container-lowest">
+                <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center flex-shrink-0 text-on-primary">
+                    <span class="material-symbols-outlined text-2xl">emoji_events</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-card text-headline-card text-on-surface mb-1">Mileage Champion of the Month</h3>
+                    <p class="font-body-standard text-body-standard text-slate-text-secondary">Honda City (MH12AB1234) - 15.5 km/l</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Upcoming Priorities -->
+        <section>
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="font-headline-card text-headline-card text-on-surface">UPCOMING PRIORITIES</h2>
+                <a class="text-primary font-body-semibold text-body-semibold hover:underline" href="#">View All</a>
+            </div>
+            <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-sm overflow-hidden divide-y divide-slate-border">
+                <!-- Priority Item 1 -->
+                <div class="p-4 hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-error" data-icon="gavel">gavel</span>
                         </div>
                         <div>
-                            <span class="text-sm font-extrabold block tracking-tight">Enter Refuelling Data</span>
-                            <span class="text-[11px] text-emerald-100 block">Log Litres, Amount & Odo</span>
+                            <h4 class="font-body-semibold text-body-semibold text-on-surface">Insurance Renewal</h4>
+                            <p class="font-body-standard text-body-standard text-slate-text-secondary">Fleet Vehicle #4 (Ford Transit)</p>
                         </div>
-                    </button>
-
-                    <button
-                        type="button"
-                        id="dash-mileage-btn"
-                        class="p-4 rounded-2xl bg-blue-600 hover:bg-blue-700 active:scale-98 text-white shadow-md transition-all flex items-center gap-3.5 cursor-pointer group text-left"
-                    >
-                        <div class="w-11 h-11 rounded-xl bg-blue-500/50 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                            <i data-lucide="calculator" class="w-5 h-5"></i>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
+                        <span class="bg-error-container text-on-error-container font-micro-nav text-micro-nav px-2 py-1 rounded-full uppercase tracking-wide">Overdue</span>
+                        <span class="font-label-xs text-label-xs text-error">Oct 12</span>
+                    </div>
+                </div>
+                <!-- Priority Item 2 -->
+                <div class="p-4 hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-status-warning" data-icon="description">description</span>
                         </div>
                         <div>
-                            <span class="text-sm font-extrabold block tracking-tight">Check Mileage</span>
-                            <span class="text-[11px] text-blue-100 block">Instant Efficiency Calculator</span>
+                            <h4 class="font-body-semibold text-body-semibold text-on-surface">PUC Certificate</h4>
+                            <p class="font-body-standard text-body-standard text-slate-text-secondary">Fleet Vehicle #2 (Toyota Tacoma)</p>
                         </div>
-                    </button>
-
-                    <button
-                        type="button"
-                        id="dash-history-btn"
-                        class="p-4 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 active:scale-98 text-white shadow-md transition-all flex items-center gap-3.5 cursor-pointer group text-left"
-                    >
-                        <div class="w-11 h-11 rounded-xl bg-slate-800 dark:bg-slate-700 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform text-emerald-400">
-                            <i data-lucide="history" class="w-5 h-5"></i>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
+                        <span class="bg-surface-variant text-status-warning font-micro-nav text-micro-nav px-2 py-1 rounded-full uppercase tracking-wide">Due Soon</span>
+                        <span class="font-label-xs text-label-xs text-slate-text-secondary">Oct 28</span>
+                    </div>
+                </div>
+                <!-- Priority Item 3 -->
+                <div class="p-4 hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-on-surface-variant" data-icon="oil_barrel">oil_barrel</span>
                         </div>
                         <div>
-                            <span class="text-sm font-extrabold block tracking-tight">Refuelling History</span>
-                            <span class="text-[11px] text-slate-300 block">Summary Table & Log Ledger</span>
-                        </div>
-                    </button>
-                </div>
-
-                <!-- Fuel Rate Display & Benchmarks -->
-                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 flex items-center justify-center">
-                            <i data-lucide="gauge" class="w-4 h-4"></i>
-                        </div>
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs font-black uppercase tracking-wider text-slate-900 dark:text-white">FUEL RATE</span>
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">Live Benchmarks</span>
-                            </div>
-                            <p class="text-[11px] text-slate-400">Used for auto-calculating liters & amounts</p>
+                            <h4 class="font-body-semibold text-body-semibold text-on-surface">Scheduled Maintenance</h4>
+                            <p class="font-body-standard text-body-standard text-slate-text-secondary">Fleet Vehicle #7 (Chevy Express)</p>
                         </div>
                     </div>
-                    <div class="flex items-center gap-4 flex-wrap">
-                        <div class="bg-white dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold">
-                            <span class="text-slate-400 mr-1.5">Normal E20:</span>
-                            <span class="font-extrabold text-slate-900 dark:text-white">₹102.45/L</span>
-                        </div>
-                        <div class="bg-white dark:bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold">
-                            <span class="text-slate-400 mr-1.5">Xtra Premium:</span>
-                            <span class="font-extrabold text-slate-900 dark:text-white">₹108.90/L</span>
-                        </div>
+                    <div class="flex flex-col items-end gap-1">
+                        <span class="bg-surface-container text-on-surface-variant font-micro-nav text-micro-nav px-2 py-1 rounded-full uppercase tracking-wide">Upcoming</span>
+                        <span class="font-label-xs text-label-xs text-slate-text-secondary">Nov 05</span>
                     </div>
                 </div>
-            </section>
-
-            <!-- 2. Fleet Vehicle Cards Container -->
-            <section class="space-y-4">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">Your Vehicles</h2>
-                        <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400">2 Active</span>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="fleet-cards-grid">
-                    <!-- Cards populated via script -->
-                </div>
-            </section>
-
-            <!-- 3. Fleet Aggregate Summary & Best Mileage Cards (Identical Styling) -->
-            <section class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                
-                <!-- Card 1: Total Expenses -->
-                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between min-h-[160px]">
-                    <div>
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Expenses for the Month</span>
-                        </div>
-                        <h3 class="text-2xl font-black text-slate-900 dark:text-white mt-1">₹14,580</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">12 Refills • 3 Services</p>
-                    </div>
-                    <div class="pt-3 border-t border-slate-100 dark:border-slate-800 text-xs font-bold text-slate-600 dark:text-slate-400 flex items-center justify-between">
-                        <span>Distance: 2,450 km</span>
-                        <span>Avg: 38.4 km/L</span>
-                    </div>
-                </div>
-
-                <!-- Card 2: Mileage Champion -->
-                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between min-h-[160px]">
-                    <div>
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Mileage Champion of the Month</span>
-                            <i data-lucide="award" class="w-4 h-4 text-amber-500"></i>
-                        </div>
-                        <h3 class="text-xl font-black text-slate-900 dark:text-white mt-1 truncate">Honda Activa 6G</h3>
-                        <p class="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-1">45.2 km/L Efficiency</p>
-                    </div>
-                    <button type="button" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 hover:underline cursor-pointer w-full">
-                        <span>View All Efficiency Curves</span>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                    </button>
-                </div>
-
-                <!-- Card 3: Total Fuel Consumed -->
-                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between min-h-[160px]">
-                    <div>
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Fuel Consumed</span>
-                        </div>
-                        <h3 class="text-2xl font-black text-slate-900 dark:text-white mt-1">68.4 Liters</h3>
-                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Across all 2 registered vehicles</p>
-                    </div>
-                    <button type="button" class="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 hover:underline cursor-pointer w-full">
-                        <span>Open Refuelling History</span>
-                        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-                    </button>
-                </div>
-
-            </section>
-        </div>
+            </div>
+        </section>
     </main>
 
-    <!-- BOTTOM NAV BAR -->
-    <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 shadow-xs transition-colors">
-        <div class="max-w-6xl mx-auto h-16 px-2 sm:px-4 flex justify-around items-center" id="bottom-nav-container"></div>
+    <!-- BOTTOM NAV BAR (5 tabs - Settings removed) -->
+    <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-xs transition-colors">
+        <div class="max-w-6xl mx-auto h-16 px-2 sm:px-4 flex justify-around items-center">
+            <!-- Dashboard -->
+            <a href="dashboard.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#004ac6] font-bold">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all bg-[#dbe1ff] scale-105 shadow-xs">
+                    <i data-lucide="home" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]"></i>
+                </div>
+                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Overview</span>
+            </a>
+            
+            <!-- Vehicles -->
+            <a href="vehicles.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
+                    <i data-lucide="car" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                </div>
+                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Vehicles</span>
+            </a>
+            
+            <!-- Fuel -->
+            <a href="fuel.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
+                    <i data-lucide="fuel" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                </div>
+                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Fuel</span>
+            </a>
+            
+            <!-- Services -->
+            <a href="service.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
+                    <i data-lucide="wrench" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                </div>
+                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Services</span>
+            </a>
+            
+            <!-- Analytics -->
+            <a href="analytics.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                </div>
+                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Analytics</span>
+            </a>
+        </div>
     </nav>
 
-    <!-- JavaScript Rendering Dashboard Interactivity -->
+    <!-- JavaScript -->
     <script>
-        lucide.createIcons();
-
-        let currentTab = 'dashboard';
-        const navItems = [
-            { tab: 'dashboard', label: 'Overview', icon: 'home' },
-            { tab: 'vehicles', label: 'Vehicles', icon: 'car' },
-            { tab: 'fuel', label: 'Fuel', icon: 'fuel' },
-            { tab: 'services', label: 'Services', icon: 'wrench' },
-            { tab: 'analytics', label: 'Analytics', icon: 'bar-chart-3' },
-            { tab: 'profile', label: 'Settings', icon: 'user' },
-        ];
-
-        const bottomNavContainer = document.getElementById('bottom-nav-container');
-
-        function renderBottomNav() {
-            bottomNavContainer.innerHTML = '';
-            navItems.forEach(item => {
-                const isActive = currentTab === item.tab;
-                const btn = document.createElement('button');
-                btn.className = `flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer ${
-                    isActive ? 'text-emerald-600 dark:text-emerald-400 font-bold' : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 font-medium'
-                }`;
-                btn.innerHTML = `
-                    <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all ${isActive ? 'bg-emerald-50 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 scale-105 shadow-xs' : ''}">
-                        <i data-lucide="${item.icon}" class="w-4 h-4 sm:w-5 sm:h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-[1.75]'}"></i>
-                    </div>
-                    <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">${item.label}</span>
-                `;
-                btn.addEventListener('click', () => {
-                    currentTab = item.tab;
-                    renderBottomNav();
-                });
-                bottomNavContainer.appendChild(btn);
-            });
-            lucide.createIcons();
-        }
-
-        renderBottomNav();
-
-        // Sample Vehicle Data Render for Dashboard Cards
-        const sampleVehicles = [
-            { id: 'v1', reg: 'MH-12-AB-1234', category: 'four_wheeler', make: 'Hyundai', model: 'Creta SX', prevEff: '12.05 km/L', overallEff: '11.81 km/L', ins: '15 Oct 2026', puc: '20 Nov 2026' },
-            { id: 'v2', reg: 'MH-14-XY-9876', category: 'two_wheeler', make: 'Honda', model: 'Activa 6G', prevEff: '46.5 km/L', overallEff: '45.2 km/L', ins: '02 Dec 2026', puc: '10 Jan 2027' }
-        ];
-
-        const grid = document.getElementById('fleet-cards-grid');
-        sampleVehicles.forEach(v => {
-            const card = document.createElement('div');
-            card.className = 'bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs transition-all hover:shadow-md flex flex-col justify-between relative group';
-            card.innerHTML = `
-                <div>
-                    <div class="flex items-start justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0">
-                                <i data-lucide="${v.category === 'two_wheeler' ? 'bike' : 'car'}" class="w-6 h-6 text-emerald-600"></i>
-                            </div>
-                            <div>
-                                <div class="flex items-center gap-1.5">
-                                    <h3 class="font-black text-base sm:text-lg text-slate-900 dark:text-white tracking-tight">${v.reg}</h3>
-                                    <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600">${v.category === 'two_wheeler' ? '2W' : '4W'}</span>
-                                </div>
-                                <p class="text-xs font-semibold text-slate-500">${v.model} • ${v.make}</p>
-                            </div>
-                        </div>
-                        <button class="px-2.5 py-1 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-xs font-bold text-slate-700 flex items-center gap-1 transition-colors cursor-pointer">
-                            <i data-lucide="edit-3" class="w-3.5 h-3.5 text-emerald-600"></i>
-                            <span>Edit ✎</span>
-                        </button>
-                    </div>
-
-                    <div class="mt-4 p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-100 dark:border-slate-800 space-y-2.5">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-semibold text-slate-600 dark:text-slate-400">Previous Fuel Efficiency</span>
-                            <span class="text-sm font-black text-emerald-600">${v.prevEff}</span>
-                        </div>
-                        <div class="flex items-center justify-between pt-2 border-t border-slate-200/60 dark:border-slate-700/60">
-                            <span class="text-xs font-semibold text-slate-600 dark:text-slate-400">Overall Fuel Efficiency</span>
-                            <span class="text-sm font-black text-blue-600">${v.overallEff}</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-3 space-y-2">
-                        <div class="bg-white dark:bg-slate-900 rounded-xl p-2.5 flex items-center justify-between border border-slate-200 dark:border-slate-800">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i>
-                                <div>
-                                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Insurance</span>
-                                    <span class="text-xs font-bold text-slate-900 dark:text-white">${v.ins}</span>
-                                </div>
-                            </div>
-                            <span class="text-[10px] px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-bold">Active</span>
-                        </div>
-                        <div class="bg-white dark:bg-slate-900 rounded-xl p-2.5 flex items-center justify-between border border-slate-200 dark:border-slate-800">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="calendar" class="w-4 h-4 text-emerald-600"></i>
-                                <div>
-                                    <span class="text-[10px] uppercase font-bold text-slate-400 block">PUC Certificate</span>
-                                    <span class="text-xs font-bold text-slate-900 dark:text-white">${v.puc}</span>
-                                </div>
-                            </div>
-                            <span class="text-[10px] px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-bold">Valid</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-            grid.appendChild(card);
-        });
+        // Initialize Lucide icons
         lucide.createIcons();
     </script>
 </body>
