@@ -1,1 +1,208 @@
-vehicles page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>AutoCare - Vehicles</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts (Inter + Material Symbols) -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#85f8c4",
+                        "outline": "#737686",
+                        "on-primary-fixed": "#00174b",
+                        "surface-tint": "#0053db",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "on-surface-variant": "#434655",
+                        "tertiary-fixed-dim": "#68dba9",
+                        "surface-bright": "#f7f9fb",
+                        "on-primary": "#ffffff",
+                        "status-overdue": "#dc2626",
+                        "surface-container-highest": "#e0e3e5",
+                        "status-warning": "#f59e0b",
+                        "on-primary-container": "#eeefff",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-tertiary-fixed": "#002114",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed": "#111c2d",
+                        "secondary": "#545f73",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-tertiary-container": "#bdffdc",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-container": "#007d57",
+                        "secondary-container": "#d5e0f8",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-variant": "#e0e3e5",
+                        "slate-text-secondary": "#475569",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c3c6d7",
+                        "tertiary": "#006243",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#dbe1ff",
+                        "status-active": "#059669",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#b4c5ff",
+                        "on-surface": "#191c1e",
+                        "primary": "#004ac6",
+                        "slate-border": "#e2e8f0",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "status-valid": "#3b82f6",
+                        "primary-container": "#2563eb",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "on-secondary-container": "#586377"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "p-lg": "16px",
+                        "p-sm": "10px",
+                        "p-2xl": "24px",
+                        "unit": "4px",
+                        "p-xl": "20px",
+                        "p-md": "12px",
+                        "max-width-app": "672px"
+                    },
+                    "fontFamily": {
+                        "display-metrics": ["Inter"],
+                        "body-standard": ["Inter"],
+                        "micro-nav": ["Inter"],
+                        "body-semibold": ["Inter"],
+                        "headline-card": ["Inter"],
+                        "label-xs": ["Inter"],
+                        "headline-page": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-metrics": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-standard": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "micro-nav": ["10px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-semibold": ["14px", { "lineHeight": "1.5", "fontWeight": "600" }],
+                        "headline-card": ["16px", { "lineHeight": "1.4", "fontWeight": "700" }],
+                        "label-xs": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                        "headline-page": ["18px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-standard antialiased">
+
+    <!-- TOP APP BAR -->
+    <header id="top-bar" class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-colors">
+        <div class="max-w-6xl mx-auto h-16 px-4 sm:px-8 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="dashboard.html" id="top-logo-btn" class="flex items-center gap-3 text-left group cursor-pointer focus:outline-none" aria-label="AutoCare Dashboard">
+                    <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shadow-xs border border-slate-100 overflow-hidden">
+                        <i data-lucide="car" class="w-5 h-5 text-emerald-600"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg sm:text-xl tracking-tight text-slate-900">
+                            AutoCare <span class="text-emerald-600 font-semibold text-xs sm:text-sm">v1.0</span>
+                        </span>
+                    </div>
+                </a>
+            </div>
+            <div class="flex items-center gap-2.5 sm:gap-4">
+                <a href="settings.html" id="top-profile-btn" class="relative rounded-full p-0.5 border-2 border-slate-200 shadow-xs hover:scale-105 transition-all cursor-pointer" aria-label="Profile and Settings">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=300&auto=format&fit=crop" alt="Profile avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover bg-slate-100" referrerpolicy="no-referrer" />
+                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT - VEHICLES (PLACEHOLDER) -->
+    <main class="pt-20 pb-24 md:pb-8 px-p-lg max-w-[672px] mx-auto space-y-6">
+        <div class="flex items-center justify-between">
+            <h2 class="text-[30px] font-extrabold text-on-surface tracking-wider">Vehicles</h2>
+            <a href="vehicles.html" class="bg-primary text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-primary/90 transition-colors">
+                + Add Vehicle
+            </a>
+        </div>
+        
+        <!-- Placeholder content -->
+        <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-sm p-12 text-center">
+            <span class="material-symbols-outlined text-6xl text-slate-text-secondary mb-4">directions_car</span>
+            <h3 class="text-xl font-bold text-on-surface mb-2">Vehicle Management</h3>
+            <p class="text-slate-text-secondary">Your vehicles will appear here. Coming soon!</p>
+        </div>
+    </main>
+
+    <!-- BOTTOM NAV BAR (5 tabs - Vehicles active) -->
+    <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-xs transition-colors">
+        <div class="max-w-6xl mx-auto h-16 px-2 sm:px-4 flex justify-around items-center">
+            <a href="dashboard.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
+                    <i data-lucide="home" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                </div>
+                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Overview</span>
+            </a>
+            
+            <a href="vehicles.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#004ac6] font-bold">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all bg-[#dbe1ff] scale-105 shadow-xs">
+                    <i data-lucide="car" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]"></i>
+                </div>
+                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Vehicles</span>
+            </a>
+            
+            <a href="fuel.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
+                    <i data-lucide="fuel" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                </div>
+                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Fuel</span>
+            </a>
+            
+            <a href="service.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
+                    <i data-lucide="wrench" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                </div>
+                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Services</span>
+            </a>
+            
+            <a href="analytics.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                </div>
+                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Analytics</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
