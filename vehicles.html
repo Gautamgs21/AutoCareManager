@@ -12,67 +12,67 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <!-- Google Fonts (Inter + Material Symbols) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
     
     <script id="tailwind-config">
         tailwind.config = {
             theme: {
                 extend: {
                     "colors": {
-                        "inverse-surface": "#2d3133",
-                        "on-tertiary": "#ffffff",
-                        "on-error-container": "#93000a",
-                        "tertiary-fixed": "#85f8c4",
-                        "outline": "#737686",
-                        "on-primary-fixed": "#00174b",
-                        "surface-tint": "#0053db",
-                        "on-primary-fixed-variant": "#003ea8",
-                        "surface-container": "#eceef0",
-                        "surface-container-low": "#f2f4f6",
-                        "on-surface-variant": "#434655",
-                        "tertiary-fixed-dim": "#68dba9",
-                        "surface-bright": "#f7f9fb",
-                        "on-primary": "#ffffff",
-                        "status-overdue": "#dc2626",
-                        "surface-container-highest": "#e0e3e5",
-                        "status-warning": "#f59e0b",
-                        "on-primary-container": "#eeefff",
-                        "secondary-fixed": "#d8e3fb",
-                        "on-tertiary-fixed": "#002114",
-                        "on-background": "#191c1e",
                         "on-secondary-fixed": "#111c2d",
-                        "secondary": "#545f73",
-                        "on-error": "#ffffff",
-                        "surface-dim": "#d8dadc",
-                        "secondary-fixed-dim": "#bcc7de",
-                        "primary-fixed-dim": "#b4c5ff",
-                        "on-tertiary-container": "#bdffdc",
-                        "surface-container-high": "#e6e8ea",
-                        "tertiary-container": "#007d57",
-                        "secondary-container": "#d5e0f8",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-variant": "#e0e3e5",
-                        "slate-text-secondary": "#475569",
-                        "background": "#f7f9fb",
-                        "error-container": "#ffdad6",
-                        "outline-variant": "#c3c6d7",
-                        "tertiary": "#006243",
-                        "inverse-on-surface": "#eff1f3",
-                        "surface": "#f7f9fb",
+                        "slate-border": "#e2e8f0",
                         "on-secondary": "#ffffff",
                         "primary-fixed": "#dbe1ff",
-                        "status-active": "#059669",
-                        "error": "#ba1a1a",
-                        "inverse-primary": "#b4c5ff",
-                        "on-surface": "#191c1e",
-                        "primary": "#004ac6",
-                        "slate-border": "#e2e8f0",
-                        "on-tertiary-fixed-variant": "#005137",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-container": "#bdffdc",
+                        "surface-tint": "#0053db",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "tertiary": "#006243",
                         "status-valid": "#3b82f6",
+                        "tertiary-fixed-dim": "#68dba9",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-dim": "#d8dadc",
+                        "background": "#f7f9fb",
+                        "error": "#ba1a1a",
+                        "on-primary-container": "#eeefff",
+                        "outline": "#737686",
+                        "error-container": "#ffdad6",
+                        "secondary": "#545f73",
+                        "slate-text-secondary": "#475569",
+                        "status-overdue": "#dc2626",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "on-surface-variant": "#434655",
+                        "primary": "#004ac6",
+                        "on-surface": "#191c1e",
+                        "on-secondary-container": "#586377",
+                        "status-warning": "#f59e0b",
                         "primary-container": "#2563eb",
+                        "on-tertiary-fixed-variant": "#005137",
+                        "outline-variant": "#c3c6d7",
+                        "tertiary-container": "#007d57",
+                        "surface-bright": "#f7f9fb",
+                        "secondary-fixed": "#d8e3fb",
+                        "inverse-primary": "#b4c5ff",
+                        "secondary-container": "#d5e0f8",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed": "#85f8c4",
+                        "surface-container": "#eceef0",
                         "on-secondary-fixed-variant": "#3c475a",
-                        "on-secondary-container": "#586377"
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#00174b",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-background": "#191c1e",
+                        "on-tertiary-fixed": "#002114",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "status-active": "#059669"
                     },
                     "borderRadius": {
                         "DEFAULT": "0.25rem",
@@ -80,32 +80,14 @@
                         "xl": "0.75rem",
                         "full": "9999px"
                     },
-                    "spacing": {
-                        "p-lg": "16px",
-                        "p-sm": "10px",
-                        "p-2xl": "24px",
-                        "unit": "4px",
-                        "p-xl": "20px",
-                        "p-md": "12px",
-                        "max-width-app": "672px"
-                    },
                     "fontFamily": {
-                        "display-metrics": ["Inter"],
-                        "body-standard": ["Inter"],
-                        "micro-nav": ["Inter"],
                         "body-semibold": ["Inter"],
-                        "headline-card": ["Inter"],
                         "label-xs": ["Inter"],
+                        "micro-nav": ["Inter"],
+                        "body-standard": ["Inter"],
+                        "display-metrics": ["Inter"],
+                        "headline-card": ["Inter"],
                         "headline-page": ["Inter"]
-                    },
-                    "fontSize": {
-                        "display-metrics": ["24px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "800" }],
-                        "body-standard": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "micro-nav": ["10px", { "lineHeight": "1.2", "fontWeight": "700" }],
-                        "body-semibold": ["14px", { "lineHeight": "1.5", "fontWeight": "600" }],
-                        "headline-card": ["16px", { "lineHeight": "1.4", "fontWeight": "700" }],
-                        "label-xs": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "600" }],
-                        "headline-page": ["18px", { "lineHeight": "1.2", "fontWeight": "700" }]
                     }
                 }
             }
@@ -113,8 +95,15 @@
     </script>
     
     <style>
+        body { font-family: 'Inter', sans-serif; }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .vehicle-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .vehicle-card:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
@@ -144,26 +133,142 @@
         </div>
     </header>
 
-    <!-- MAIN CONTENT - VEHICLES (PLACEHOLDER) -->
+    <!-- MAIN CONTENT - VEHICLES -->
     <main class="pt-20 pb-24 md:pb-8 px-p-lg max-w-[672px] mx-auto space-y-6">
-        <div class="flex items-center justify-between">
-            <h2 class="text-[30px] font-extrabold text-on-surface tracking-wider">Vehicles</h2>
-            <a href="vehicles.html" class="bg-primary text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-primary/90 transition-colors">
-                + Add Vehicle
-            </a>
+        <!-- Header Section -->
+        <div class="flex items-center justify-between px-0 pb-3 pt-6">
+            <h1 class="text-on-surface text-[22px] font-bold leading-tight tracking-tight">My Vehicles</h1>
+            <button class="flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-full font-body-semibold shadow-md hover:bg-primary-container transition-colors">
+                <span class="material-symbols-outlined text-[20px]">add</span>
+                <span class="">Add Vehicle</span>
+            </button>
         </div>
         
-        <!-- Placeholder content -->
-        <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-sm p-12 text-center">
-            <span class="material-symbols-outlined text-6xl text-slate-text-secondary mb-4">directions_car</span>
-            <h3 class="text-xl font-bold text-on-surface mb-2">Vehicle Management</h3>
-            <p class="text-slate-text-secondary">Your vehicles will appear here. Coming soon!</p>
+        <!-- Vehicles List -->
+        <div class="flex flex-col gap-4">
+            <!-- Vehicle Card 1 -->
+            <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm">
+                <div class="flex justify-between items-start">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+                        <p class="text-on-surface text-2xl font-bold">MH12 AB 1234</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-status-active bg-status-active/10 px-2 py-0.5 rounded text-micro-nav uppercase">Active</span>
+                        <span class="material-symbols-outlined text-on-surface-variant cursor-pointer">more_vert</span>
+                    </div>
+                </div>
+                <p class="text-secondary text-body-standard -mt-2">Toyota Camry • 2021</p>
+                <div class="flex justify-between mt-2 py-3 border-y border-slate-border">
+                    <div class="flex flex-col gap-1 w-1/2">
+                        <div class="flex items-center gap-1 text-label-xs text-status-active">
+                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            <span class="">Insurance Valid Till</span>
+                        </div>
+                        <p class="text-body-semibold text-on-surface">12 Oct 2024</p>
+                    </div>
+                    <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
+                        <div class="flex items-center gap-1 text-label-xs text-status-active">
+                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">eco</span>
+                            <span class="">PUC Valid Till</span>
+                        </div>
+                        <p class="text-body-semibold text-on-surface">15 Nov 2024</p>
+                    </div>
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg border border-outline text-on-surface-variant font-body-semibold hover:bg-surface-container transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">edit</span>Edit Details
+                    </button>
+                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg bg-secondary-container text-on-secondary-container font-body-semibold hover:opacity-90 transition-opacity">
+                        <span class="material-symbols-outlined text-[18px]">history</span>History
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Vehicle Card 2 (With Warnings) -->
+            <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm">
+                <div class="flex justify-between items-start">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+                        <p class="text-on-surface text-2xl font-bold">KA01 CD 5678</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-status-warning bg-status-warning/10 px-2 py-0.5 rounded text-micro-nav uppercase">Renewal Due</span>
+                        <span class="material-symbols-outlined text-on-surface-variant cursor-pointer">more_vert</span>
+                    </div>
+                </div>
+                <p class="text-secondary text-body-standard -mt-2">Honda City • 2019</p>
+                <div class="flex justify-between mt-2 py-3 border-y border-slate-border">
+                    <div class="flex flex-col gap-1 w-1/2">
+                        <div class="flex items-center gap-1 text-label-xs text-status-overdue">
+                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">error</span>
+                            <span class="">Insurance Expiring</span>
+                        </div>
+                        <p class="text-body-semibold text-status-overdue">20 Sep 2024</p>
+                    </div>
+                    <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
+                        <div class="flex items-center gap-1 text-label-xs text-status-active">
+                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">eco</span>
+                            <span class="">PUC Valid Till</span>
+                        </div>
+                        <p class="text-body-semibold text-on-surface">05 Jan 2025</p>
+                    </div>
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg border border-outline text-on-surface-variant font-body-semibold hover:bg-surface-container transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">edit</span>Edit Details
+                    </button>
+                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg bg-status-warning text-on-primary font-body-semibold hover:opacity-90 transition-opacity">
+                        Renew Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Vehicle Card 3 -->
+            <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm">
+                <div class="flex justify-between items-start">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+                        <p class="text-on-surface text-2xl font-bold">DL10 EF 9012</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-status-active bg-status-active/10 px-2 py-0.5 rounded text-micro-nav uppercase">Active</span>
+                        <span class="material-symbols-outlined text-on-surface-variant cursor-pointer">more_vert</span>
+                    </div>
+                </div>
+                <p class="text-secondary text-body-standard -mt-2">BMW 3 Series • 2023</p>
+                <div class="flex justify-between mt-2 py-3 border-y border-slate-border">
+                    <div class="flex flex-col gap-1 w-1/2">
+                        <div class="flex items-center gap-1 text-label-xs text-status-active">
+                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            <span class="">Insurance Valid Till</span>
+                        </div>
+                        <p class="text-body-semibold text-on-surface">30 Dec 2024</p>
+                    </div>
+                    <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
+                        <div class="flex items-center gap-1 text-label-xs text-status-active">
+                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">eco</span>
+                            <span class="">PUC Valid Till</span>
+                        </div>
+                        <p class="text-body-semibold text-on-surface">12 Feb 2025</p>
+                    </div>
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg border border-outline text-on-surface-variant font-body-semibold hover:bg-surface-container transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">edit</span>Edit Details
+                    </button>
+                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg bg-secondary-container text-on-secondary-container font-body-semibold hover:opacity-90 transition-opacity">
+                        <span class="material-symbols-outlined text-[18px]">history</span>History
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
 
     <!-- BOTTOM NAV BAR (5 tabs - Vehicles active) -->
     <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-xs transition-colors">
         <div class="max-w-6xl mx-auto h-16 px-2 sm:px-4 flex justify-around items-center">
+            <!-- Overview -->
             <a href="dashboard.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
                 <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
                     <i data-lucide="home" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
@@ -171,6 +276,7 @@
                 <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Overview</span>
             </a>
             
+            <!-- Vehicles (Active) -->
             <a href="vehicles.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#004ac6] font-bold">
                 <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all bg-[#dbe1ff] scale-105 shadow-xs">
                     <i data-lucide="car" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]"></i>
@@ -178,6 +284,7 @@
                 <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Vehicles</span>
             </a>
             
+            <!-- Fuel -->
             <a href="fuel.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
                 <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
                     <i data-lucide="fuel" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
@@ -185,6 +292,7 @@
                 <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Fuel</span>
             </a>
             
+            <!-- Services -->
             <a href="service.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
                 <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
                     <i data-lucide="wrench" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
@@ -192,6 +300,7 @@
                 <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Services</span>
             </a>
             
+            <!-- Analytics -->
             <a href="analytics.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
                 <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
                     <i data-lucide="bar-chart-3" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
@@ -201,8 +310,20 @@
         </div>
     </nav>
 
+    <!-- JavaScript -->
     <script>
+        // Initialize Lucide icons
         lucide.createIcons();
+
+        // Simple micro-interaction for the vehicle cards
+        document.querySelectorAll('.vehicle-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.tagName !== 'BUTTON' && e.target.closest('button') === null) {
+                    // Logic for card tap (e.g., navigate to detail)
+                    console.log('Vehicle selected');
+                }
+            });
+        });
     </script>
 </body>
 </html>
