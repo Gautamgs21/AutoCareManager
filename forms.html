@@ -34,7 +34,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            overflow-y: auto;
+            /* Removed overflow-y: auto from here to hide outer scrollbars */
         }
         .modal-overlay.active {
             display: flex;
@@ -44,8 +44,15 @@
             border-radius: 16px;
             max-width: 672px;
             width: 100%;
+            max-height: 90vh; /* Limits height to screen */
+            overflow-y: auto; /* Allows internal scrolling without visible scrollbars if needed */
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             animation: modalSlideIn 0.3s ease-out;
+            scrollbar-width: none; /* Hides scrollbar for Firefox */
+        }
+        /* Hides scrollbar for Chrome, Safari, and Opera */
+        .modal-content::-webkit-scrollbar {
+            display: none;
         }
         @keyframes modalSlideIn {
             from {
@@ -224,7 +231,7 @@
     </div>
 
     <!-- ============================================ -->
-    <!-- MODAL 2: LOG FUEL (UPDATED) -->
+    <!-- MODAL 2: LOG FUEL -->
     <!-- ============================================ -->
     <div class="modal-overlay" id="addFuelModal">
         <div class="modal-content">
@@ -386,7 +393,7 @@
     </div>
 
     <!-- ============================================ -->
-    <!-- MODAL 3: LOG SERVICE (UPDATED) -->
+    <!-- MODAL 3: LOG SERVICE -->
     <!-- ============================================ -->
     <div class="modal-overlay" id="addServiceModal">
         <div class="modal-content">
