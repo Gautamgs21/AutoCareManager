@@ -11,84 +11,29 @@
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Google Fonts (Inter + Material Symbols) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     
     <script id="tailwind-config">
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
-                    "colors": {
-                        "status-warning": "#f59e0b",
-                        "on-surface-variant": "#434655",
-                        "tertiary-container": "#007d57",
-                        "on-tertiary": "#ffffff",
-                        "on-background": "#191c1e",
-                        "inverse-primary": "#b4c5ff",
-                        "on-secondary-fixed-variant": "#3c475a",
-                        "tertiary": "#006243",
-                        "primary-container": "#2563eb",
-                        "slate-border": "#e2e8f0",
-                        "on-tertiary-fixed-variant": "#005137",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-low": "#f2f4f6",
-                        "status-active": "#059669",
-                        "on-primary-fixed-variant": "#003ea8",
-                        "secondary-fixed-dim": "#bcc7de",
-                        "surface-container-high": "#e6e8ea",
-                        "on-tertiary-container": "#bdffdc",
-                        "primary": "#004ac6",
-                        "on-primary-fixed": "#00174b",
-                        "surface-dim": "#d8dadc",
-                        "inverse-surface": "#2d3133",
-                        "on-tertiary-fixed": "#002114",
-                        "secondary-fixed": "#d8e3fb",
-                        "background": "#f7f9fb",
-                        "surface-bright": "#f7f9fb",
-                        "surface-container-highest": "#e0e3e5",
-                        "error": "#ba1a1a",
-                        "on-primary-container": "#eeefff",
-                        "surface-tint": "#0053db",
-                        "secondary-container": "#d5e0f8",
-                        "tertiary-fixed": "#85f8c4",
-                        "surface-container": "#eceef0",
-                        "primary-fixed-dim": "#b4c5ff",
-                        "error-container": "#ffdad6",
-                        "on-secondary-container": "#586377",
-                        "on-error-container": "#93000a",
-                        "tertiary-fixed-dim": "#68dba9",
-                        "on-error": "#ffffff",
-                        "status-overdue": "#dc2626",
-                        "outline": "#737686",
-                        "slate-text-secondary": "#475569",
-                        "outline-variant": "#c3c6d7",
-                        "on-primary": "#ffffff",
-                        "inverse-on-surface": "#eff1f3",
-                        "on-surface": "#191c1e",
-                        "on-secondary": "#ffffff",
-                        "status-valid": "#3b82f6",
-                        "secondary": "#545f73",
-                        "surface": "#f7f9fb",
-                        "surface-variant": "#e0e3e5",
-                        "primary-fixed": "#dbe1ff",
-                        "on-secondary-fixed": "#111c2d"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "fontFamily": {
-                        "sans": ["Inter", "sans-serif"],
-                        "body-semibold": ["Inter", "sans-serif"],
-                        "display-metrics": ["Inter", "sans-serif"],
-                        "label-xs": ["Inter", "sans-serif"],
-                        "headline-card": ["Inter", "sans-serif"],
-                        "body-standard": ["Inter", "sans-serif"],
-                        "headline-page": ["Inter", "sans-serif"],
-                        "micro-nav": ["Inter", "sans-serif"]
+                    colors: {
+                        primary: "var(--color-primary, #004ac6)",
+                        "primary-container": "var(--color-primary-container, #2563eb)",
+                        "primary-fixed": "var(--color-primary-fixed, #dbe1ff)",
+                        background: "var(--color-background, #f7f9fb)",
+                        surface: "var(--color-surface, #f7f9fb)",
+                        "surface-container-lowest": "var(--color-surface-container-lowest, #ffffff)",
+                        "surface-container-high": "var(--color-surface-container-high, #e6e8ea)",
+                        "surface-container-highest": "var(--color-surface-container-highest, #e0e3e5)",
+                        "on-background": "var(--color-on-background, #191c1e)",
+                        "on-surface": "var(--color-on-surface, #191c1e)",
+                        "on-surface-variant": "var(--color-on-surface-variant, #434655)",
+                        "slate-text-secondary": "var(--color-text-secondary, #475569)",
+                        "slate-border": "var(--color-border, #e2e8f0)",
                     }
                 }
             }
@@ -96,42 +41,182 @@
     </script>
     
     <style>
+        :root {
+            --font-family: 'Inter', sans-serif;
+            --font-size-base: 14px;
+            --font-weight-style: 400;
+        }
+
         html, body {
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
             overflow-x: hidden;
             width: 100%;
             margin: 0;
             padding: 0;
             -webkit-text-size-adjust: 100%;
         }
-        body { font-family: 'Inter', sans-serif; }
+
+        body, p, span, a, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
+            font-style: var(--font-style, normal);
+        }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 10px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            box-sizing: border-box;
+            overflow-y: scroll;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background: var(--color-surface-container-lowest, #ffffff);
+            border-radius: 20px;
+            max-width: 672px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modalSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-sizing: border-box;
+            margin: auto;
+        }
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
         .fuel-card-shadow {
             box-shadow: 0 4px 12px rgba(0, 74, 198, 0.05);
         }
     </style>
+    
+    <script>
+        (function() {
+            const savedSettings = JSON.parse(localStorage.getItem('autocare_settings') || '{}');
+            
+            if (savedSettings.darkMode) {
+                document.documentElement.classList.add('dark');
+            }
+
+            const schemes = {
+                blue: { primary: '#004ac6', container: '#2563eb', fixed: '#dbe1ff', bg: '#f7f9fb', surface: '#ffffff', text: '#191c1e', sub: '#475569', border: '#e2e8f0' },
+                emerald: { primary: '#059669', container: '#10b981', fixed: '#d1fae5', bg: '#f8fafc', surface: '#ffffff', text: '#0f172a', sub: '#475569', border: '#e2e8f0' },
+                violet: { primary: '#7c3aed', container: '#8b5cf6', fixed: '#ede9fe', bg: '#faf5ff', surface: '#ffffff', text: '#2e1065', sub: '#5b21b6', border: '#e9d5ff' },
+                sunset: { primary: '#ea580c', container: '#f97316', fixed: '#ffedd5', bg: '#fff7ed', surface: '#ffffff', text: '#431407', sub: '#7c2d12', border: '#fed7aa' },
+                dark: { primary: '#3b82f6', container: '#60a5fa', fixed: '#1e3a8a', bg: '#0f172a', surface: '#1e293b', text: '#f8fafc', sub: '#94a3b8', border: '#334155' }
+            };
+
+            const activeScheme = schemes[savedSettings.colorScheme || 'blue'];
+            if (activeScheme) {
+                const root = document.documentElement;
+                root.style.setProperty('--color-primary', activeScheme.primary);
+                root.style.setProperty('--color-primary-container', activeScheme.container);
+                root.style.setProperty('--color-primary-fixed', activeScheme.fixed);
+                root.style.setProperty('--color-background', activeScheme.bg);
+                root.style.setProperty('--color-surface', activeScheme.bg);
+                root.style.setProperty('--color-surface-container-lowest', activeScheme.surface);
+                root.style.setProperty('--color-on-background', activeScheme.text);
+                root.style.setProperty('--color-on-surface', activeScheme.text);
+                root.style.setProperty('--color-text-secondary', activeScheme.sub);
+                root.style.setProperty('--color-border', activeScheme.border);
+            }
+
+            if (savedSettings.fontType) {
+                document.documentElement.style.setProperty('--font-family', savedSettings.fontType);
+            }
+
+            if (savedSettings.fontSize) {
+                document.documentElement.style.setProperty('--font-size-base', savedSettings.fontSize + 'px');
+            }
+
+            if (savedSettings.fontStyle) {
+                if (savedSettings.fontStyle === 'bold') {
+                    document.documentElement.style.setProperty('font-weight', '700');
+                } else if (savedSettings.fontStyle === 'italic') {
+                    document.documentElement.style.setProperty('--font-style', 'italic');
+                } else if (savedSettings.fontStyle === 'bold-italic') {
+                    document.documentElement.style.setProperty('font-weight', '700');
+                    document.documentElement.style.setProperty('--font-style', 'italic');
+                }
+            }
+        })();
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
 </head>
-<body class="bg-background text-on-background font-body-standard antialiased">
+<body class="bg-background text-on-background antialiased transition-colors duration-200">
 
     <!-- TOP APP BAR -->
-    <header id="top-bar" class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-colors">
+    <header id="top-bar" class="fixed top-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-b border-slate-border transition-colors">
         <div class="w-full max-w-[672px] mx-auto h-16 px-4 sm:px-8 flex items-center justify-between box-border">
             <div class="flex items-center gap-3">
                 <a href="dashboard.html" id="top-logo-btn" class="flex items-center gap-3 text-left group cursor-pointer focus:outline-none" aria-label="AutoCare Dashboard">
-                    <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shadow-xs border border-slate-100 overflow-hidden shrink-0">
-                        <i data-lucide="car" class="w-5 h-5 text-emerald-600"></i>
+                    <div class="w-9 h-9 bg-primary/10 rounded-xl flex items-center justify-center border border-slate-border overflow-hidden shrink-0">
+                        <i data-lucide="car" class="w-5 h-5 text-primary"></i>
                     </div>
                     <div>
-                        <span class="font-bold text-lg sm:text-xl tracking-tight text-slate-900">
-                            AutoCare <span class="text-emerald-600 font-semibold text-xs sm:text-sm">v1.0</span>
+                        <span class="font-bold text-lg sm:text-xl tracking-tight text-on-surface">
+                            AutoCare <span class="text-primary font-semibold text-xs sm:text-sm">v1.0</span>
                         </span>
                     </div>
                 </a>
             </div>
             <div class="flex items-center gap-2.5 sm:gap-4">
-                <a href="settings.html" id="top-profile-btn" class="relative rounded-full p-0.5 border-2 border-slate-200 shadow-xs hover:scale-105 transition-all cursor-pointer shrink-0" aria-label="Profile and Settings">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=300&auto=format&fit=crop" alt="Profile avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover bg-slate-100" referrerpolicy="no-referrer" />
+                <a href="settings.html" id="top-profile-btn" class="relative rounded-full p-0.5 border-2 border-slate-border shadow-xs hover:scale-105 transition-all cursor-pointer shrink-0" aria-label="Profile and Settings">
+                    <img id="global-profile-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=300&auto=format&fit=crop" alt="Profile avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover bg-surface-container-high" referrerpolicy="no-referrer" />
                     <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
                 </a>
             </div>
@@ -139,91 +224,89 @@
     </header>
 
     <!-- MAIN CONTENT - FUEL LOG -->
-    <main class="pt-20 pb-24 md:pb-8 px-4 sm:px-p-lg max-w-[672px] mx-auto space-y-6 box-border w-full">
+    <main class="pt-20 pb-28 md:pb-12 px-4 sm:px-4 max-w-[672px] mx-auto space-y-6 box-border w-full">
         <!-- Header Section -->
-        <div class="flex items-center justify-between px-0 pt-6 mb-2">
-            <h2 class="text-on-surface font-extrabold text-3xl">Fuel Log</h2>
-            <button class="bg-primary text-on-primary px-4 py-2 flex items-center gap-2 text-sm font-bold active:scale-95 transition-transform rounded-full shrink-0">
-                <span class="material-symbols-outlined text-xl">add</span>
-                <span class="">Add Refuel Data</span>
+        <div class="flex items-center justify-between px-0 pt-3 mb-1">
+            <h2 class="text-on-surface font-extrabold text-[26px] tracking-tight">Fuel Log</h2>
+            <button onclick="openModal('addFuelModal')" class="bg-primary text-white px-4 py-2.5 flex items-center gap-2 text-sm font-semibold active:scale-95 transition-all rounded-full shrink-0 shadow-md cursor-pointer">
+                <span class="material-symbols-outlined text-[20px]">add</span>
+                <span>Add Refuel Data</span>
             </button>
         </div>
 
         <!-- Today's Fuel Rates Section -->
         <div>
-            <h3 class="text-on-surface text-headline-page pb-3 pt-2">Today's Fuel Rates</h3>
+            <h3 class="text-on-surface font-bold text-sm uppercase tracking-wider mb-3">Today's Fuel Rates</h3>
             <div class="grid grid-cols-2 gap-3">
                 <!-- Normal E20 -->
-                <div class="flex flex-col gap-3 rounded-xl border border-outline-variant bg-surface-container-lowest p-4 fuel-card-shadow transition-transform active:scale-95 relative box-border" style="transform: translateY(0px); box-shadow: rgba(0, 74, 198, 0.05) 0px 4px 12px;">
+                <div class="flex flex-col gap-3 rounded-2xl border border-slate-border bg-surface-container-lowest p-4 fuel-card-shadow transition-all relative box-border">
                     <div class="absolute top-2 right-2 z-10">
                         <div class="relative">
-                            <button class="menu-btn text-on-surface-variant hover:bg-surface-container-low p-1 rounded-full transition-colors">
-                                <span class="material-symbols-outlined text-xl pointer-events-none">more_vert</span>
+                            <button class="menu-btn text-slate-text-secondary hover:bg-surface-container-high p-1.5 rounded-full transition-colors cursor-pointer">
+                                <span class="material-symbols-outlined text-lg pointer-events-none">more_vert</span>
                             </button>
-                            <div class="dropdown-menu hidden absolute top-8 right-0 w-24 bg-surface-container-highest border border-outline-variant rounded-lg shadow-lg py-1">
-                                <button class="menu-item w-full text-left px-3 py-2 text-xs text-on-surface hover:bg-surface-container-low flex items-center gap-2" onclick="const card = this.closest('.fuel-card-shadow'); const display = card.querySelector('.rate-display'); const edit = card.querySelector('.rate-edit'); display.classList.add('hidden'); edit.classList.remove('hidden');">
+                            <div class="dropdown-menu hidden absolute top-8 right-0 w-32 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg py-1 z-20">
+                                <button class="menu-item w-full text-left px-3 py-2 text-xs text-on-surface hover:bg-surface-container-high flex items-center gap-2 cursor-pointer" onclick="const card = this.closest('.fuel-card-shadow'); const display = card.querySelector('.rate-display'); const edit = card.querySelector('.rate-edit'); display.classList.add('hidden'); edit.classList.remove('hidden');">
                                     <span class="material-symbols-outlined text-sm">edit</span>Edit
                                 </button>
-                                <button class="menu-item w-full text-left px-3 py-2 text-xs text-on-surface-variant hover:bg-surface-container-low flex items-center gap-2">
+                                <button class="menu-item w-full text-left px-3 py-2 text-xs text-slate-text-secondary hover:bg-surface-container-high flex items-center gap-2 cursor-pointer">
                                     <span class="material-symbols-outlined text-sm">close</span>Cancel
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="text-primary" data-icon="local_gas_station">
-                        <span class="material-symbols-outlined text-2xl" style='font-variation-settings: "FILL" 1;'>local_gas_station</span>
+                    <div class="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                        <span class="material-symbols-outlined text-xl" style='font-variation-settings: "FILL" 1;'>local_gas_station</span>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-0.5">
                         <div class="rate-display">
-                            <h2 class="text-on-surface text-display-metrics text-lg font-bold">₹102.45</h2>
-                            <p class="text-on-surface-variant text-body-standard text-xs">Normal E20</p>
+                            <h2 class="text-on-surface text-xl font-black">₹102.45</h2>
+                            <p class="text-slate-text-secondary text-xs font-medium">Normal E20</p>
                         </div>
                         <div class="rate-edit hidden flex items-center gap-2 py-1">
-                            <span class="text-[10px] font-bold text-on-surface-variant whitespace-nowrap">Fuel Rate:</span>
-                            <input class="w-16 p-1 text-xs border border-outline-variant rounded bg-surface-container-low text-on-surface font-bold" step="0.01" type="number" value="102.45"/>
-                            <button class="text-status-active hover:opacity-80" onclick="this.closest('.rate-edit').classList.add('hidden'); this.closest('.flex-col').querySelector('.rate-display').classList.remove('hidden');">
-                                <span class="material-symbols-outlined text-lg">check_circle</span>
+                            <input class="w-20 p-1.5 text-xs border border-slate-border rounded-lg bg-surface-container-high text-on-surface font-bold outline-none" step="0.01" type="number" value="102.45"/>
+                            <button class="text-emerald-600 hover:opacity-80 cursor-pointer" onclick="this.closest('.rate-edit').classList.add('hidden'); this.closest('.flex-col').querySelector('.rate-display').classList.remove('hidden');">
+                                <span class="material-symbols-outlined text-xl">check_circle</span>
                             </button>
-                            <button class="text-error hover:opacity-80" onclick="this.closest('.rate-edit').classList.add('hidden'); this.closest('.flex-col').querySelector('.rate-display').classList.remove('hidden');">
-                                <span class="material-symbols-outlined text-lg">cancel</span>
+                            <button class="text-red-600 hover:opacity-80 cursor-pointer" onclick="this.closest('.rate-edit').classList.add('hidden'); this.closest('.flex-col').querySelector('.rate-display').classList.remove('hidden');">
+                                <span class="material-symbols-outlined text-xl">cancel</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
                 <!-- Xtra Premium -->
-                <div class="flex flex-col gap-3 rounded-xl border border-outline-variant bg-surface-container-lowest p-4 fuel-card-shadow transition-transform active:scale-95 relative box-border">
+                <div class="flex flex-col gap-3 rounded-2xl border border-slate-border bg-surface-container-lowest p-4 fuel-card-shadow transition-all relative box-border">
                     <div class="absolute top-2 right-2 z-10">
                         <div class="relative">
-                            <button class="menu-btn text-on-surface-variant hover:bg-surface-container-low p-1 rounded-full transition-colors">
-                                <span class="material-symbols-outlined text-xl pointer-events-none">more_vert</span>
+                            <button class="menu-btn text-slate-text-secondary hover:bg-surface-container-high p-1.5 rounded-full transition-colors cursor-pointer">
+                                <span class="material-symbols-outlined text-lg pointer-events-none">more_vert</span>
                             </button>
-                            <div class="dropdown-menu hidden absolute top-8 right-0 w-24 bg-surface-container-highest border border-outline-variant rounded-lg shadow-lg py-1">
-                                <button class="menu-item w-full text-left px-3 py-2 text-xs text-on-surface hover:bg-surface-container-low flex items-center gap-2" onclick="const card = this.closest('.fuel-card-shadow'); const display = card.querySelector('.rate-display'); const edit = card.querySelector('.rate-edit'); display.classList.add('hidden'); edit.classList.remove('hidden');">
+                            <div class="dropdown-menu hidden absolute top-8 right-0 w-32 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg py-1 z-20">
+                                <button class="menu-item w-full text-left px-3 py-2 text-xs text-on-surface hover:bg-surface-container-high flex items-center gap-2 cursor-pointer" onclick="const card = this.closest('.fuel-card-shadow'); const display = card.querySelector('.rate-display'); const edit = card.querySelector('.rate-edit'); display.classList.add('hidden'); edit.classList.remove('hidden');">
                                     <span class="material-symbols-outlined text-sm">edit</span>Edit
                                 </button>
-                                <button class="menu-item w-full text-left px-3 py-2 text-xs text-on-surface-variant hover:bg-surface-container-low flex items-center gap-2">
+                                <button class="menu-item w-full text-left px-3 py-2 text-xs text-slate-text-secondary hover:bg-surface-container-high flex items-center gap-2 cursor-pointer">
                                     <span class="material-symbols-outlined text-sm">close</span>Cancel
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class="text-status-active" data-icon="local_gas_station">
-                        <span class="material-symbols-outlined text-2xl" style='font-variation-settings: "FILL" 1;'>local_gas_station</span>
+                    <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-xl" style='font-variation-settings: "FILL" 1;'>local_gas_station</span>
                     </div>
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-0.5">
                         <div class="rate-display">
-                            <h2 class="text-on-surface text-display-metrics text-lg font-bold">₹108.90</h2>
-                            <p class="text-on-surface-variant text-body-standard text-xs">Xtra Premium</p>
+                            <h2 class="text-on-surface text-xl font-black">₹108.90</h2>
+                            <p class="text-slate-text-secondary text-xs font-medium">Xtra Premium</p>
                         </div>
                         <div class="rate-edit hidden flex items-center gap-2 py-1">
-                            <span class="text-[10px] font-bold text-on-surface-variant whitespace-nowrap">Fuel Rate:</span>
-                            <input class="w-16 p-1 text-xs border border-outline-variant rounded bg-surface-container-low text-on-surface font-bold" step="0.01" type="number" value="108.90"/>
-                            <button class="text-status-active hover:opacity-80" onclick="this.closest('.rate-edit').classList.add('hidden'); this.closest('.flex-col').querySelector('.rate-display').classList.remove('hidden');">
-                                <span class="material-symbols-outlined text-lg">check_circle</span>
+                            <input class="w-20 p-1.5 text-xs border border-slate-border rounded-lg bg-surface-container-high text-on-surface font-bold outline-none" step="0.01" type="number" value="108.90"/>
+                            <button class="text-emerald-600 hover:opacity-80 cursor-pointer" onclick="this.closest('.rate-edit').classList.add('hidden'); this.closest('.flex-col').querySelector('.rate-display').classList.remove('hidden');">
+                                <span class="material-symbols-outlined text-xl">check_circle</span>
                             </button>
-                            <button class="text-error hover:opacity-80" onclick="this.closest('.rate-edit').classList.add('hidden'); this.closest('.flex-col').querySelector('.rate-display').classList.remove('hidden');">
-                                <span class="material-symbols-outlined text-lg">cancel</span>
+                            <button class="text-red-600 hover:opacity-80 cursor-pointer" onclick="this.closest('.rate-edit').classList.add('hidden'); this.closest('.flex-col').querySelector('.rate-display').classList.remove('hidden');">
+                                <span class="material-symbols-outlined text-xl">cancel</span>
                             </button>
                         </div>
                     </div>
@@ -233,59 +316,59 @@
 
         <!-- Stats/Summary Bar -->
         <div>
-            <div class="bg-primary text-on-primary rounded-xl p-4 flex justify-between items-center shadow-lg shadow-primary/20 box-border">
+            <div class="bg-primary text-white rounded-2xl p-5 flex justify-between items-center shadow-md box-border">
                 <div>
-                    <p class="text-[10px] uppercase tracking-wider font-bold opacity-80">Monthly Spent</p>
-                    <p class="text-xl font-extrabold">₹4,250.00</p>
+                    <p class="text-[11px] uppercase tracking-wider font-bold opacity-80">Monthly Spent</p>
+                    <p class="text-2xl font-black mt-0.5">₹4,250.00</p>
                 </div>
                 <div class="text-right">
-                    <p class="text-[10px] uppercase tracking-wider font-bold opacity-80">Avg. Economy</p>
-                    <p class="text-xl font-extrabold">18.4 <span class="text-sm font-normal">km/l</span></p>
+                    <p class="text-[11px] uppercase tracking-wider font-bold opacity-80">Avg. Economy</p>
+                    <p class="text-2xl font-black mt-0.5">18.4 <span class="text-xs font-medium">km/l</span></p>
                 </div>
             </div>
         </div>
 
         <!-- Vehicle Performance Table -->
         <div>
-            <h3 class="text-on-surface text-lg font-bold mb-3">Vehicle Performance</h3>
-            <div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden box-border">
+            <h3 class="text-on-surface text-xs font-bold uppercase tracking-wider mb-3">Vehicle Performance</h3>
+            <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-xs overflow-hidden box-border">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="bg-surface-container-low border-b border-outline-variant">
-                                <th class="p-3 text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">Vehicle</th>
-                                <th class="p-3 text-[10px] uppercase tracking-wider font-bold text-on-surface-variant text-right">Current</th>
-                                <th class="p-3 text-[10px] uppercase tracking-wider font-bold text-on-surface-variant text-right">Overall</th>
-                                <th class="p-3 text-[10px] uppercase tracking-wider font-bold text-on-surface-variant text-right">Odo (km)</th>
+                            <tr class="bg-surface-container-high/50 border-b border-slate-border">
+                                <th class="p-3.5 text-[11px] uppercase tracking-wider font-bold text-slate-text-secondary">Vehicle</th>
+                                <th class="p-3.5 text-[11px] uppercase tracking-wider font-bold text-slate-text-secondary text-right">Current</th>
+                                <th class="p-3.5 text-[11px] uppercase tracking-wider font-bold text-slate-text-secondary text-right">Overall</th>
+                                <th class="p-3.5 text-[11px] uppercase tracking-wider font-bold text-slate-text-secondary text-right">Odo (km)</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-outline-variant/30">
-                            <tr class="hover:bg-surface-container-low transition-colors">
-                                <td class="p-3">
+                        <tbody class="divide-y divide-slate-border">
+                            <tr class="hover:bg-surface-container-high transition-colors">
+                                <td class="p-3.5">
                                     <p class="text-xs font-bold text-on-surface">MH12 AB 1234</p>
-                                    <p class="text-[10px] text-on-surface-variant">Toyota Camry</p>
+                                    <p class="text-[10px] text-slate-text-secondary">Toyota Camry</p>
                                 </td>
-                                <td class="p-3 text-right text-xs font-semibold text-status-active">18.5</td>
-                                <td class="p-3 text-right text-xs text-on-surface-variant">17.8</td>
-                                <td class="p-3 text-right text-xs text-on-surface-variant">12,458</td>
+                                <td class="p-3.5 text-right text-xs font-bold text-emerald-600">18.5</td>
+                                <td class="p-3.5 text-right text-xs font-semibold text-slate-text-secondary">17.8</td>
+                                <td class="p-3.5 text-right text-xs font-semibold text-slate-text-secondary">12,458</td>
                             </tr>
-                            <tr class="hover:bg-surface-container-low transition-colors">
-                                <td class="p-3">
+                            <tr class="hover:bg-surface-container-high transition-colors">
+                                <td class="p-3.5">
                                     <p class="text-xs font-bold text-on-surface">KA01 CD 5678</p>
-                                    <p class="text-[10px] text-on-surface-variant">Honda City</p>
+                                    <p class="text-[10px] text-slate-text-secondary">Honda City</p>
                                 </td>
-                                <td class="p-3 text-right text-xs font-semibold text-status-active">16.2</td>
-                                <td class="p-3 text-right text-xs text-on-surface-variant">15.9</td>
-                                <td class="p-3 text-right text-xs text-on-surface-variant">11,892</td>
+                                <td class="p-3.5 text-right text-xs font-bold text-emerald-600">16.2</td>
+                                <td class="p-3.5 text-right text-xs font-semibold text-slate-text-secondary">15.9</td>
+                                <td class="p-3.5 text-right text-xs font-semibold text-slate-text-secondary">11,892</td>
                             </tr>
-                            <tr class="hover:bg-surface-container-low transition-colors">
-                                <td class="p-3">
+                            <tr class="hover:bg-surface-container-high transition-colors">
+                                <td class="p-3.5">
                                     <p class="text-xs font-bold text-on-surface">DL10 EF 9012</p>
-                                    <p class="text-[10px] text-on-surface-variant">BMW 3 Series</p>
+                                    <p class="text-[10px] text-slate-text-secondary">BMW 3 Series</p>
                                 </td>
-                                <td class="p-3 text-right text-xs font-semibold text-status-active">15.8</td>
-                                <td class="p-3 text-right text-xs text-on-surface-variant">15.2</td>
-                                <td class="p-3 text-right text-xs text-on-surface-variant">11,120</td>
+                                <td class="p-3.5 text-right text-xs font-bold text-emerald-600">15.8</td>
+                                <td class="p-3.5 text-right text-xs font-semibold text-slate-text-secondary">15.2</td>
+                                <td class="p-3.5 text-right text-xs font-semibold text-slate-text-secondary">11,120</td>
                             </tr>
                         </tbody>
                     </table>
@@ -295,262 +378,445 @@
 
         <!-- Fuel Log History Section -->
         <div>
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-on-surface text-headline-page">Fuel Log History</h3>
-                <button class="bg-secondary-container text-on-secondary-container px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 shrink-0">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="text-on-surface text-xs font-bold uppercase tracking-wider">Fuel Log History</h3>
+                <button class="bg-surface-container-high text-on-surface px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 shrink-0 hover:bg-surface-container-highest transition-colors cursor-pointer">
                     <span class="material-symbols-outlined text-sm">filter_list</span>
                     Filters
                 </button>
             </div>
+            
             <div class="space-y-4">
                 <!-- Log Entry 1 -->
-                <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 fuel-card-shadow relative overflow-hidden box-border" style="transform: translateY(0px); box-shadow: rgba(0, 74, 198, 0.05) 0px 4px 12px;">
+                <div class="bg-surface-container-lowest rounded-2xl border border-slate-border p-4 fuel-card-shadow relative overflow-hidden box-border">
                     <div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex-1">
-                            <h4 class="text-on-surface font-bold text-headline-card">Indian Oil (IOCL)</h4>
-                            <p class="text-on-surface-variant text-xs">Oct 24, 2023 • 09:15 AM</p>
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex-1 pl-2">
+                            <h4 class="text-on-surface font-bold text-sm">Indian Oil (IOCL)</h4>
+                            <p class="text-slate-text-secondary text-xs">Oct 24, 2023 • 09:15 AM</p>
                         </div>
                         <div class="flex items-center gap-2">
                             <div class="text-right">
-                                <p class="text-primary font-extrabold text-lg">₹2,450.00</p>
+                                <p class="text-primary font-black text-base">₹2,450.00</p>
                             </div>
                             <div class="relative">
-                                <button class="menu-btn text-on-surface-variant hover:bg-surface-container-low p-1 rounded-full transition-colors">
-                                    <span class="material-symbols-outlined text-xl pointer-events-none">more_vert</span>
+                                <button class="menu-btn text-slate-text-secondary hover:bg-surface-container-high p-1.5 rounded-full transition-colors cursor-pointer">
+                                    <span class="material-symbols-outlined text-lg pointer-events-none">more_vert</span>
                                 </button>
-                                <div class="dropdown-menu hidden absolute top-10 right-0 w-32 bg-surface-container-highest border border-outline-variant rounded-lg shadow-lg z-10 py-1">
-                                    <button class="menu-item w-full text-left px-3 py-2 text-sm text-on-surface hover:bg-surface-container-low flex items-center gap-2">
+                                <div class="dropdown-menu hidden absolute top-10 right-0 w-32 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg z-20 py-1">
+                                    <button class="menu-item w-full text-left px-3 py-2 text-xs text-on-surface hover:bg-surface-container-high flex items-center gap-2 cursor-pointer">
                                         <span class="material-symbols-outlined text-sm">edit</span>Edit
                                     </button>
-                                    <button class="menu-item w-full text-left px-3 py-2 text-sm text-error hover:bg-surface-container-low flex items-center gap-2">
+                                    <button class="menu-item w-full text-left px-3 py-2 text-xs text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50 flex items-center gap-2 cursor-pointer">
                                         <span class="material-symbols-outlined text-sm">delete</span>Delete
                                     </button>
-                                    <div class="border-t border-outline-variant/30 my-1"></div>
-                                    <button class="menu-item w-full text-left px-3 py-2 text-sm text-on-surface-variant hover:bg-surface-container-low flex items-center gap-2">
+                                    <div class="border-t border-slate-border my-1"></div>
+                                    <button class="menu-item w-full text-left px-3 py-2 text-xs text-slate-text-secondary hover:bg-surface-container-high flex items-center gap-2 cursor-pointer">
                                         <span class="material-symbols-outlined text-sm">close</span>Cancel
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-3 gap-2 border-t border-outline-variant/30 pt-3 mb-3">
+                    <div class="grid grid-cols-3 gap-2 border-t border-slate-border pt-3 mb-3 pl-2">
                         <div class="flex flex-col">
-                            <span class="text-[10px] text-on-surface-variant font-medium uppercase">Fuel Type</span>
-                            <span class="text-body-semibold text-sm">Normal E20</span>
+                            <span class="text-[10px] text-slate-text-secondary font-semibold uppercase">Fuel Type</span>
+                            <span class="text-xs font-bold text-on-surface mt-0.5">Normal E20</span>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-[10px] text-on-surface-variant font-medium uppercase">Volume</span>
-                            <span class="text-body-semibold text-sm">23.91 L</span>
+                            <span class="text-[10px] text-slate-text-secondary font-semibold uppercase">Volume</span>
+                            <span class="text-xs font-bold text-on-surface mt-0.5">23.91 L</span>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-[10px] text-on-surface-variant font-medium uppercase">Rate/L</span>
-                            <span class="text-body-semibold text-sm">₹102.45</span>
+                            <span class="text-[10px] text-slate-text-secondary font-semibold uppercase">Rate/L</span>
+                            <span class="text-xs font-bold text-on-surface mt-0.5">₹102.45</span>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2 text-on-surface-variant bg-surface-container-low px-3 py-2 rounded-lg">
+                    <div class="flex items-center gap-2 text-slate-text-secondary bg-surface-container-high/50 px-3 py-2 rounded-xl">
                         <span class="material-symbols-outlined text-sm">speed</span>
                         <span class="text-xs font-medium">Odometer: 12,458 km</span>
                     </div>
                 </div>
 
                 <!-- Log Entry 2 -->
-                <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 fuel-card-shadow relative overflow-hidden box-border" style="transform: translateY(0px); box-shadow: rgba(0, 74, 198, 0.05) 0px 4px 12px;">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-status-active"></div>
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex-1">
-                            <h4 class="text-on-surface font-bold text-headline-card">Shell Station</h4>
-                            <p class="text-on-surface-variant text-xs">Oct 12, 2023 • 06:45 PM</p>
+                <div class="bg-surface-container-lowest rounded-2xl border border-slate-border p-4 fuel-card-shadow relative overflow-hidden box-border">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500"></div>
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex-1 pl-2">
+                            <h4 class="text-on-surface font-bold text-sm">Shell Station</h4>
+                            <p class="text-slate-text-secondary text-xs">Oct 12, 2023 • 06:45 PM</p>
                         </div>
                         <div class="flex items-center gap-2">
                             <div class="text-right">
-                                <p class="text-primary font-extrabold text-lg">₹1,800.00</p>
+                                <p class="text-primary font-black text-base">₹1,800.00</p>
                             </div>
                             <div class="relative">
-                                <button class="menu-btn text-on-surface-variant hover:bg-surface-container-low p-1 rounded-full transition-colors">
-                                    <span class="material-symbols-outlined text-xl pointer-events-none">more_vert</span>
+                                <button class="menu-btn text-slate-text-secondary hover:bg-surface-container-high p-1.5 rounded-full transition-colors cursor-pointer">
+                                    <span class="material-symbols-outlined text-lg pointer-events-none">more_vert</span>
                                 </button>
-                                <div class="dropdown-menu hidden absolute top-10 right-0 w-32 bg-surface-container-highest border border-outline-variant rounded-lg shadow-lg z-10 py-1">
-                                    <button class="menu-item w-full text-left px-3 py-2 text-sm text-on-surface hover:bg-surface-container-low flex items-center gap-2">
+                                <div class="dropdown-menu hidden absolute top-10 right-0 w-32 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg z-20 py-1">
+                                    <button class="menu-item w-full text-left px-3 py-2 text-xs text-on-surface hover:bg-surface-container-high flex items-center gap-2 cursor-pointer">
                                         <span class="material-symbols-outlined text-sm">edit</span>Edit
                                     </button>
-                                    <button class="menu-item w-full text-left px-3 py-2 text-sm text-error hover:bg-surface-container-low flex items-center gap-2">
+                                    <button class="menu-item w-full text-left px-3 py-2 text-xs text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50 flex items-center gap-2 cursor-pointer">
                                         <span class="material-symbols-outlined text-sm">delete</span>Delete
                                     </button>
-                                    <div class="border-t border-outline-variant/30 my-1"></div>
-                                    <button class="menu-item w-full text-left px-3 py-2 text-sm text-on-surface-variant hover:bg-surface-container-low flex items-center gap-2">
+                                    <div class="border-t border-slate-border my-1"></div>
+                                    <button class="menu-item w-full text-left px-3 py-2 text-xs text-slate-text-secondary hover:bg-surface-container-high flex items-center gap-2 cursor-pointer">
                                         <span class="material-symbols-outlined text-sm">close</span>Cancel
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-3 gap-2 border-t border-outline-variant/30 pt-3 mb-3">
+                    <div class="grid grid-cols-3 gap-2 border-t border-slate-border pt-3 mb-3 pl-2">
                         <div class="flex flex-col">
-                            <span class="text-[10px] text-on-surface-variant font-medium uppercase">Fuel Type</span>
-                            <span class="text-body-semibold text-sm">Xtra Premium</span>
+                            <span class="text-[10px] text-slate-text-secondary font-semibold uppercase">Fuel Type</span>
+                            <span class="text-xs font-bold text-on-surface mt-0.5">Xtra Premium</span>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-[10px] text-on-surface-variant font-medium uppercase">Volume</span>
-                            <span class="text-body-semibold text-sm">16.52 L</span>
+                            <span class="text-[10px] text-slate-text-secondary font-semibold uppercase">Volume</span>
+                            <span class="text-xs font-bold text-on-surface mt-0.5">16.52 L</span>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-[10px] text-on-surface-variant font-medium uppercase">Rate/L</span>
-                            <span class="text-body-semibold text-sm">₹108.90</span>
+                            <span class="text-[10px] text-slate-text-secondary font-semibold uppercase">Rate/L</span>
+                            <span class="text-xs font-bold text-on-surface mt-0.5">₹108.90</span>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2 text-on-surface-variant bg-surface-container-low px-3 py-2 rounded-lg">
+                    <div class="flex items-center gap-2 text-slate-text-secondary bg-surface-container-high/50 px-3 py-2 rounded-xl">
                         <span class="material-symbols-outlined text-sm">speed</span>
                         <span class="text-xs font-medium">Odometer: 11,892 km</span>
                     </div>
                 </div>
 
                 <!-- Log Entry 3 -->
-                <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 fuel-card-shadow relative overflow-hidden box-border" style="transform: translateY(0px); box-shadow: rgba(0, 74, 198, 0.05) 0px 4px 12px;">
+                <div class="bg-surface-container-lowest rounded-2xl border border-slate-border p-4 fuel-card-shadow relative overflow-hidden box-border">
                     <div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex-1">
-                            <h4 class="text-on-surface font-bold text-headline-card">HP Petrol Pump</h4>
-                            <p class="text-on-surface-variant text-xs">Sep 28, 2023 • 08:20 AM</p>
+                    <div class="flex justify-between items-center mb-3">
+                        <div class="flex-1 pl-2">
+                            <h4 class="text-on-surface font-bold text-sm">HP Petrol Pump</h4>
+                            <p class="text-slate-text-secondary text-xs">Sep 28, 2023 • 08:20 AM</p>
                         </div>
                         <div class="flex items-center gap-2">
                             <div class="text-right">
-                                <p class="text-primary font-extrabold text-lg">₹3,120.50</p>
+                                <p class="text-primary font-black text-base">₹3,120.50</p>
                             </div>
                             <div class="relative">
-                                <button class="menu-btn text-on-surface-variant hover:bg-surface-container-low p-1 rounded-full transition-colors">
-                                    <span class="material-symbols-outlined text-xl pointer-events-none">more_vert</span>
+                                <button class="menu-btn text-slate-text-secondary hover:bg-surface-container-high p-1.5 rounded-full transition-colors cursor-pointer">
+                                    <span class="material-symbols-outlined text-lg pointer-events-none">more_vert</span>
                                 </button>
-                                <div class="dropdown-menu hidden absolute top-10 right-0 w-32 bg-surface-container-highest border border-outline-variant rounded-lg shadow-lg z-10 py-1">
-                                    <button class="menu-item w-full text-left px-3 py-2 text-sm text-on-surface hover:bg-surface-container-low flex items-center gap-2">
+                                <div class="dropdown-menu hidden absolute top-10 right-0 w-32 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg z-20 py-1">
+                                    <button class="menu-item w-full text-left px-3 py-2 text-xs text-on-surface hover:bg-surface-container-high flex items-center gap-2 cursor-pointer">
                                         <span class="material-symbols-outlined text-sm">edit</span>Edit
                                     </button>
-                                    <button class="menu-item w-full text-left px-3 py-2 text-sm text-error hover:bg-surface-container-low flex items-center gap-2">
+                                    <button class="menu-item w-full text-left px-3 py-2 text-xs text-red-600 hover:bg-red-50 dark:hover:bg-red-950/50 flex items-center gap-2 cursor-pointer">
                                         <span class="material-symbols-outlined text-sm">delete</span>Delete
                                     </button>
-                                    <div class="border-t border-outline-variant/30 my-1"></div>
-                                    <button class="menu-item w-full text-left px-3 py-2 text-sm text-on-surface-variant hover:bg-surface-container-low flex items-center gap-2">
+                                    <div class="border-t border-slate-border my-1"></div>
+                                    <button class="menu-item w-full text-left px-3 py-2 text-xs text-slate-text-secondary hover:bg-surface-container-high flex items-center gap-2 cursor-pointer">
                                         <span class="material-symbols-outlined text-sm">close</span>Cancel
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-3 gap-2 border-t border-outline-variant/30 pt-3 mb-3">
+                    <div class="grid grid-cols-3 gap-2 border-t border-slate-border pt-3 mb-3 pl-2">
                         <div class="flex flex-col">
-                            <span class="text-[10px] text-on-surface-variant font-medium uppercase">Fuel Type</span>
-                            <span class="text-body-semibold text-sm">Normal E20</span>
+                            <span class="text-[10px] text-slate-text-secondary font-semibold uppercase">Fuel Type</span>
+                            <span class="text-xs font-bold text-on-surface mt-0.5">Normal E20</span>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-[10px] text-on-surface-variant font-medium uppercase">Volume</span>
-                            <span class="text-body-semibold text-sm">30.45 L</span>
+                            <span class="text-[10px] text-slate-text-secondary font-semibold uppercase">Volume</span>
+                            <span class="text-xs font-bold text-on-surface mt-0.5">30.45 L</span>
                         </div>
                         <div class="flex flex-col">
-                            <span class="text-[10px] text-on-surface-variant font-medium uppercase">Rate/L</span>
-                            <span class="text-body-semibold text-sm">₹102.48</span>
+                            <span class="text-[10px] text-slate-text-secondary font-semibold uppercase">Rate/L</span>
+                            <span class="text-xs font-bold text-on-surface mt-0.5">₹102.48</span>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2 text-on-surface-variant bg-surface-container-low px-3 py-2 rounded-lg">
+                    <div class="flex items-center gap-2 text-slate-text-secondary bg-surface-container-high/50 px-3 py-2 rounded-xl">
                         <span class="material-symbols-outlined text-sm">speed</span>
                         <span class="text-xs font-medium">Odometer: 11,120 km</span>
                     </div>
                 </div>
             </div>
+
             <!-- Load More Button -->
-            <div class="flex justify-end mt-6">
-                <button class="text-primary font-bold text-sm underline hover:opacity-80 transition-colors">
+            <div class="flex justify-center mt-6">
+                <button class="text-primary font-bold text-xs hover:underline transition-colors cursor-pointer">
                     Load Older Records
                 </button>
             </div>
         </div>
     </main>
 
-    <!-- BOTTOM NAV BAR (5 tabs - Fuel active) -->
-    <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-xs transition-colors">
+    <!-- BOTTOM NAV BAR (5 tabs) -->
+    <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-slate-border shadow-xs transition-colors">
         <div class="w-full max-w-[672px] mx-auto h-16 px-2 flex justify-around items-center box-border">
-            <!-- Overview -->
-            <a href="dashboard.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+            <a href="dashboard.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-slate-text-secondary hover:text-on-surface font-medium">
                 <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="home" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                    <i data-lucide="home" class="w-5 h-5 stroke-[1.75]"></i>
                 </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Overview</span>
+                <span class="text-[10px] tracking-tight mt-0.5 font-medium truncate">Overview</span>
             </a>
-            
-            <!-- Vehicles -->
-            <a href="vehicles.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+            <a href="vehicles.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-slate-text-secondary hover:text-on-surface font-medium">
                 <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="car" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                    <i data-lucide="car" class="w-5 h-5 stroke-[1.75]"></i>
                 </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Vehicles</span>
+                <span class="text-[10px] tracking-tight mt-0.5 font-medium truncate">Vehicles</span>
             </a>
-            
-            <!-- Fuel (Active) -->
-            <a href="fuel.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#004ac6] font-bold">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all bg-[#dbe1ff] scale-105 shadow-xs">
-                    <i data-lucide="fuel" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]"></i>
+            <a href="fuel.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-primary font-bold">
+                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all bg-primary-fixed scale-105 shadow-xs">
+                    <i data-lucide="fuel" class="w-5 h-5 stroke-[2.5]"></i>
                 </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Fuel</span>
+                <span class="text-[10px] tracking-tight mt-0.5 font-bold truncate">Fuel</span>
             </a>
-            
-            <!-- Services -->
-            <a href="service.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+            <a href="service.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-slate-text-secondary hover:text-on-surface font-medium">
                 <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="wrench" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                    <i data-lucide="wrench" class="w-5 h-5 stroke-[1.75]"></i>
                 </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Services</span>
+                <span class="text-[10px] tracking-tight mt-0.5 font-medium truncate">Services</span>
             </a>
-            
-            <!-- Analytics -->
-            <a href="analytics.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
+            <a href="analytics.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-slate-text-secondary hover:text-on-surface font-medium">
                 <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="bar-chart-3" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
+                    <i data-lucide="bar-chart-3" class="w-5 h-5 stroke-[1.75]"></i>
                 </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Analytics</span>
+                <span class="text-[10px] tracking-tight mt-0.5 font-medium truncate">Analytics</span>
             </a>
         </div>
     </nav>
 
+    <!-- MODAL: LOG FUEL -->
+    <div class="modal-overlay" id="addFuelModal">
+        <div class="modal-content">
+            <div class="flex items-center justify-between p-6 border-b border-slate-border sticky top-0 bg-surface-container-lowest rounded-t-2xl z-10 box-border">
+                <h2 class="text-xl font-extrabold text-primary">Log Fuel Fill-up</h2>
+                <button onclick="closeModal('addFuelModal')" class="text-slate-text-secondary hover:text-on-surface transition-colors p-2 rounded-full hover:bg-surface-container-high cursor-pointer">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="p-6 box-border">
+                <form class="space-y-4" onsubmit="event.preventDefault(); closeModal('addFuelModal');">
+                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="vehicle-select">Vehicle</label>
+                                <div class="relative">
+                                    <select class="w-full appearance-none bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow box-border" id="vehicle-select">
+                                        <option disabled selected value="">Select Vehicle</option>
+                                        <option value="v1">Toyota Camry (MH12 AB 1234)</option>
+                                        <option value="v2">Honda City (KA01 CD 5678)</option>
+                                        <option value="v3">BMW 3 Series (DL10 EF 9012)</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-text-secondary">
+                                        <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="fuel-company">Fuel Company</label>
+                                <div class="relative">
+                                    <select class="w-full appearance-none bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow box-border" id="fuel-company">
+                                        <option value="hpcl">Hindustan Petroleum (HPCL)</option>
+                                        <option value="iocl">IndianOil (IOCL)</option>
+                                        <option value="bpcl">Bharat Petroleum (BPCL)</option>
+                                        <option value="nayara">Nayara Energy</option>
+                                        <option value="jio-bp">Jio-bp (Reliance-BP)</option>
+                                        <option value="shell">Shell</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-text-secondary">
+                                        <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-text-secondary block mb-2 uppercase tracking-wider">Type of Petrol</label>
+                                <div class="flex bg-surface-container-high rounded-xl p-1 gap-1 box-border">
+                                    <label class="flex-1 text-center cursor-pointer">
+                                        <input checked class="peer sr-only" name="fuel_type" type="radio" value="normal"/>
+                                        <div class="py-2 rounded-lg transition-all peer-checked:bg-surface-container-lowest peer-checked:shadow-xs peer-checked:text-primary peer-checked:font-semibold text-xs text-slate-text-secondary hover:text-on-surface">
+                                            Normal E20
+                                        </div>
+                                    </label>
+                                    <label class="flex-1 text-center cursor-pointer">
+                                        <input class="peer sr-only" name="fuel_type" type="radio" value="premium"/>
+                                        <div class="py-2 rounded-lg transition-all peer-checked:bg-surface-container-lowest peer-checked:shadow-xs peer-checked:text-primary peer-checked:font-semibold text-xs text-slate-text-secondary hover:text-on-surface">
+                                            Xtra Premium
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="fill-date">Date</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-text-secondary">
+                                        <span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                                    </div>
+                                    <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow box-border" id="fill-date" type="date"/>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="fill-time">Time</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-text-secondary">
+                                        <span class="material-symbols-outlined text-[18px]">schedule</span>
+                                    </div>
+                                    <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow box-border" id="fill-time" type="time"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
+                        <div class="flex flex-col gap-4">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="odometer-fuel">Odometer (km)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-text-secondary">
+                                        <span class="material-symbols-outlined text-[18px]">speed</span>
+                                    </div>
+                                    <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow box-border" id="odometer-fuel" placeholder="e.g. 45020" type="number"/>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="rate">Rate / Liter (₹)</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-text-secondary">
+                                            <span class="font-semibold">₹</span>
+                                        </div>
+                                        <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl pl-8 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow box-border" id="rate" placeholder="102.45" step="0.01" type="number"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="volume">Fuel Filled (L)</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-text-secondary">
+                                            <span class="material-symbols-outlined text-[18px]">local_gas_station</span>
+                                        </div>
+                                        <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow box-border" id="volume" placeholder="30.5" step="0.1" type="number"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-surface-container-high rounded-xl border border-slate-border p-3.5 flex items-center justify-between box-border">
+                                <div>
+                                    <label class="text-xs font-semibold text-slate-text-secondary block uppercase tracking-wider" for="total-cost">Total Cost (₹)</label>
+                                    <p class="text-[10px] text-slate-text-secondary mt-0.5">Calculated automatically</p>
+                                </div>
+                                <div class="relative w-1/2">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-primary font-bold">
+                                        <span>₹</span>
+                                    </div>
+                                    <input class="w-full bg-surface-container-lowest border border-slate-border font-bold text-lg text-on-surface text-right rounded-lg pl-8 pr-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary transition-shadow box-border" id="total-cost" placeholder="0.00" step="0.01" type="number"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
+                        <div>
+                            <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="notes">Notes (Optional)</label>
+                            <textarea class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-shadow resize-none box-border" id="notes" placeholder="Add any details about this fill-up..." rows="3"></textarea>
+                        </div>
+                    </section>
+
+                    <button class="w-full bg-primary text-white rounded-xl py-3.5 font-semibold shadow-md hover:opacity-90 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer box-border" type="submit">
+                        <span class="material-symbols-outlined text-lg">save</span>
+                        Save Fuel Log
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- JavaScript -->
     <script>
-        // Initialize Lucide icons
         lucide.createIcons();
 
-        // Subtle interaction for cards
-        document.querySelectorAll('.fuel-card-shadow').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-2px)';
-                card.style.boxShadow = '0 8px 16px rgba(0, 74, 198, 0.1)';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0)';
-                card.style.boxShadow = '0 4px 12px rgba(0, 74, 198, 0.05)';
-            });
-        });
+        const savedSettings = JSON.parse(localStorage.getItem('autocare_settings') || '{}');
+        if (savedSettings.profileImage) {
+            const avatar = document.getElementById('global-profile-avatar');
+            if (avatar) avatar.src = savedSettings.profileImage;
+        }
 
         // Dropdown menu logic
         document.addEventListener('click', (e) => {
             const isMenuBtn = e.target.closest('.menu-btn');
-            const isMenuItem = e.target.closest('.menu-item');
             
-            // Close all menus first if not clicking a button that toggles it
             if (!isMenuBtn) {
                 document.querySelectorAll('.dropdown-menu').forEach(menu => {
                     menu.classList.add('hidden');
                 });
             }
 
-            // Toggle specific menu
             if (isMenuBtn) {
                 const menu = isMenuBtn.nextElementSibling;
                 const wasHidden = menu.classList.contains('hidden');
                 
-                // Close all other menus
                 document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
                 
-                // Toggle clicked menu
                 if (wasHidden) {
                     menu.classList.remove('hidden');
                 }
+            }
+        });
+
+        // Modal triggers
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
+
+        // Fuel Form Bidirectional Calculation & Defaults
+        document.addEventListener('DOMContentLoaded', function() {
+            const rateInput = document.getElementById('rate');
+            const volumeInput = document.getElementById('volume');
+            const totalInput = document.getElementById('total-cost');
+
+            if (rateInput && volumeInput && totalInput) {
+                const calculateTotal = () => {
+                    const rate = parseFloat(rateInput.value) || 0;
+                    const volume = parseFloat(volumeInput.value) || 0;
+                    totalInput.value = (rate > 0 && volume > 0) ? (rate * volume).toFixed(2) : '';
+                };
+
+                const calculateVolume = () => {
+                    const rate = parseFloat(rateInput.value) || 0;
+                    const total = parseFloat(totalInput.value) || 0;
+                    volumeInput.value = (rate > 0 && total > 0) ? (total / rate).toFixed(2) : '';
+                };
+
+                rateInput.addEventListener('input', calculateTotal);
+                volumeInput.addEventListener('input', calculateTotal);
+                totalInput.addEventListener('input', calculateVolume);
+            }
+
+            const now = new Date();
+            const dateInput = document.getElementById('fill-date');
+            if (dateInput) dateInput.valueAsDate = now;
+            
+            const timeInput = document.getElementById('fill-time');
+            if (timeInput) {
+                timeInput.value = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             }
         });
     </script>
