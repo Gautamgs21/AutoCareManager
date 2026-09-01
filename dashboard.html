@@ -57,7 +57,6 @@
             -webkit-text-size-adjust: 100%;
         }
 
-        /* Dynamic Font Weight & Style application */
         body, p, span, a, button, input, select, textarea, h1, h2, h3, h4, h5, h6 {
             font-style: var(--font-style, normal);
         }
@@ -66,7 +65,6 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        /* Modern Custom Scrollbar to eliminate background jump */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -81,7 +79,6 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Modal overlay with perfect scroll lock and no layout shift */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -96,7 +93,7 @@
             align-items: center;
             padding: 16px;
             box-sizing: border-box;
-            overflow-y: scroll; /* Forces scrollbar space permanently to prevent shifting */
+            overflow-y: scroll;
         }
         .modal-overlay.active {
             display: flex;
@@ -135,16 +132,13 @@
     </style>
     
     <script>
-        // Load user settings instantly on head parse to prevent flashing
         (function() {
             const savedSettings = JSON.parse(localStorage.getItem('autocare_settings') || '{}');
             
-            // Theme / Dark mode
             if (savedSettings.darkMode) {
                 document.documentElement.classList.add('dark');
             }
 
-            // Color Schemes
             const schemes = {
                 blue: { primary: '#004ac6', container: '#2563eb', fixed: '#dbe1ff', bg: '#f7f9fb', surface: '#ffffff', text: '#191c1e', sub: '#475569', border: '#e2e8f0' },
                 emerald: { primary: '#059669', container: '#10b981', fixed: '#d1fae5', bg: '#f8fafc', surface: '#ffffff', text: '#0f172a', sub: '#475569', border: '#e2e8f0' },
@@ -168,17 +162,14 @@
                 root.style.setProperty('--color-border', activeScheme.border);
             }
 
-            // Font Type
             if (savedSettings.fontType) {
                 document.documentElement.style.setProperty('--font-family', savedSettings.fontType);
             }
 
-            // Font Size
             if (savedSettings.fontSize) {
                 document.documentElement.style.setProperty('--font-size-base', savedSettings.fontSize + 'px');
             }
 
-            // Font Style
             if (savedSettings.fontStyle) {
                 if (savedSettings.fontStyle === 'bold') {
                     document.documentElement.style.setProperty('font-weight', '700');
