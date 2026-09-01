@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
-    <title>AutoCare - Vehicles</title>
+    <title>AutoCare - Forms</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -15,85 +15,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
     
-    <script id="tailwind-config">
-        tailwind.config = {
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-secondary-fixed": "#111c2d",
-                        "slate-border": "#e2e8f0",
-                        "on-secondary": "#ffffff",
-                        "primary-fixed": "#dbe1ff",
-                        "surface-variant": "#e0e3e5",
-                        "surface-container-low": "#f2f4f6",
-                        "on-primary": "#ffffff",
-                        "on-tertiary-container": "#bdffdc",
-                        "surface-tint": "#0053db",
-                        "on-primary-fixed-variant": "#003ea8",
-                        "tertiary": "#006243",
-                        "status-valid": "#3b82f6",
-                        "tertiary-fixed-dim": "#68dba9",
-                        "on-error-container": "#93000a",
-                        "surface-container-high": "#e6e8ea",
-                        "surface-dim": "#d8dadc",
-                        "background": "#f7f9fb",
-                        "error": "#ba1a1a",
-                        "on-primary-container": "#eeefff",
-                        "outline": "#737686",
-                        "error-container": "#ffdad6",
-                        "secondary": "#545f73",
-                        "slate-text-secondary": "#475569",
-                        "status-overdue": "#dc2626",
-                        "surface-container-lowest": "#ffffff",
-                        "on-tertiary": "#ffffff",
-                        "inverse-surface": "#2d3133",
-                        "on-surface-variant": "#434655",
-                        "primary": "#004ac6",
-                        "on-surface": "#191c1e",
-                        "on-secondary-container": "#586377",
-                        "status-warning": "#f59e0b",
-                        "primary-container": "#2563eb",
-                        "on-tertiary-fixed-variant": "#005137",
-                        "outline-variant": "#c3c6d7",
-                        "tertiary-container": "#007d57",
-                        "surface-bright": "#f7f9fb",
-                        "secondary-fixed": "#d8e3fb",
-                        "inverse-primary": "#b4c5ff",
-                        "secondary-container": "#d5e0f8",
-                        "surface-container-highest": "#e0e3e5",
-                        "tertiary-fixed": "#85f8c4",
-                        "surface-container": "#eceef0",
-                        "on-secondary-fixed-variant": "#3c475a",
-                        "on-error": "#ffffff",
-                        "on-primary-fixed": "#00174b",
-                        "inverse-on-surface": "#eff1f3",
-                        "on-background": "#191c1e",
-                        "on-tertiary-fixed": "#002114",
-                        "primary-fixed-dim": "#b4c5ff",
-                        "surface": "#f7f9fb",
-                        "secondary-fixed-dim": "#bcc7de",
-                        "status-active": "#059669"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "fontFamily": {
-                        "body-semibold": ["Inter"],
-                        "label-xs": ["Inter"],
-                        "micro-nav": ["Inter"],
-                        "body-standard": ["Inter"],
-                        "display-metrics": ["Inter"],
-                        "headline-card": ["Inter"],
-                        "headline-page": ["Inter"]
-                    }
-                }
-            }
-        }
-    </script>
-    
     <style>
         html, body {
             overflow-x: hidden;
@@ -102,21 +23,9 @@
             padding: 0;
             -webkit-text-size-adjust: 100%;
         }
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Inter', sans-serif; background: #f7f9fb; }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .vehicle-card {
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .vehicle-card:active {
-            transform: scale(0.98);
-        }
-        .chevron {
-            transition: transform 0.3s ease;
-        }
-        .chevron.rotate-180 {
-            transform: rotate(180deg);
         }
         /* Modal overlay styles */
         .modal-overlay {
@@ -146,7 +55,11 @@
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             animation: modalSlideIn 0.3s ease-out;
+            scrollbar-width: none;
             box-sizing: border-box;
+        }
+        .modal-content::-webkit-scrollbar {
+            display: none;
         }
         @keyframes modalSlideIn {
             from {
@@ -158,7 +71,6 @@
                 transform: translateY(0) scale(1);
             }
         }
-        /* Hide number input spinners */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none; 
@@ -167,393 +79,67 @@
         input[type=number] {
             -moz-appearance: textfield;
         }
-        .modal-content::-webkit-scrollbar {
-            width: 6px;
+        .trigger-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .modal-content::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+        .trigger-btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-        .modal-content::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 10px;
+        .trigger-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
         }
-        .modal-content::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
+        .trigger-btn:active {
+            transform: scale(0.96);
         }
-        .dropdown-menu {
-            min-width: 160px;
-        }
+        .btn-vehicle { background: #004ac6; color: white; }
+        .btn-fuel { background: #059669; color: white; }
+        .btn-service { background: #2563eb; color: white; }
     </style>
-    
-    <script>
-        // Modal functions
-        function openModal(modalId, vehicleData = null) {
-            const modal = document.getElementById(modalId);
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // If vehicle data is provided, pre-fill the form
-            if (vehicleData && modalId === 'addVehicleModal') {
-                preFillVehicleForm(vehicleData);
-            }
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-            document.body.style.overflow = 'auto';
-            // Reset form when closing
-            if (modalId === 'addVehicleModal') {
-                document.getElementById('vehicleForm').reset();
-                document.querySelector('input[name="vehicleCategory"][value="four_wheeler"]').checked = true;
-            }
-        }
-
-        function preFillVehicleForm(data) {
-            // Set form values based on vehicle data
-            const makeSelect = document.getElementById('make');
-            const modelInput = document.getElementById('model');
-            const regInput = document.getElementById('registration');
-            const yearInput = document.getElementById('year');
-            const odoInput = document.getElementById('odometer');
-            const insuranceInput = document.getElementById('insurance_expiry');
-            const pucInput = document.getElementById('puc_expiry');
-            
-            if (makeSelect) makeSelect.value = data.make || '';
-            if (modelInput) modelInput.value = data.model || '';
-            if (regInput) regInput.value = data.registration || '';
-            if (yearInput) yearInput.value = data.year || '';
-            if (odoInput) odoInput.value = data.odometer || '';
-            if (insuranceInput) insuranceInput.value = data.insurance || '';
-            if (pucInput) pucInput.value = data.puc || '';
-            
-            // Set category
-            if (data.category) {
-                document.querySelectorAll('input[name="vehicleCategory"]').forEach(radio => {
-                    radio.checked = radio.value === data.category;
-                });
-            }
-        }
-
-        // Vehicle data for editing (sample)
-        function editVehicle(vehicleId) {
-            const vehicleData = {
-                'v1': {
-                    make: 'toyota',
-                    model: 'Camry',
-                    registration: 'MH12AB1234',
-                    year: '2021',
-                    odometer: '28450',
-                    insurance: '2024-10-12',
-                    puc: '2024-11-15',
-                    category: 'four_wheeler'
-                },
-                'v2': {
-                    make: 'honda',
-                    model: 'City',
-                    registration: 'KA01CD5678',
-                    year: '2019',
-                    odometer: '42500',
-                    insurance: '2024-09-20',
-                    puc: '2025-01-05',
-                    category: 'four_wheeler'
-                },
-                'v3': {
-                    make: 'bmw',
-                    model: '3 Series',
-                    registration: 'DL10EF9012',
-                    year: '2023',
-                    odometer: '12100',
-                    insurance: '2024-12-30',
-                    puc: '2025-02-12',
-                    category: 'four_wheeler'
-                }
-            };
-            
-            const data = vehicleData[vehicleId] || null;
-            if (data) {
-                openModal('addVehicleModal', data);
-            }
-        }
-    </script>
 </head>
-<body class="bg-background text-on-background font-body-standard antialiased">
+<body>
 
-    <!-- TOP APP BAR -->
-    <header id="top-bar" class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-colors">
-        <div class="w-full max-w-[672px] mx-auto h-16 px-4 sm:px-8 flex items-center justify-between box-border">
-            <div class="flex items-center gap-3">
-                <a href="dashboard.html" id="top-logo-btn" class="flex items-center gap-3 text-left group cursor-pointer focus:outline-none" aria-label="AutoCare Dashboard">
-                    <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shadow-xs border border-slate-100 overflow-hidden shrink-0">
-                        <i data-lucide="car" class="w-5 h-5 text-emerald-600"></i>
-                    </div>
-                    <div>
-                        <span class="font-bold text-lg sm:text-xl tracking-tight text-slate-900">
-                            AutoCare <span class="text-emerald-600 font-semibold text-xs sm:text-sm">v1.0</span>
-                        </span>
-                    </div>
-                </a>
-            </div>
-            <div class="flex items-center gap-2.5 sm:gap-4">
-                <a href="settings.html" id="top-profile-btn" class="relative rounded-full p-0.5 border-2 border-slate-200 shadow-xs hover:scale-105 transition-all cursor-pointer shrink-0" aria-label="Profile and Settings">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=300&auto=format&fit=crop" alt="Profile avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover bg-slate-100" referrerpolicy="no-referrer" />
-                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <!-- MAIN CONTENT - VEHICLES -->
-    <main class="pt-20 pb-24 md:pb-8 px-4 sm:px-p-lg max-w-[672px] mx-auto space-y-6 box-border w-full">
-        <!-- Header Section -->
-        <div class="flex items-center justify-between px-0 pb-3 pt-6">
-            <h1 class="text-on-surface text-[22px] font-bold leading-tight tracking-tight">My Vehicles</h1>
-            <button onclick="openModal('addVehicleModal')" class="flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-full font-body-semibold shadow-md hover:bg-primary-container transition-colors shrink-0">
-                <span class="material-symbols-outlined text-[20px]">add</span>
-                <span class="">Add Vehicle</span>
-            </button>
-        </div>
-        
-        <!-- Vehicles List -->
-        <div class="flex flex-col gap-4">
-            <!-- Vehicle Card 1 -->
-            <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm box-border">
-                <div class="flex justify-between items-start">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">directions_car</span>
-                        <p class="text-on-surface text-2xl font-bold">MH12 AB 1234</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="relative">
-                            <button class="menu-btn p-1 rounded-full hover:bg-surface-container transition-colors outline-none">
-                                <span class="material-symbols-outlined text-on-surface-variant cursor-pointer block">more_vert</span>
-                            </button>
-                            <div class="dropdown-menu absolute right-0 top-full mt-1 w-40 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg z-10 flex flex-col overflow-hidden hidden">
-                                <button onclick="editVehicle('v1')" class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full">
-                                    <span class="material-symbols-outlined text-[18px]">edit</span>Edit
-                                </button>
-                                <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border/50">
-                                    <span class="material-symbols-outlined text-[18px]">history</span>History
-                                </button>
-                                <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-error hover:bg-error-container transition-colors text-left w-full border-t border-slate-border/50">
-                                    <span class="material-symbols-outlined text-[18px]">delete</span>Delete
-                                </button>
-                                <button class="cancel-btn flex items-center gap-3 px-4 py-3 text-body-standard text-secondary hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border">
-                                    <span class="material-symbols-outlined text-[18px]">close</span>Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-secondary text-body-standard -mt-2">Toyota Camry • 2021</p>
-                <div class="flex justify-between mt-2 py-3 border-t border-slate-border">
-                    <div class="flex flex-col gap-1 w-1/2">
-                        <div class="flex items-center gap-1 text-label-xs text-status-active">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
-                            <span class="">Insurance Valid Till</span>
-                        </div>
-                        <p class="text-body-semibold text-on-surface">12 Oct 2024</p>
-                    </div>
-                    <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
-                        <div class="flex items-center gap-1 text-label-xs text-status-active">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">eco</span>
-                            <span class="">PUC Valid Till</span>
-                        </div>
-                        <p class="text-body-semibold text-on-surface">15 Nov 2024</p>
-                    </div>
-                </div>
-                <div class="border-t border-slate-border pt-3">
-                    <button class="flex w-full items-center justify-between text-primary-container font-body-semibold text-body-standard" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.chevron').classList.toggle('rotate-180')">
-                        <span>Vehicle Details</span>
-                        <span class="material-symbols-outlined chevron transition-transform">expand_more</span>
-                    </button>
-                    <div class="hidden mt-3 grid grid-cols-2 gap-4 bg-surface-container-low p-3 rounded-lg box-border">
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Odometer</span><p class="text-body-semibold text-on-surface">28,450 km</p></div>
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Current Mileage</span><p class="text-body-semibold text-on-surface">12.5 km/l</p></div>
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Overall Mileage</span><p class="text-body-semibold text-on-surface">11.9 km/l</p></div>
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Last Refuel</span><p class="text-body-semibold text-on-surface">40L on 05 Oct</p></div>
-                        <div class="col-span-2 flex flex-col"><span class="text-label-xs text-secondary uppercase">Next Service</span><p class="text-body-semibold text-on-surface">Oil Change / 20 Nov 2024</p></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Vehicle Card 2 (With Warnings) -->
-            <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm box-border">
-                <div class="flex justify-between items-start">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">directions_car</span>
-                        <p class="text-on-surface text-2xl font-bold">KA01 CD 5678</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="relative">
-                            <button class="menu-btn p-1 rounded-full hover:bg-surface-container transition-colors outline-none">
-                                <span class="material-symbols-outlined text-on-surface-variant cursor-pointer block">more_vert</span>
-                            </button>
-                            <div class="dropdown-menu absolute right-0 top-full mt-1 w-40 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg z-10 flex flex-col overflow-hidden hidden">
-                                <button onclick="editVehicle('v2')" class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full">
-                                    <span class="material-symbols-outlined text-[18px]">edit</span>Edit
-                                </button>
-                                <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border/50">
-                                    <span class="material-symbols-outlined text-[18px]">history</span>History
-                                </button>
-                                <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-error hover:bg-error-container transition-colors text-left w-full border-t border-slate-border/50">
-                                    <span class="material-symbols-outlined text-[18px]">delete</span>Delete
-                                </button>
-                                <button class="cancel-btn flex items-center gap-3 px-4 py-3 text-body-standard text-secondary hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border">
-                                    <span class="material-symbols-outlined text-[18px]">close</span>Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-secondary text-body-standard -mt-2">Honda City • 2019</p>
-                <div class="flex justify-between mt-2 py-3 border-t border-slate-border">
-                    <div class="flex flex-col gap-1 w-1/2">
-                        <div class="flex items-center gap-1 text-label-xs text-status-overdue">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">error</span>
-                            <span class="">Insurance Expired</span>
-                        </div>
-                        <p class="text-body-semibold text-status-overdue">20 Sep 2024</p>
-                    </div>
-                    <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
-                        <div class="flex items-center gap-1 text-label-xs text-status-active">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">eco</span>
-                            <span class="">PUC Valid Till</span>
-                        </div>
-                        <p class="text-body-semibold text-on-surface">05 Jan 2025</p>
-                    </div>
-                </div>
-                <div class="border-t border-slate-border pt-3">
-                    <button class="flex w-full items-center justify-between text-primary-container font-body-semibold text-body-standard" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.chevron').classList.toggle('rotate-180')">
-                        <span>Vehicle Details</span>
-                        <span class="material-symbols-outlined chevron transition-transform">expand_more</span>
-                    </button>
-                    <div class="hidden mt-3 grid grid-cols-2 gap-4 bg-surface-container-low p-3 rounded-lg box-border">
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Odometer</span><p class="text-body-semibold text-on-surface">42,500 km</p></div>
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Current Mileage</span><p class="text-body-semibold text-on-surface">14.2 km/l</p></div>
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Overall Mileage</span><p class="text-body-semibold text-on-surface">13.8 km/l</p></div>
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Last Refuel</span><p class="text-body-semibold text-on-surface">35L on 10 Oct</p></div>
-                        <div class="col-span-2 flex flex-col"><span class="text-label-xs text-secondary uppercase">Next Service</span><p class="text-body-semibold text-on-surface">General Service / 15 Dec 2024</p></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Vehicle Card 3 -->
-            <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm box-border">
-                <div class="flex justify-between items-start">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">directions_car</span>
-                        <p class="text-on-surface text-2xl font-bold">DL10 EF 9012</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="relative">
-                            <button class="menu-btn p-1 rounded-full hover:bg-surface-container transition-colors outline-none">
-                                <span class="material-symbols-outlined text-on-surface-variant cursor-pointer block">more_vert</span>
-                            </button>
-                            <div class="dropdown-menu absolute right-0 top-full mt-1 w-40 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg z-10 flex flex-col overflow-hidden hidden">
-                                <button onclick="editVehicle('v3')" class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full">
-                                    <span class="material-symbols-outlined text-[18px]">edit</span>Edit
-                                </button>
-                                <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border/50">
-                                    <span class="material-symbols-outlined text-[18px]">history</span>History
-                                </button>
-                                <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-error hover:bg-error-container transition-colors text-left w-full border-t border-slate-border/50">
-                                    <span class="material-symbols-outlined text-[18px]">delete</span>Delete
-                                </button>
-                                <button class="cancel-btn flex items-center gap-3 px-4 py-3 text-body-standard text-secondary hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border">
-                                    <span class="material-symbols-outlined text-[18px]">close</span>Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <p class="text-secondary text-body-standard -mt-2">BMW 3 Series • 2023</p>
-                <div class="flex justify-between mt-2 py-3 border-t border-slate-border">
-                    <div class="flex flex-col gap-1 w-1/2">
-                        <div class="flex items-center gap-1 text-label-xs text-status-active">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
-                            <span class="">Insurance Valid Till</span>
-                        </div>
-                        <p class="text-body-semibold text-on-surface">30 Dec 2024</p>
-                    </div>
-                    <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
-                        <div class="flex items-center gap-1 text-label-xs text-status-active">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">eco</span>
-                            <span class="">PUC Valid Till</span>
-                        </div>
-                        <p class="text-body-semibold text-on-surface">12 Feb 2025</p>
-                    </div>
-                </div>
-                <div class="border-t border-slate-border pt-3">
-                    <button class="flex w-full items-center justify-between text-primary-container font-body-semibold text-body-standard" onclick="this.nextElementSibling.classList.toggle('hidden'); this.querySelector('.chevron').classList.toggle('rotate-180')">
-                        <span>Vehicle Details</span>
-                        <span class="material-symbols-outlined chevron transition-transform">expand_more</span>
-                    </button>
-                    <div class="hidden mt-3 grid grid-cols-2 gap-4 bg-surface-container-low p-3 rounded-lg box-border">
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Odometer</span><p class="text-body-semibold text-on-surface">12,100 km</p></div>
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Current Mileage</span><p class="text-body-semibold text-on-surface">16.8 km/l</p></div>
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Overall Mileage</span><p class="text-body-semibold text-on-surface">15.5 km/l</p></div>
-                        <div class="flex flex-col"><span class="text-label-xs text-secondary uppercase">Last Refuel</span><p class="text-body-semibold text-on-surface">45L on 12 Oct</p></div>
-                        <div class="col-span-2 flex flex-col"><span class="text-label-xs text-secondary uppercase">Next Service</span><p class="text-body-semibold text-on-surface">First Inspection / 10 Jan 2025</p></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- BOTTOM NAV BAR (5 tabs - Vehicles active) -->
-    <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-xs transition-colors">
-        <div class="w-full max-w-[672px] mx-auto h-16 px-2 flex justify-around items-center box-border">
-            <!-- Overview -->
-            <a href="dashboard.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="home" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
-                </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Overview</span>
-            </a>
-            
-            <!-- Vehicles (Active) -->
-            <a href="vehicles.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#004ac6] font-bold">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all bg-[#dbe1ff] scale-105 shadow-xs">
-                    <i data-lucide="car" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]"></i>
-                </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Vehicles</span>
-            </a>
-            
-            <!-- Fuel -->
-            <a href="fuel.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="fuel" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
-                </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Fuel</span>
-            </a>
-            
-            <!-- Services -->
-            <a href="service.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="wrench" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
-                </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Services</span>
-            </a>
-            
-            <!-- Analytics -->
-            <a href="analytics.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="bar-chart-3" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
-                </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Analytics</span>
-            </a>
-        </div>
-    </nav>
+    <!-- Trigger Buttons (Demo) -->
+    <div class="trigger-buttons">
+        <button class="trigger-btn btn-vehicle" onclick="openModal('addVehicleModal')">
+            <span class="material-symbols-outlined">add_circle</span>
+            Add Vehicle
+        </button>
+        <button class="trigger-btn btn-fuel" onclick="openModal('addFuelModal')">
+            <span class="material-symbols-outlined">local_gas_station</span>
+            Log Fuel
+        </button>
+        <button class="trigger-btn btn-service" onclick="openModal('addServiceModal')">
+            <span class="material-symbols-outlined">build</span>
+            Log Service
+        </button>
+    </div>
 
     <!-- ============================================ -->
-    <!-- MODAL: ADD/EDIT VEHICLE -->
+    <!-- MODAL 1: ADD VEHICLE -->
     <!-- ============================================ -->
     <div class="modal-overlay" id="addVehicleModal">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10 box-border">
-                <h2 class="text-2xl font-extrabold text-primary" id="modalTitle">Add Vehicle</h2>
+                <h2 class="text-2xl font-extrabold text-primary">Add Vehicle</h2>
                 <button onclick="closeModal('addVehicleModal')" class="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-full hover:bg-slate-100">
                     <span class="material-symbols-outlined">close</span>
                 </button>
@@ -561,7 +147,7 @@
             
             <!-- Modal Body -->
             <div class="p-6 box-border">
-                <form id="vehicleForm" class="space-y-6" onsubmit="event.preventDefault(); closeModal('addVehicleModal');">
+                <form class="space-y-6" onsubmit="event.preventDefault(); closeModal('addVehicleModal');">
                     <!-- Section 1: Vehicle Category -->
                     <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6 box-border">
                         <h3 class="font-bold text-on-surface mb-4">Vehicle Category</h3>
@@ -594,8 +180,6 @@
                                     <option value="hyundai">Hyundai</option>
                                     <option value="tata">Tata Motors</option>
                                     <option value="mahindra">Mahindra</option>
-                                    <option value="toyota">Toyota</option>
-                                    <option value="bmw">BMW</option>
                                 </select>
                             </div>
                             <div>
@@ -646,7 +230,289 @@
                     <!-- Action Button -->
                     <button class="w-full bg-primary text-white rounded-xl py-4 font-semibold shadow-md hover:bg-blue-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 box-border" type="submit">
                         <span class="material-symbols-outlined">save</span>
-                        <span id="saveBtnText">Save Vehicle</span>
+                        Save Vehicle
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MODAL 2: LOG FUEL -->
+    <!-- ============================================ -->
+    <div class="modal-overlay" id="addFuelModal">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10 box-border">
+                <h2 class="text-2xl font-extrabold text-emerald-600">Log Fuel Fill-up</h2>
+                <button onclick="closeModal('addFuelModal')" class="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-full hover:bg-slate-100">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="p-6 box-border">
+                <form class="space-y-4" onsubmit="event.preventDefault(); closeModal('addFuelModal');">
+                    <!-- Section 1: General Details -->
+                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6 box-border">
+                        <div class="space-y-4">
+                            <!-- Vehicle Selection -->
+                            <div>
+                                <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="vehicle-select">Vehicle</label>
+                                <div class="relative">
+                                    <select class="w-full appearance-none bg-slate-50 border border-slate-200 text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="vehicle-select">
+                                        <option disabled selected value="">Select Vehicle</option>
+                                        <option value="v1">Toyota Innova Crysta (MH-12-AB-1234)</option>
+                                        <option value="v2">Tata Ace Gold (MH-14-CD-5678)</option>
+                                        <option value="v3">Mahindra Bolero (MH-12-EF-9012)</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+                                        <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Fuel Company -->
+                            <div>
+                                <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="fuel-company">Fuel Company</label>
+                                <div class="relative">
+                                    <select class="w-full appearance-none bg-slate-50 border border-slate-200 text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="fuel-company">
+                                        <option value="hpcl">Hindustan Petroleum (HPCL)</option>
+                                        <option value="iocl">IndianOil (IOCL)</option>
+                                        <option value="bpcl">Bharat Petroleum (BPCL)</option>
+                                        <option value="nayara">Nayara Energy</option>
+                                        <option value="jio-bp">Jio-bp (Reliance-BP)</option>
+                                        <option value="shell">Shell</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+                                        <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Type of Petrol -->
+                            <div>
+                                <label class="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wider">Type of Petrol</label>
+                                <div class="flex bg-slate-100 rounded-xl p-1 gap-1 box-border">
+                                    <label class="flex-1 text-center cursor-pointer">
+                                        <input checked class="peer sr-only" name="fuel_type" type="radio" value="normal"/>
+                                        <div class="py-2 rounded-lg transition-all peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-emerald-600 peer-checked:font-semibold text-sm text-slate-600 hover:bg-slate-200">
+                                            Normal E20
+                                        </div>
+                                    </label>
+                                    <label class="flex-1 text-center cursor-pointer">
+                                        <input class="peer sr-only" name="fuel_type" type="radio" value="premium"/>
+                                        <div class="py-2 rounded-lg transition-all peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-emerald-600 peer-checked:font-semibold text-sm text-slate-600 hover:bg-slate-200">
+                                            Xtra Premium
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 2: Time & Place -->
+                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6 box-border">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="fill-date">Date</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                        <span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                                    </div>
+                                    <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="fill-date" type="date"/>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="fill-time">Time</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                        <span class="material-symbols-outlined text-[18px]">schedule</span>
+                                    </div>
+                                    <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="fill-time" type="time"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 3: Metrics -->
+                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6 box-border">
+                        <div class="flex flex-col gap-4">
+                            <div>
+                                <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="odometer-fuel">Odometer (km)</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                        <span class="material-symbols-outlined text-[18px]">speed</span>
+                                    </div>
+                                    <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="odometer-fuel" placeholder="e.g. 45020" type="number"/>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="rate">Rate / Liter (₹)</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                            <span class="font-semibold">₹</span>
+                                        </div>
+                                        <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-8 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="rate" placeholder="115.50" step="0.01" type="number"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="volume">Fuel Filled (L)</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                                            <span class="material-symbols-outlined text-[18px]">local_gas_station</span>
+                                        </div>
+                                        <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="volume" placeholder="30.5" step="0.1" type="number"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 mt-2 flex items-center justify-between box-border">
+                                <div>
+                                    <label class="text-xs font-semibold text-slate-600 block uppercase tracking-wider" for="total-cost">Total Cost (₹)</label>
+                                    <p class="text-xs text-slate-400 mt-0.5">Calculated automatically</p>
+                                </div>
+                                <div class="relative w-1/2">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-600">
+                                        <span class="font-bold">₹</span>
+                                    </div>
+                                    <input class="w-full bg-white border-none font-bold text-lg text-slate-900 text-right rounded-lg pl-8 pr-3 py-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-shadow box-border" id="total-cost" placeholder="0.00" step="0.01" type="number"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Section 4: Notes -->
+                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6 box-border">
+                        <div>
+                            <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="notes">Notes (Optional)</label>
+                            <textarea class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow resize-none box-border" id="notes" placeholder="Add any details about this fill-up..." rows="3"></textarea>
+                        </div>
+                    </section>
+
+                    <!-- Action Button -->
+                    <button class="w-full bg-emerald-600 text-white rounded-xl py-4 font-semibold shadow-md hover:bg-emerald-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 box-border" type="submit">
+                        <span class="material-symbols-outlined">save</span>
+                        Save Fuel Log
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MODAL 3: LOG SERVICE -->
+    <!-- ============================================ -->
+    <div class="modal-overlay" id="addServiceModal">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10 box-border">
+                <h2 class="text-2xl font-extrabold text-blue-600">Log Service</h2>
+                <button onclick="closeModal('addServiceModal')" class="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-full hover:bg-slate-100">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="p-6 box-border">
+                <form class="space-y-6" onsubmit="event.preventDefault(); closeModal('addServiceModal');">
+                    <!-- Core Details Card -->
+                    <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-border p-6 space-y-4 box-border">
+                        <h3 class="font-bold text-on-surface mb-2">Vehicle Details</h3>
+                        <!-- Vehicle Selection -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Choose Vehicle *</label>
+                            <div class="relative">
+                                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border">
+                                    <option disabled selected value="">Select a vehicle...</option>
+                                    <option value="KL-01-AB-1234">KL-01-AB-1234 (Toyota Innova)</option>
+                                    <option value="MH-12-CD-5678">MH-12-CD-5678 (Honda City)</option>
+                                    <option value="KA-03-EF-9012">KA-03-EF-9012 (Suzuki Swift)</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                                    <span class="material-symbols-outlined">expand_more</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Service Date & Odometer -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Service Date *</label>
+                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" type="date" value="2026-09-01"/>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Odometer (km) *</label>
+                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="e.g. 45000" type="number"/>
+                            </div>
+                        </div>
+                        <!-- Service Type -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Service Type *</label>
+                            <div class="relative">
+                                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border">
+                                    <option value="general">General Service</option>
+                                    <option value="periodic">Periodic Maintenance</option>
+                                    <option value="repair">Repair / Replacement</option>
+                                    <option value="oil">Oil Change</option>
+                                    <option value="inspection">Inspection / Tuning</option>
+                                    <option value="paint">Paint Job</option>
+                                    <option value="other">Others</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                                    <span class="material-symbols-outlined">expand_more</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Total Bill -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Total Bill (₹) *</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <span class="text-slate-500 font-semibold">₹</span>
+                                </div>
+                                <input class="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="0.00" type="number"/>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Workshop Details -->
+                    <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-border p-6 space-y-4 box-border">
+                        <h3 class="font-bold text-on-surface mb-2">Workshop Details</h3>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Work Carried Out By</label>
+                            <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="e.g. John Doe" type="text"/>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Workshop Name</label>
+                            <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="e.g. Apex Auto Care" type="text"/>
+                        </div>
+                    </section>
+
+                    <!-- Tasks & Remarks -->
+                    <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-border p-6 space-y-4 box-border">
+                        <h3 class="font-bold text-on-surface mb-2">Tasks &amp; Remarks</h3>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Remarks / Services Completed</label>
+                            <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50 box-border">
+                                <div class="p-2 box-border">
+                                    <div class="relative flex items-center">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <span class="material-symbols-outlined text-slate-400 text-[20px]">search</span>
+                                        </div>
+                                        <input class="w-full bg-white border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent box-border" placeholder="Search services (e.g. Oil, Brake, Chain)..." type="text"/>
+                                    </div>
+                                </div>
+                                <div class="border-t border-slate-200"></div>
+                                <div class="p-4 min-h-[60px] flex items-center box-border">
+                                    <p class="text-slate-400 italic text-sm">Please select a vehicle first...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Action Button -->
+                    <button class="w-full bg-blue-600 text-white rounded-xl py-4 font-semibold shadow-md hover:bg-blue-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 box-border" type="submit">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">save</span>
+                        Save Service Record
                     </button>
                 </form>
             </div>
@@ -655,40 +521,15 @@
 
     <!-- JavaScript -->
     <script>
-        // Initialize Lucide icons
-        lucide.createIcons();
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
 
-        // Simple micro-interaction for the vehicle cards
-        document.querySelectorAll('.vehicle-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                if (e.target.tagName !== 'BUTTON' && e.target.closest('button') === null) {
-                    console.log('Vehicle selected');
-                }
-            });
-        });
-        
-        // Menu toggle logic
-        document.addEventListener('click', (e) => {
-            const isMenuBtn = e.target.closest('.menu-btn');
-            const isCancelBtn = e.target.closest('.cancel-btn');
-            
-            // Close all menus first if not clicking inside a menu, or if cancel clicked
-            if (!e.target.closest('.dropdown-menu') || isCancelBtn) {
-                document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                    if (!isMenuBtn || menu.previousElementSibling !== isMenuBtn) {
-                        menu.classList.add('hidden');
-                    }
-                });
-            }
-
-            // Toggle current menu
-            if (isMenuBtn) {
-                const menu = isMenuBtn.nextElementSibling;
-                if (menu) {
-                    menu.classList.toggle('hidden');
-                }
-            }
-        });
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
 
         // Close modal when clicking outside the modal content
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
@@ -709,6 +550,52 @@
                 });
             }
         });
+
+        // Auto-calculate for fuel form (bidirectional)
+        document.addEventListener('DOMContentLoaded', function() {
+            const rateInput = document.getElementById('rate');
+            const volumeInput = document.getElementById('volume');
+            const totalInput = document.getElementById('total-cost');
+
+            if (rateInput && volumeInput && totalInput) {
+                const calculateTotal = () => {
+                    const rate = parseFloat(rateInput.value) || 0;
+                    const volume = parseFloat(volumeInput.value) || 0;
+                    if (rate > 0 && volume > 0) {
+                        totalInput.value = (rate * volume).toFixed(2);
+                    } else {
+                        totalInput.value = '';
+                    }
+                };
+
+                const calculateVolume = () => {
+                    const rate = parseFloat(rateInput.value) || 0;
+                    const total = parseFloat(totalInput.value) || 0;
+                    if (rate > 0 && total > 0) {
+                        volumeInput.value = (total / rate).toFixed(2);
+                    } else {
+                        volumeInput.value = '';
+                    }
+                };
+
+                rateInput.addEventListener('input', calculateTotal);
+                volumeInput.addEventListener('input', calculateTotal);
+                totalInput.addEventListener('input', calculateVolume);
+            }
+
+            // Set default date and time for fuel form
+            const now = new Date();
+            const dateInput = document.getElementById('fill-date');
+            if (dateInput) dateInput.valueAsDate = now;
+            
+            const timeInput = document.getElementById('fill-time');
+            if (timeInput) {
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                timeInput.value = `${hours}:${minutes}`;
+            }
+        });
     </script>
+
 </body>
 </html>
