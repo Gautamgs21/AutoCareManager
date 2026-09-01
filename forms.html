@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
     <title>AutoCare - Forms</title>
     
     <!-- Tailwind CSS CDN -->
@@ -16,6 +16,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
     
     <style>
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            -webkit-text-size-adjust: 100%;
+        }
         body { font-family: 'Inter', sans-serif; background: #f7f9fb; }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -34,7 +41,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            /* Removed overflow-y: auto from here to hide outer scrollbars */
+            box-sizing: border-box;
         }
         .modal-overlay.active {
             display: flex;
@@ -44,12 +51,13 @@
             border-radius: 16px;
             max-width: 672px;
             width: 100%;
-            max-height: 90vh; /* Limits height to screen */
+            max-height: 90vh;
+            overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             animation: modalSlideIn 0.3s ease-out;
-            scrollbar-width: none; /* Hides scrollbar for Firefox */
+            scrollbar-width: none;
+            box-sizing: border-box;
         }
-        /* Hides scrollbar for Chrome, Safari, and Opera */
         .modal-content::-webkit-scrollbar {
             display: none;
         }
@@ -63,7 +71,6 @@
                 transform: translateY(0) scale(1);
             }
         }
-        /* Hide number input spinners */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none; 
@@ -80,6 +87,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            box-sizing: border-box;
         }
         .trigger-btn {
             padding: 16px 32px;
@@ -130,7 +138,7 @@
     <div class="modal-overlay" id="addVehicleModal">
         <div class="modal-content">
             <!-- Modal Header -->
-            <div class="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10">
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10 box-border">
                 <h2 class="text-2xl font-extrabold text-primary">Add Vehicle</h2>
                 <button onclick="closeModal('addVehicleModal')" class="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-full hover:bg-slate-100">
                     <span class="material-symbols-outlined">close</span>
@@ -138,19 +146,19 @@
             </div>
             
             <!-- Modal Body -->
-            <div class="p-6">
+            <div class="p-6 box-border">
                 <form class="space-y-6" onsubmit="event.preventDefault(); closeModal('addVehicleModal');">
                     <!-- Section 1: Vehicle Category -->
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6">
+                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6 box-border">
                         <h3 class="font-bold text-on-surface mb-4">Vehicle Category</h3>
                         <div class="grid grid-cols-2 gap-4">
-                            <label class="relative flex flex-col items-center justify-center p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors group">
+                            <label class="relative flex flex-col items-center justify-center p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors group box-border">
                                 <input checked class="peer sr-only" name="vehicleCategory" type="radio" value="four_wheeler"/>
                                 <div class="peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary absolute inset-0 rounded-xl pointer-events-none"></div>
                                 <span class="material-symbols-outlined text-4xl text-slate-400 peer-checked:text-primary mb-2">directions_car</span>
                                 <span class="font-semibold text-sm text-slate-600 peer-checked:text-primary">Four Wheeler</span>
                             </label>
-                            <label class="relative flex flex-col items-center justify-center p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors group">
+                            <label class="relative flex flex-col items-center justify-center p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors group box-border">
                                 <input class="peer sr-only" name="vehicleCategory" type="radio" value="two_wheeler"/>
                                 <div class="peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary absolute inset-0 rounded-xl pointer-events-none"></div>
                                 <span class="material-symbols-outlined text-4xl text-slate-400 peer-checked:text-primary mb-2">motorcycle</span>
@@ -160,12 +168,12 @@
                     </section>
 
                     <!-- Section 2: Basic Details -->
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6">
+                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6 box-border">
                         <h3 class="font-bold text-on-surface mb-4">Basic Details</h3>
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="make">Make</label>
-                                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="make">
+                                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border" id="make">
                                     <option disabled selected value="">Select Make</option>
                                     <option value="maruti">Maruti Suzuki</option>
                                     <option value="honda">Honda</option>
@@ -176,21 +184,21 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="model">Model</label>
-                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="model" placeholder="e.g. Swift, City" type="text"/>
+                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border" id="model" placeholder="e.g. Swift, City" type="text"/>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="registration">Registration No.</label>
-                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all uppercase" id="registration" placeholder="MH 01 AB 1234" type="text"/>
+                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all uppercase box-border" id="registration" placeholder="MH 01 AB 1234" type="text"/>
                             </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="year">Year</label>
-                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="year" max="2024" min="1990" placeholder="YYYY" type="number"/>
+                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border" id="year" max="2026" min="1990" placeholder="YYYY" type="number"/>
                                 </div>
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="odometer">Starting Odo</label>
                                     <div class="relative">
-                                        <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="odometer" placeholder="0" type="number"/>
+                                        <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border" id="odometer" placeholder="0" type="number"/>
                                         <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-500">KM</span>
                                     </div>
                                 </div>
@@ -199,20 +207,20 @@
                     </section>
 
                     <!-- Section 3: Document Expiry -->
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6">
+                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6 box-border">
                         <h3 class="font-bold text-on-surface mb-4">Document Expiry</h3>
                         <div class="space-y-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="insurance_expiry">Insurance Expiry Date</label>
                                 <div class="relative">
-                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pl-10 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="insurance_expiry" type="date"/>
+                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pl-10 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border" id="insurance_expiry" type="date"/>
                                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">calendar_today</span>
                                 </div>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="puc_expiry">Pollution Cert (PUC) Expiry</label>
                                 <div class="relative">
-                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pl-10 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="puc_expiry" type="date"/>
+                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pl-10 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border" id="puc_expiry" type="date"/>
                                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">eco</span>
                                 </div>
                             </div>
@@ -220,7 +228,7 @@
                     </section>
 
                     <!-- Action Button -->
-                    <button class="w-full bg-primary text-white rounded-xl py-4 font-semibold shadow-md hover:bg-blue-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2" type="submit">
+                    <button class="w-full bg-primary text-white rounded-xl py-4 font-semibold shadow-md hover:bg-blue-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 box-border" type="submit">
                         <span class="material-symbols-outlined">save</span>
                         Save Vehicle
                     </button>
@@ -235,7 +243,7 @@
     <div class="modal-overlay" id="addFuelModal">
         <div class="modal-content">
             <!-- Modal Header -->
-            <div class="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10">
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10 box-border">
                 <h2 class="text-2xl font-extrabold text-emerald-600">Log Fuel Fill-up</h2>
                 <button onclick="closeModal('addFuelModal')" class="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-full hover:bg-slate-100">
                     <span class="material-symbols-outlined">close</span>
@@ -243,16 +251,16 @@
             </div>
             
             <!-- Modal Body -->
-            <div class="p-6">
+            <div class="p-6 box-border">
                 <form class="space-y-4" onsubmit="event.preventDefault(); closeModal('addFuelModal');">
                     <!-- Section 1: General Details -->
-                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6">
+                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6 box-border">
                         <div class="space-y-4">
                             <!-- Vehicle Selection -->
                             <div>
                                 <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="vehicle-select">Vehicle</label>
                                 <div class="relative">
-                                    <select class="w-full appearance-none bg-slate-50 border border-slate-200 text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow" id="vehicle-select">
+                                    <select class="w-full appearance-none bg-slate-50 border border-slate-200 text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="vehicle-select">
                                         <option disabled selected value="">Select Vehicle</option>
                                         <option value="v1">Toyota Innova Crysta (MH-12-AB-1234)</option>
                                         <option value="v2">Tata Ace Gold (MH-14-CD-5678)</option>
@@ -267,7 +275,7 @@
                             <div>
                                 <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="fuel-company">Fuel Company</label>
                                 <div class="relative">
-                                    <select class="w-full appearance-none bg-slate-50 border border-slate-200 text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow" id="fuel-company">
+                                    <select class="w-full appearance-none bg-slate-50 border border-slate-200 text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="fuel-company">
                                         <option value="hpcl">Hindustan Petroleum (HPCL)</option>
                                         <option value="iocl">IndianOil (IOCL)</option>
                                         <option value="bpcl">Bharat Petroleum (BPCL)</option>
@@ -284,7 +292,7 @@
                             <!-- Type of Petrol -->
                             <div>
                                 <label class="text-xs font-semibold text-slate-600 block mb-2 uppercase tracking-wider">Type of Petrol</label>
-                                <div class="flex bg-slate-100 rounded-xl p-1 gap-1">
+                                <div class="flex bg-slate-100 rounded-xl p-1 gap-1 box-border">
                                     <label class="flex-1 text-center cursor-pointer">
                                         <input checked class="peer sr-only" name="fuel_type" type="radio" value="normal"/>
                                         <div class="py-2 rounded-lg transition-all peer-checked:bg-white peer-checked:shadow-sm peer-checked:text-emerald-600 peer-checked:font-semibold text-sm text-slate-600 hover:bg-slate-200">
@@ -303,7 +311,7 @@
                     </section>
 
                     <!-- Section 2: Time & Place -->
-                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6">
+                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6 box-border">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="fill-date">Date</label>
@@ -311,7 +319,7 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                         <span class="material-symbols-outlined text-[18px]">calendar_today</span>
                                     </div>
-                                    <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow" id="fill-date" type="date"/>
+                                    <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="fill-date" type="date"/>
                                 </div>
                             </div>
                             <div>
@@ -320,14 +328,14 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                         <span class="material-symbols-outlined text-[18px]">schedule</span>
                                     </div>
-                                    <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow" id="fill-time" type="time"/>
+                                    <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="fill-time" type="time"/>
                                 </div>
                             </div>
                         </div>
                     </section>
 
                     <!-- Section 3: Metrics -->
-                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6">
+                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6 box-border">
                         <div class="flex flex-col gap-4">
                             <div>
                                 <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="odometer-fuel">Odometer (km)</label>
@@ -335,7 +343,7 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                         <span class="material-symbols-outlined text-[18px]">speed</span>
                                     </div>
-                                    <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow" id="odometer-fuel" placeholder="e.g. 45020" type="number"/>
+                                    <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="odometer-fuel" placeholder="e.g. 45020" type="number"/>
                                 </div>
                             </div>
                             <div class="grid grid-cols-2 gap-4">
@@ -345,7 +353,7 @@
                                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                             <span class="font-semibold">₹</span>
                                         </div>
-                                        <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-8 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow" id="rate" placeholder="115.50" step="0.01" type="number"/>
+                                        <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-8 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="rate" placeholder="115.50" step="0.01" type="number"/>
                                     </div>
                                 </div>
                                 <div>
@@ -354,11 +362,11 @@
                                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                                             <span class="material-symbols-outlined text-[18px]">local_gas_station</span>
                                         </div>
-                                        <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow" id="volume" placeholder="30.5" step="0.1" type="number"/>
+                                        <input class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="volume" placeholder="30.5" step="0.1" type="number"/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 mt-2 flex items-center justify-between">
+                            <div class="bg-slate-50 rounded-xl border border-slate-200 p-4 mt-2 flex items-center justify-between box-border">
                                 <div>
                                     <label class="text-xs font-semibold text-slate-600 block uppercase tracking-wider" for="total-cost">Total Cost (₹)</label>
                                     <p class="text-xs text-slate-400 mt-0.5">Calculated automatically</p>
@@ -367,22 +375,22 @@
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-600">
                                         <span class="font-bold">₹</span>
                                     </div>
-                                    <input class="w-full bg-white border-none font-bold text-lg text-slate-900 text-right rounded-lg pl-8 pr-3 py-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-shadow" id="total-cost" placeholder="0.00" step="0.01" type="number"/>
+                                    <input class="w-full bg-white border-none font-bold text-lg text-slate-900 text-right rounded-lg pl-8 pr-3 py-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-shadow box-border" id="total-cost" placeholder="0.00" step="0.01" type="number"/>
                                 </div>
                             </div>
                         </div>
                     </section>
 
                     <!-- Section 4: Notes -->
-                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6">
+                    <section class="bg-surface-container-lowest rounded-2xl shadow-sm border border-slate-border p-6 box-border">
                         <div>
                             <label class="text-xs font-semibold text-slate-600 block mb-1 uppercase tracking-wider" for="notes">Notes (Optional)</label>
-                            <textarea class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow resize-none" id="notes" placeholder="Add any details about this fill-up..." rows="3"></textarea>
+                            <textarea class="w-full bg-slate-50 border border-slate-200 text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow resize-none box-border" id="notes" placeholder="Add any details about this fill-up..." rows="3"></textarea>
                         </div>
                     </section>
 
                     <!-- Action Button -->
-                    <button class="w-full bg-emerald-600 text-white rounded-xl py-4 font-semibold shadow-md hover:bg-emerald-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2" type="submit">
+                    <button class="w-full bg-emerald-600 text-white rounded-xl py-4 font-semibold shadow-md hover:bg-emerald-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 box-border" type="submit">
                         <span class="material-symbols-outlined">save</span>
                         Save Fuel Log
                     </button>
@@ -397,7 +405,7 @@
     <div class="modal-overlay" id="addServiceModal">
         <div class="modal-content">
             <!-- Modal Header -->
-            <div class="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10">
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10 box-border">
                 <h2 class="text-2xl font-extrabold text-blue-600">Log Service</h2>
                 <button onclick="closeModal('addServiceModal')" class="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-full hover:bg-slate-100">
                     <span class="material-symbols-outlined">close</span>
@@ -405,16 +413,16 @@
             </div>
             
             <!-- Modal Body -->
-            <div class="p-6">
+            <div class="p-6 box-border">
                 <form class="space-y-6" onsubmit="event.preventDefault(); closeModal('addServiceModal');">
                     <!-- Core Details Card -->
-                    <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-border p-6 space-y-4">
+                    <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-border p-6 space-y-4 box-border">
                         <h3 class="font-bold text-on-surface mb-2">Vehicle Details</h3>
                         <!-- Vehicle Selection -->
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Choose Vehicle *</label>
                             <div class="relative">
-                                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border">
                                     <option disabled selected value="">Select a vehicle...</option>
                                     <option value="KL-01-AB-1234">KL-01-AB-1234 (Toyota Innova)</option>
                                     <option value="MH-12-CD-5678">MH-12-CD-5678 (Honda City)</option>
@@ -429,18 +437,18 @@
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Service Date *</label>
-                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" type="date" value="2025-05-14"/>
+                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" type="date" value="2026-09-01"/>
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Odometer (km) *</label>
-                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="e.g. 45000" type="number"/>
+                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="e.g. 45000" type="number"/>
                             </div>
                         </div>
                         <!-- Service Type -->
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Service Type *</label>
                             <div class="relative">
-                                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border">
                                     <option value="general">General Service</option>
                                     <option value="periodic">Periodic Maintenance</option>
                                     <option value="repair">Repair / Replacement</option>
@@ -461,40 +469,40 @@
                                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                                     <span class="text-slate-500 font-semibold">₹</span>
                                 </div>
-                                <input class="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="0.00" type="number"/>
+                                <input class="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="0.00" type="number"/>
                             </div>
                         </div>
                     </section>
 
                     <!-- Workshop Details -->
-                    <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-border p-6 space-y-4">
+                    <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-border p-6 space-y-4 box-border">
                         <h3 class="font-bold text-on-surface mb-2">Workshop Details</h3>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Work Carried Out By</label>
-                            <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="e.g. John Doe" type="text"/>
+                            <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="e.g. John Doe" type="text"/>
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Workshop Name</label>
-                            <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" placeholder="e.g. Apex Auto Care" type="text"/>
+                            <input class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="e.g. Apex Auto Care" type="text"/>
                         </div>
                     </section>
 
                     <!-- Tasks & Remarks -->
-                    <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-border p-6 space-y-4">
+                    <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-slate-border p-6 space-y-4 box-border">
                         <h3 class="font-bold text-on-surface mb-2">Tasks &amp; Remarks</h3>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1 uppercase tracking-wider">Remarks / Services Completed</label>
-                            <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
-                                <div class="p-2">
+                            <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50 box-border">
+                                <div class="p-2 box-border">
                                     <div class="relative flex items-center">
                                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <span class="material-symbols-outlined text-slate-400 text-[20px]">search</span>
                                         </div>
-                                        <input class="w-full bg-white border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Search services (e.g. Oil, Brake, Chain)..." type="text"/>
+                                        <input class="w-full bg-white border border-slate-200 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent box-border" placeholder="Search services (e.g. Oil, Brake, Chain)..." type="text"/>
                                     </div>
                                 </div>
                                 <div class="border-t border-slate-200"></div>
-                                <div class="p-4 min-h-[60px] flex items-center">
+                                <div class="p-4 min-h-[60px] flex items-center box-border">
                                     <p class="text-slate-400 italic text-sm">Please select a vehicle first...</p>
                                 </div>
                             </div>
@@ -502,7 +510,7 @@
                     </section>
 
                     <!-- Action Button -->
-                    <button class="w-full bg-blue-600 text-white rounded-xl py-4 font-semibold shadow-md hover:bg-blue-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2" type="submit">
+                    <button class="w-full bg-blue-600 text-white rounded-xl py-4 font-semibold shadow-md hover:bg-blue-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 box-border" type="submit">
                         <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">save</span>
                         Save Service Record
                     </button>
