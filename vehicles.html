@@ -171,321 +171,392 @@
     
     <script>
         // Modal functions
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
+        function openModal(modalId, vehicleData) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // If vehicle data is provided, populate the form for editing
+            if (vehicleData) {
+                populateVehicleForm(vehicleData);
+            }
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
             document.body.style.overflow = 'auto';
+            // Reset form when closing
+            resetVehicleForm();
+        }
+
+        function populateVehicleForm(data) {
+            // Set form values for editing
+            const categoryRadios = document.querySelectorAll('input[name="vehicleCategory"]');
+            categoryRadios.forEach(radio => {
+                radio.checked = radio.value === data.category;
+            });
+            
+            document.getElementById('make').value = data.make || '';
+            document.getElementById('model').value = data.model || '';
+            document.getElementById('registration').value = data.registration || '';
+            document.getElementById('year').value = data.year || '';
+            document.getElementById('odometer').value = data.odometer || '';
+            document.getElementById('insurance_expiry').value = data.insuranceExpiry || '';
+            document.getElementById('puc_expiry').value = data.pucExpiry || '';
+            
+            // Change modal title to "Edit Vehicle"
+            document.querySelector('#addVehicleModal .modal-header h2').textContent = 'Edit Vehicle';
+            // Change submit button text
+            const submitBtn = document.querySelector('#addVehicleModal .submit-btn');
+            submitBtn.innerHTML = '<span class="material-symbols-outlined">edit</span> Update Vehicle';
+        }
+
+        function resetVehicleForm() {
+            // Reset form to default state
+            document.querySelector('#addVehicleModal .modal-header h2').textContent = 'Add Vehicle';
+            const submitBtn = document.querySelector('#addVehicleModal .submit-btn');
+            submitBtn.innerHTML = '<span class="material-symbols-outlined">save</span> Save Vehicle';
+            
+            // Clear form fields
+            document.getElementById('make').value = '';
+            document.getElementById('model').value = '';
+            document.getElementById('registration').value = '';
+            document.getElementById('year').value = '';
+            document.getElementById('odometer').value = '';
+            document.getElementById('insurance_expiry').value = '';
+            document.getElementById('puc_expiry').value = '';
+            
+            // Reset radio to default
+            document.querySelector('input[name="vehicleCategory"][value="four_wheeler"]').checked = true;
         }
     </script>
 </head>
-<body class="bg-background text-on-background font-body-standard antialiased">
+<body class="bg-background text-on-background font-body-standard antialiased min-h-screen flex justify-center">
+    <div class="relative flex min-h-screen w-full max-w-[672px] flex-col bg-surface-bright shadow-xl overflow-x-hidden">
 
-    <!-- TOP APP BAR -->
-    <header id="top-bar" class="fixed top-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-colors">
-        <div class="max-w-6xl mx-auto h-16 px-4 sm:px-8 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <a href="dashboard.html" id="top-logo-btn" class="flex items-center gap-3 text-left group cursor-pointer focus:outline-none" aria-label="AutoCare Dashboard">
-                    <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shadow-xs border border-slate-100 overflow-hidden">
-                        <i data-lucide="car" class="w-5 h-5 text-emerald-600"></i>
-                    </div>
-                    <div>
-                        <span class="font-bold text-lg sm:text-xl tracking-tight text-slate-900">
-                            AutoCare <span class="text-emerald-600 font-semibold text-xs sm:text-sm">v1.0</span>
-                        </span>
-                    </div>
+        <!-- TOP APP BAR -->
+        <header class="sticky top-0 z-20 bg-surface-bright/90 backdrop-blur-md border-b border-slate-border">
+            <div class="flex items-center p-4 justify-between">
+                <a href="dashboard.html" class="text-on-surface flex size-12 shrink-0 items-center">
+                    <span class="material-symbols-outlined text-2xl">menu</span>
                 </a>
+                <h2 class="text-on-surface text-headline-page flex-1 text-center font-bold">AutoCare</h2>
+                <div class="flex w-12 items-center justify-end">
+                    <a href="settings.html" class="flex items-center justify-center rounded-lg h-12 bg-transparent text-on-surface">
+                        <span class="material-symbols-outlined text-2xl">account_circle</span>
+                    </a>
+                </div>
             </div>
-            <div class="flex items-center gap-2.5 sm:gap-4">
-                <a href="settings.html" id="top-profile-btn" class="relative rounded-full p-0.5 border-2 border-slate-200 shadow-xs hover:scale-105 transition-all cursor-pointer" aria-label="Profile and Settings">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=300&auto=format&fit=crop" alt="Profile avatar" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover bg-slate-100" referrerpolicy="no-referrer" />
-                    <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"></span>
-                </a>
-            </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- MAIN CONTENT - VEHICLES -->
-    <main class="pt-20 pb-24 md:pb-8 px-p-lg max-w-[672px] mx-auto space-y-6">
-        <!-- Header Section -->
-        <div class="flex items-center justify-between px-0 pb-3 pt-6">
-            <h1 class="text-on-surface text-[22px] font-bold leading-tight tracking-tight">My Vehicles</h1>
-            <button onclick="openModal('addVehicleModal')" class="flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-full font-body-semibold shadow-md hover:bg-primary-container transition-colors">
-                <span class="material-symbols-outlined text-[20px]">add</span>
-                <span class="">Add Vehicle</span>
-            </button>
-        </div>
-        
-        <!-- Vehicles List -->
-        <div class="flex flex-col gap-4">
-            <!-- Vehicle Card 1 -->
-            <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm">
-                <div class="flex justify-between items-start">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">directions_car</span>
-                        <p class="text-on-surface text-2xl font-bold">MH12 AB 1234</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-status-active bg-status-active/10 px-2 py-0.5 rounded text-micro-nav uppercase">Active</span>
-                        <span class="material-symbols-outlined text-on-surface-variant cursor-pointer">more_vert</span>
-                    </div>
-                </div>
-                <p class="text-secondary text-body-standard -mt-2">Toyota Camry • 2021</p>
-                <div class="flex justify-between mt-2 py-3 border-y border-slate-border">
-                    <div class="flex flex-col gap-1 w-1/2">
-                        <div class="flex items-center gap-1 text-label-xs text-status-active">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
-                            <span class="">Insurance Valid Till</span>
-                        </div>
-                        <p class="text-body-semibold text-on-surface">12 Oct 2024</p>
-                    </div>
-                    <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
-                        <div class="flex items-center gap-1 text-label-xs text-status-active">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">eco</span>
-                            <span class="">PUC Valid Till</span>
-                        </div>
-                        <p class="text-body-semibold text-on-surface">15 Nov 2024</p>
-                    </div>
-                </div>
-                <div class="flex gap-3 pt-2">
-                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg border border-outline text-on-surface-variant font-body-semibold hover:bg-surface-container transition-colors">
-                        <span class="material-symbols-outlined text-[18px]">edit</span>Edit Details
-                    </button>
-                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg bg-secondary-container text-on-secondary-container font-body-semibold hover:opacity-90 transition-opacity">
-                        <span class="material-symbols-outlined text-[18px]">history</span>History
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Vehicle Card 2 (With Warnings) -->
-            <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm">
-                <div class="flex justify-between items-start">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">directions_car</span>
-                        <p class="text-on-surface text-2xl font-bold">KA01 CD 5678</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-status-warning bg-status-warning/10 px-2 py-0.5 rounded text-micro-nav uppercase">Renewal Due</span>
-                        <span class="material-symbols-outlined text-on-surface-variant cursor-pointer">more_vert</span>
-                    </div>
-                </div>
-                <p class="text-secondary text-body-standard -mt-2">Honda City • 2019</p>
-                <div class="flex justify-between mt-2 py-3 border-y border-slate-border">
-                    <div class="flex flex-col gap-1 w-1/2">
-                        <div class="flex items-center gap-1 text-label-xs text-status-overdue">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">error</span>
-                            <span class="">Insurance Expiring</span>
-                        </div>
-                        <p class="text-body-semibold text-status-overdue">20 Sep 2024</p>
-                    </div>
-                    <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
-                        <div class="flex items-center gap-1 text-label-xs text-status-active">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">eco</span>
-                            <span class="">PUC Valid Till</span>
-                        </div>
-                        <p class="text-body-semibold text-on-surface">05 Jan 2025</p>
-                    </div>
-                </div>
-                <div class="flex gap-3 pt-2">
-                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg border border-outline text-on-surface-variant font-body-semibold hover:bg-surface-container transition-colors">
-                        <span class="material-symbols-outlined text-[18px]">edit</span>Edit Details
-                    </button>
-                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg bg-status-warning text-on-primary font-body-semibold hover:opacity-90 transition-opacity">
-                        Renew Now
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Vehicle Card 3 -->
-            <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm">
-                <div class="flex justify-between items-start">
-                    <div class="flex items-center gap-3">
-                        <span class="material-symbols-outlined text-primary-container text-3xl" style="font-variation-settings: 'FILL' 1;">directions_car</span>
-                        <p class="text-on-surface text-2xl font-bold">DL10 EF 9012</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-status-active bg-status-active/10 px-2 py-0.5 rounded text-micro-nav uppercase">Active</span>
-                        <span class="material-symbols-outlined text-on-surface-variant cursor-pointer">more_vert</span>
-                    </div>
-                </div>
-                <p class="text-secondary text-body-standard -mt-2">BMW 3 Series • 2023</p>
-                <div class="flex justify-between mt-2 py-3 border-y border-slate-border">
-                    <div class="flex flex-col gap-1 w-1/2">
-                        <div class="flex items-center gap-1 text-label-xs text-status-active">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
-                            <span class="">Insurance Valid Till</span>
-                        </div>
-                        <p class="text-body-semibold text-on-surface">30 Dec 2024</p>
-                    </div>
-                    <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
-                        <div class="flex items-center gap-1 text-label-xs text-status-active">
-                            <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">eco</span>
-                            <span class="">PUC Valid Till</span>
-                        </div>
-                        <p class="text-body-semibold text-on-surface">12 Feb 2025</p>
-                    </div>
-                </div>
-                <div class="flex gap-3 pt-2">
-                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg border border-outline text-on-surface-variant font-body-semibold hover:bg-surface-container transition-colors">
-                        <span class="material-symbols-outlined text-[18px]">edit</span>Edit Details
-                    </button>
-                    <button class="flex-1 flex items-center justify-center gap-2 h-10 rounded-lg bg-secondary-container text-on-secondary-container font-body-semibold hover:opacity-90 transition-opacity">
-                        <span class="material-symbols-outlined text-[18px]">history</span>History
-                    </button>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- BOTTOM NAV BAR (5 tabs - Vehicles active) -->
-    <nav id="bottom-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-xs transition-colors">
-        <div class="max-w-6xl mx-auto h-16 px-2 sm:px-4 flex justify-around items-center">
-            <!-- Overview -->
-            <a href="dashboard.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="home" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
-                </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Overview</span>
-            </a>
-            
-            <!-- Vehicles (Active) -->
-            <a href="vehicles.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#004ac6] font-bold">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all bg-[#dbe1ff] scale-105 shadow-xs">
-                    <i data-lucide="car" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]"></i>
-                </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Vehicles</span>
-            </a>
-            
-            <!-- Fuel -->
-            <a href="fuel.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="fuel" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
-                </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Fuel</span>
-            </a>
-            
-            <!-- Services -->
-            <a href="service.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="wrench" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
-                </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Services</span>
-            </a>
-            
-            <!-- Analytics -->
-            <a href="analytics.html" class="flex-1 flex flex-col items-center justify-center py-1 px-1 sm:px-2 rounded-xl transition-all duration-200 active:scale-95 cursor-pointer text-[#737686] hover:text-slate-800 font-medium">
-                <div class="px-3 py-1 rounded-xl flex items-center justify-center transition-all">
-                    <i data-lucide="bar-chart-3" class="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.75]"></i>
-                </div>
-                <span class="text-[10px] sm:text-[11px] tracking-tight mt-0.5 font-bold truncate">Analytics</span>
-            </a>
-        </div>
-    </nav>
-
-    <!-- ============================================ -->
-    <!-- MODAL: ADD VEHICLE -->
-    <!-- ============================================ -->
-    <div class="modal-overlay" id="addVehicleModal">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10">
-                <h2 class="text-2xl font-extrabold text-primary">Add Vehicle</h2>
-                <button onclick="closeModal('addVehicleModal')" class="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-full hover:bg-slate-100">
-                    <span class="material-symbols-outlined">close</span>
+        <!-- MAIN CONTENT - VEHICLES -->
+        <main class="flex-1 pb-32">
+            <!-- Header Section -->
+            <div class="flex items-center justify-between px-4 pb-3 pt-6">
+                <h1 class="text-on-surface text-[22px] font-bold leading-tight tracking-tight">My Vehicles</h1>
+                <button onclick="openModal('addVehicleModal')" class="flex items-center gap-2 bg-primary text-on-primary px-4 py-2 rounded-full font-body-semibold shadow-md hover:bg-primary-container transition-colors">
+                    <span class="material-symbols-outlined text-[20px]">add</span>
+                    <span class="">Add Vehicle</span>
                 </button>
             </div>
-            
-            <!-- Modal Body -->
-            <div class="p-6">
-                <form class="space-y-6" onsubmit="event.preventDefault(); closeModal('addVehicleModal');">
-                    <!-- Section 1: Vehicle Category -->
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6">
-                        <h3 class="font-bold text-on-surface mb-4">Vehicle Category</h3>
-                        <div class="grid grid-cols-2 gap-4">
-                            <label class="relative flex flex-col items-center justify-center p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors group">
-                                <input checked class="peer sr-only" name="vehicleCategory" type="radio" value="four_wheeler"/>
-                                <div class="peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary absolute inset-0 rounded-xl pointer-events-none"></div>
-                                <span class="material-symbols-outlined text-4xl text-slate-400 peer-checked:text-primary mb-2">directions_car</span>
-                                <span class="font-semibold text-sm text-slate-600 peer-checked:text-primary">Four Wheeler</span>
-                            </label>
-                            <label class="relative flex flex-col items-center justify-center p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors group">
-                                <input class="peer sr-only" name="vehicleCategory" type="radio" value="two_wheeler"/>
-                                <div class="peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary absolute inset-0 rounded-xl pointer-events-none"></div>
-                                <span class="material-symbols-outlined text-4xl text-slate-400 peer-checked:text-primary mb-2">motorcycle</span>
-                                <span class="font-semibold text-sm text-slate-600 peer-checked:text-primary">Two Wheeler</span>
-                            </label>
-                        </div>
-                    </section>
 
-                    <!-- Section 2: Basic Details -->
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6">
-                        <h3 class="font-bold text-on-surface mb-4">Basic Details</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="make">Make</label>
-                                <select class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="make">
-                                    <option disabled selected value="">Select Make</option>
-                                    <option value="maruti">Maruti Suzuki</option>
-                                    <option value="honda">Honda</option>
-                                    <option value="hyundai">Hyundai</option>
-                                    <option value="tata">Tata Motors</option>
-                                    <option value="mahindra">Mahindra</option>
-                                </select>
+            <!-- Vehicles List -->
+            <div class="flex flex-col gap-4 p-4">
+                <!-- Vehicle Card 1 -->
+                <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary-container text-3xl" style='font-variation-settings: "FILL" 1;'>directions_car</span>
+                            <p class="text-on-surface text-2xl font-bold">MH12 AB 1234</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-status-active bg-status-active/10 px-2 py-0.5 rounded text-micro-nav uppercase">Active</span>
+                            <div class="relative">
+                                <button class="menu-btn p-1 rounded-full hover:bg-surface-container transition-colors outline-none">
+                                    <span class="material-symbols-outlined text-on-surface-variant cursor-pointer block">more_vert</span>
+                                </button>
+                                <div class="dropdown-menu absolute right-0 top-full mt-1 w-40 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg z-10 flex flex-col overflow-hidden hidden">
+                                    <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full">
+                                        <span class="material-symbols-outlined text-[18px]">history</span>History
+                                    </button>
+                                    <button onclick="openModal('addVehicleModal', {category: 'four_wheeler', make: 'Toyota', model: 'Camry', registration: 'MH12 AB 1234', year: '2021', odometer: '25000', insuranceExpiry: '2024-10-12', pucExpiry: '2024-11-15'})" class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border/50">
+                                        <span class="material-symbols-outlined text-[18px]">edit</span>Edit
+                                    </button>
+                                    <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-error hover:bg-error-container transition-colors text-left w-full border-t border-slate-border/50">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>Delete
+                                    </button>
+                                    <button class="cancel-btn flex items-center gap-3 px-4 py-3 text-body-standard text-secondary hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border">
+                                        <span class="material-symbols-outlined text-[18px]">close</span>Cancel
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="model">Model</label>
-                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="model" placeholder="e.g. Swift, City" type="text"/>
+                        </div>
+                    </div>
+                    <p class="text-secondary text-body-standard -mt-2">Toyota Camry • 2021</p>
+                    <div class="flex justify-between mt-2 py-3 border-t border-slate-border">
+                        <div class="flex flex-col gap-1 w-1/2">
+                            <div class="flex items-center gap-1 text-label-xs text-status-active">
+                                <span class="material-symbols-outlined text-[14px]" style='font-variation-settings: "FILL" 1;'>verified</span>
+                                <span class="">Insurance Valid Till</span>
                             </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="registration">Registration No.</label>
-                                <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all uppercase" id="registration" placeholder="MH 01 AB 1234" type="text"/>
+                            <p class="text-body-semibold text-on-surface">12 Oct 2024</p>
+                        </div>
+                        <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
+                            <div class="flex items-center gap-1 text-label-xs text-status-active">
+                                <span class="material-symbols-outlined text-[14px]" style='font-variation-settings: "FILL" 1;'>eco</span>
+                                <span class="">PUC Valid Till</span>
                             </div>
+                            <p class="text-body-semibold text-on-surface">15 Nov 2024</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle Card 2 (With Warnings - Improved Design) -->
+                <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-low p-5 border border-slate-border/50 shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-primary-container/10 p-2 rounded-lg">
+                                <span class="material-symbols-outlined text-primary-container text-2xl" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <p class="text-on-surface text-[20px] font-bold leading-none">KA01 CD 5678</p>
+                                <p class="text-secondary text-body-standard mt-1">Honda City • 2019</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-status-warning bg-status-warning/10 px-2 py-0.5 rounded text-micro-nav uppercase">Renewal Due</span>
+                            <div class="relative">
+                                <button class="menu-btn p-1 rounded-full hover:bg-surface-container transition-colors outline-none">
+                                    <span class="material-symbols-outlined text-on-surface-variant cursor-pointer block">more_vert</span>
+                                </button>
+                                <div class="dropdown-menu absolute right-0 top-full mt-1 w-40 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg z-10 flex flex-col overflow-hidden hidden">
+                                    <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full">
+                                        <span class="material-symbols-outlined text-[18px]">history</span>History
+                                    </button>
+                                    <button onclick="openModal('addVehicleModal', {category: 'four_wheeler', make: 'Honda', model: 'City', registration: 'KA01 CD 5678', year: '2019', odometer: '32000', insuranceExpiry: '2024-09-20', pucExpiry: '2025-01-05'})" class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border/50">
+                                        <span class="material-symbols-outlined text-[18px]">edit</span>Edit
+                                    </button>
+                                    <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-error hover:bg-error-container transition-colors text-left w-full border-t border-slate-border/50">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>Delete
+                                    </button>
+                                    <button class="cancel-btn flex items-center gap-3 px-4 py-3 text-body-standard text-secondary hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border">
+                                        <span class="material-symbols-outlined text-[18px]">close</span>Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 mt-2">
+                        <div class="flex flex-col gap-1 p-3 rounded-lg bg-error-container/30 border border-error/10">
+                            <div class="flex items-center gap-1 text-label-xs text-status-overdue">
+                                <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">error</span>
+                                <span class="font-bold uppercase tracking-wider">Insurance</span>
+                            </div>
+                            <p class="text-body-semibold text-status-overdue">Exp: 20 Sep 2024</p>
+                        </div>
+                        <div class="flex flex-col gap-1 p-3 rounded-lg bg-status-active/10 border border-status-active/10">
+                            <div class="flex items-center gap-1 text-label-xs text-status-active">
+                                <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">eco</span>
+                                <span class="font-bold uppercase tracking-wider">PUC</span>
+                            </div>
+                            <p class="text-body-semibold text-on-surface">Valid: 05 Jan 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle Card 3 -->
+                <div class="vehicle-card flex flex-col gap-4 rounded-xl bg-surface-container-lowest p-5 border border-slate-border shadow-sm">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary-container text-3xl" style='font-variation-settings: "FILL" 1;'>directions_car</span>
+                            <p class="text-on-surface text-2xl font-bold">DL10 EF 9012</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-status-active bg-status-active/10 px-2 py-0.5 rounded text-micro-nav uppercase">Active</span>
+                            <div class="relative">
+                                <button class="menu-btn p-1 rounded-full hover:bg-surface-container transition-colors outline-none">
+                                    <span class="material-symbols-outlined text-on-surface-variant cursor-pointer block">more_vert</span>
+                                </button>
+                                <div class="dropdown-menu absolute right-0 top-full mt-1 w-40 bg-surface-container-lowest border border-slate-border rounded-xl shadow-lg z-10 flex flex-col overflow-hidden hidden">
+                                    <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full">
+                                        <span class="material-symbols-outlined text-[18px]">history</span>History
+                                    </button>
+                                    <button onclick="openModal('addVehicleModal', {category: 'four_wheeler', make: 'BMW', model: '3 Series', registration: 'DL10 EF 9012', year: '2023', odometer: '15000', insuranceExpiry: '2024-12-30', pucExpiry: '2025-02-12'})" class="flex items-center gap-3 px-4 py-3 text-body-standard text-on-surface hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border/50">
+                                        <span class="material-symbols-outlined text-[18px]">edit</span>Edit
+                                    </button>
+                                    <button class="flex items-center gap-3 px-4 py-3 text-body-standard text-error hover:bg-error-container transition-colors text-left w-full border-t border-slate-border/50">
+                                        <span class="material-symbols-outlined text-[18px]">delete</span>Delete
+                                    </button>
+                                    <button class="cancel-btn flex items-center gap-3 px-4 py-3 text-body-standard text-secondary hover:bg-surface-container transition-colors text-left w-full border-t border-slate-border">
+                                        <span class="material-symbols-outlined text-[18px]">close</span>Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-secondary text-body-standard -mt-2">BMW 3 Series • 2023</p>
+                    <div class="flex justify-between mt-2 py-3 border-t border-slate-border">
+                        <div class="flex flex-col gap-1 w-1/2">
+                            <div class="flex items-center gap-1 text-label-xs text-status-active">
+                                <span class="material-symbols-outlined text-[14px]" style='font-variation-settings: "FILL" 1;'>verified</span>
+                                <span class="">Insurance Valid Till</span>
+                            </div>
+                            <p class="text-body-semibold text-on-surface">30 Dec 2024</p>
+                        </div>
+                        <div class="flex flex-col gap-1 w-1/2 border-l border-slate-border pl-4">
+                            <div class="flex items-center gap-1 text-label-xs text-status-active">
+                                <span class="material-symbols-outlined text-[14px]" style='font-variation-settings: "FILL" 1;'>eco</span>
+                                <span class="">PUC Valid Till</span>
+                            </div>
+                            <p class="text-body-semibold text-on-surface">12 Feb 2025</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- BOTTOM NAV BAR (5 tabs - Vehicles active) -->
+        <nav class="fixed bottom-0 z-30 w-full max-w-[672px] border-t border-slate-border bg-surface-bright px-4 pb-3 pt-2">
+            <div class="flex gap-2">
+                <a href="dashboard.html" class="flex flex-1 flex-col items-center justify-end gap-1 text-secondary">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined text-[24px]">home</span>
+                    </div>
+                    <p class="text-xs font-medium leading-normal tracking-[0.015em]">Home</p>
+                </a>
+                <a href="vehicles.html" class="flex flex-1 flex-col items-center justify-end gap-1 text-on-surface">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined text-[24px]" style='font-variation-settings: "FILL" 1;'>directions_car</span>
+                    </div>
+                    <p class="text-xs font-medium leading-normal tracking-[0.015em]">Vehicles</p>
+                </a>
+                <a href="service.html" class="flex flex-1 flex-col items-center justify-end gap-1 text-secondary">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined text-[24px]">build</span>
+                    </div>
+                    <p class="text-xs font-medium leading-normal tracking-[0.015em]">Services</p>
+                </a>
+                <a href="fuel.html" class="flex flex-1 flex-col items-center justify-end gap-1 text-secondary">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined text-[24px]">local_gas_station</span>
+                    </div>
+                    <p class="text-xs font-medium leading-normal tracking-[0.015em]">Fuel Logs</p>
+                </a>
+                <a href="analytics.html" class="flex flex-1 flex-col items-center justify-end gap-1 text-secondary">
+                    <div class="flex h-8 items-center justify-center">
+                        <span class="material-symbols-outlined text-[24px]">analytics</span>
+                    </div>
+                    <p class="text-xs font-medium leading-normal tracking-[0.015em]">Analytics</p>
+                </a>
+            </div>
+        </nav>
+
+        <!-- ============================================ -->
+        <!-- MODAL: ADD/EDIT VEHICLE -->
+        <!-- ============================================ -->
+        <div class="modal-overlay" id="addVehicleModal">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header flex items-center justify-between p-6 border-b border-slate-200 sticky top-0 bg-white rounded-t-2xl z-10">
+                    <h2 class="text-2xl font-extrabold text-primary">Add Vehicle</h2>
+                    <button onclick="closeModal('addVehicleModal')" class="text-slate-400 hover:text-slate-600 transition-colors p-2 rounded-full hover:bg-slate-100">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6">
+                    <form class="space-y-6" onsubmit="event.preventDefault(); closeModal('addVehicleModal');">
+                        <!-- Section 1: Vehicle Category -->
+                        <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6">
+                            <h3 class="font-bold text-on-surface mb-4">Vehicle Category</h3>
                             <div class="grid grid-cols-2 gap-4">
+                                <label class="relative flex flex-col items-center justify-center p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors group">
+                                    <input checked class="peer sr-only" name="vehicleCategory" type="radio" value="four_wheeler"/>
+                                    <div class="peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary absolute inset-0 rounded-xl pointer-events-none"></div>
+                                    <span class="material-symbols-outlined text-4xl text-slate-400 peer-checked:text-primary mb-2">directions_car</span>
+                                    <span class="font-semibold text-sm text-slate-600 peer-checked:text-primary">Four Wheeler</span>
+                                </label>
+                                <label class="relative flex flex-col items-center justify-center p-4 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors group">
+                                    <input class="peer sr-only" name="vehicleCategory" type="radio" value="two_wheeler"/>
+                                    <div class="peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary absolute inset-0 rounded-xl pointer-events-none"></div>
+                                    <span class="material-symbols-outlined text-4xl text-slate-400 peer-checked:text-primary mb-2">motorcycle</span>
+                                    <span class="font-semibold text-sm text-slate-600 peer-checked:text-primary">Two Wheeler</span>
+                                </label>
+                            </div>
+                        </section>
+
+                        <!-- Section 2: Basic Details -->
+                        <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6">
+                            <h3 class="font-bold text-on-surface mb-4">Basic Details</h3>
+                            <div class="space-y-4">
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="year">Year</label>
-                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="year" max="2024" min="1990" placeholder="YYYY" type="number"/>
+                                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="make">Make</label>
+                                    <select class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="make">
+                                        <option disabled selected value="">Select Make</option>
+                                        <option value="Maruti Suzuki">Maruti Suzuki</option>
+                                        <option value="Honda">Honda</option>
+                                        <option value="Hyundai">Hyundai</option>
+                                        <option value="Tata">Tata Motors</option>
+                                        <option value="Mahindra">Mahindra</option>
+                                        <option value="Toyota">Toyota</option>
+                                        <option value="BMW">BMW</option>
+                                        <option value="Mercedes">Mercedes</option>
+                                        <option value="Audi">Audi</option>
+                                    </select>
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="odometer">Starting Odo</label>
-                                    <div class="relative">
-                                        <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="odometer" placeholder="0" type="number"/>
-                                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-500">KM</span>
+                                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="model">Model</label>
+                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="model" placeholder="e.g. Swift, City" type="text"/>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="registration">Registration No.</label>
+                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all uppercase" id="registration" placeholder="MH 01 AB 1234" type="text"/>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="year">Year</label>
+                                        <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="year" max="2024" min="1990" placeholder="YYYY" type="number"/>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="odometer">Starting Odo</label>
+                                        <div class="relative">
+                                            <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="odometer" placeholder="0" type="number"/>
+                                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-500">KM</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
 
-                    <!-- Section 3: Document Expiry -->
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6">
-                        <h3 class="font-bold text-on-surface mb-4">Document Expiry</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="insurance_expiry">Insurance Expiry Date</label>
-                                <div class="relative">
-                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pl-10 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="insurance_expiry" type="date"/>
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">calendar_today</span>
+                        <!-- Section 3: Document Expiry -->
+                        <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-6">
+                            <h3 class="font-bold text-on-surface mb-4">Document Expiry</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="insurance_expiry">Insurance Expiry Date</label>
+                                    <div class="relative">
+                                        <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pl-10 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="insurance_expiry" type="date"/>
+                                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">calendar_today</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="puc_expiry">Pollution Cert (PUC) Expiry</label>
+                                    <div class="relative">
+                                        <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pl-10 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="puc_expiry" type="date"/>
+                                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">eco</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1" for="puc_expiry">Pollution Cert (PUC) Expiry</label>
-                                <div class="relative">
-                                    <input class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 pl-10 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" id="puc_expiry" type="date"/>
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">eco</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                        </section>
 
-                    <!-- Action Button -->
-                    <button class="w-full bg-primary text-white rounded-xl py-4 font-semibold shadow-md hover:bg-blue-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2" type="submit">
-                        <span class="material-symbols-outlined">save</span>
-                        Save Vehicle
-                    </button>
-                </form>
+                        <!-- Action Button -->
+                        <button class="submit-btn w-full bg-primary text-white rounded-xl py-4 font-semibold shadow-md hover:bg-blue-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2" type="submit">
+                            <span class="material-symbols-outlined">save</span>
+                            Save Vehicle
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -498,11 +569,35 @@
         // Simple micro-interaction for the vehicle cards
         document.querySelectorAll('.vehicle-card').forEach(card => {
             card.addEventListener('click', (e) => {
-                if (e.target.tagName !== 'BUTTON' && e.target.closest('button') === null) {
+                if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
                     // Logic for card tap (e.g., navigate to detail)
                     console.log('Vehicle selected');
                 }
             });
+        });
+
+        // Menu toggle logic
+        document.addEventListener('click', (e) => {
+            const isMenuBtn = e.target.closest('.menu-btn');
+            const isCancelBtn = e.target.closest('.cancel-btn');
+            
+            // Close all menus first if not clicking inside a menu, or if cancel clicked
+            if (!e.target.closest('.dropdown-menu') || isCancelBtn) {
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    // Don't close the menu we are currently trying to open
+                    if (!isMenuBtn || menu.previousElementSibling !== isMenuBtn) {
+                        menu.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Toggle current menu
+            if (isMenuBtn) {
+                const menu = isMenuBtn.nextElementSibling;
+                if (menu) {
+                    menu.classList.toggle('hidden');
+                }
+            }
         });
 
         // Close modal when clicking outside the modal content
@@ -511,6 +606,7 @@
                 if (e.target === this) {
                     this.classList.remove('active');
                     document.body.style.overflow = 'auto';
+                    resetVehicleForm();
                 }
             });
         });
@@ -521,6 +617,7 @@
                 document.querySelectorAll('.modal-overlay.active').forEach(modal => {
                     modal.classList.remove('active');
                     document.body.style.overflow = 'auto';
+                    resetVehicleForm();
                 });
             }
         });
