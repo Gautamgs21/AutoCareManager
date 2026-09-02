@@ -79,6 +79,7 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
+        /* Modal overlay styles */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -109,6 +110,7 @@
             animation: modalSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             box-sizing: border-box;
             margin: auto;
+            position: relative;
         }
         @keyframes modalSlideIn {
             from {
@@ -128,6 +130,25 @@
         }
         input[type=number] {
             -moz-appearance: textfield;
+        }
+
+        .modal-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            padding: 40px;
+        }
+        .modal-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--color-border, #e2e8f0);
+            border-top-color: var(--color-primary, #004ac6);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
     
@@ -182,15 +203,158 @@
             }
         })();
 
+        // Modal functions with dynamic loading
         function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
+            const modal = document.getElementById(modalId);
+            const content = modal.querySelector('.modal-content');
+            
+            // Show loading state
+            content.innerHTML = `
+                <div class="modal-loading">
+                    <div class="spinner"></div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            // Fetch the form content from forms.html
+            fetch('forms.html')
+                .then(response => response.text())
+                .then(html => {
+                    // Extract the specific modal from the fetched HTML
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const fetchedModal = doc.getElementById(modalId);
+                    
+                    if (fetchedModal) {
+                        // Get the inner content of the fetched modal
+                        const fetchedContent = fetchedModal.querySelector('.modal-content');
+                        if (fetchedContent) {
+                            content.innerHTML = fetchedContent.innerHTML;
+                            // Re-initialize any scripts or functionality
+                            initializeModalScripts(modalId);
+                        } else {
+                            content.innerHTML = '<div class="p-6 text-center text-red-500">Error: Modal content not found</div>';
+                        }
+                    } else {
+                        content.innerHTML = '<div class="p-6 text-center text-red-500">Error: Modal not found in forms.html</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading forms:', error);
+                    content.innerHTML = `
+                        <div class="p-6 text-center">
+                            <p class="text-red-500 mb-2">Error loading form</p>
+                            <p class="text-xs text-slate-text-secondary">Please make sure forms.html is in the same directory</p>
+                            <button onclick="closeModal('${modalId}')" class="mt-4 px-4 py-2 bg-primary text-white rounded-lg text-sm">Close</button>
+                        </div>
+                    `;
+                });
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
             document.body.style.overflow = 'auto';
+            // Reset content to loading state for next open
+            const content = modal.querySelector('.modal-content');
+            content.innerHTML = `
+                <div class="modal-loading">
+                    <div class="spinner"></div>
+                </div>
+            `;
         }
+
+        function initializeModalScripts(modalId) {
+            // Re-initialize any functionality for the loaded modal
+            // This includes form submissions, calculations, etc.
+            
+            // Close button functionality within the loaded content
+            document.querySelectorAll(`#${modalId} [onclick*="closeModal"]`).forEach(btn => {
+                // The onclick is already set in the HTML
+            });
+
+            // Fuel form bidirectional calculation
+            if (modalId === 'addFuelModal') {
+                const rateInput = document.getElementById('rate');
+                const volumeInput = document.getElementById('volume');
+                const totalInput = document.getElementById('total-cost-fuel');
+
+                if (rateInput && volumeInput && totalInput) {
+                    const calculateTotal = () => {
+                        const rate = parseFloat(rateInput.value) || 0;
+                        const volume = parseFloat(volumeInput.value) || 0;
+                        if (rate > 0 && volume > 0) {
+                            totalInput.value = (rate * volume).toFixed(2);
+                        } else {
+                            totalInput.value = '';
+                        }
+                    };
+
+                    const calculateVolume = () => {
+                        const rate = parseFloat(rateInput.value) || 0;
+                        const total = parseFloat(totalInput.value) || 0;
+                        if (rate > 0 && total > 0) {
+                            volumeInput.value = (total / rate).toFixed(2);
+                        } else {
+                            volumeInput.value = '';
+                        }
+                    };
+
+                    rateInput.addEventListener('input', calculateTotal);
+                    volumeInput.addEventListener('input', calculateTotal);
+                    totalInput.addEventListener('input', calculateVolume);
+                }
+
+                // Set default date and time for fuel form
+                const now = new Date();
+                const dateInput = document.getElementById('fill-date');
+                if (dateInput) dateInput.valueAsDate = now;
+                
+                const timeInput = document.getElementById('fill-time');
+                if (timeInput) {
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    timeInput.value = `${hours}:${minutes}`;
+                }
+            }
+
+            // Vehicle form pre-fill (if editing)
+            if (modalId === 'addVehicleModal') {
+                // Any vehicle form specific initialization
+            }
+        }
+
+        // Close modal when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    const modalId = this.id;
+                    closeModal(modalId);
+                }
+            });
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    const modalId = modal.id;
+                    closeModal(modalId);
+                });
+            }
+        });
+
+        // Apply profile picture from localStorage if saved
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedSettings = JSON.parse(localStorage.getItem('autocare_settings') || '{}');
+            if (savedSettings.profileImage) {
+                const avatar = document.getElementById('global-profile-avatar');
+                if (avatar) avatar.src = savedSettings.profileImage;
+            }
+            lucide.createIcons();
+        });
     </script>
 </head>
 <body class="bg-background text-on-background antialiased transition-colors duration-200">
@@ -399,422 +563,36 @@
         </div>
     </nav>
 
-    <!-- MODAL 1: ADD VEHICLE -->
+    <!-- Modal Containers (Empty - will be populated from forms.html) -->
     <div class="modal-overlay" id="addVehicleModal">
         <div class="modal-content">
-            <div class="flex items-center justify-between p-6 border-b border-slate-border sticky top-0 bg-surface-container-lowest rounded-t-2xl z-10 box-border">
-                <h2 class="text-xl font-extrabold text-primary">Add Vehicle</h2>
-                <button onclick="closeModal('addVehicleModal')" class="text-slate-text-secondary hover:text-on-surface transition-colors p-2 rounded-full hover:bg-surface-container-high cursor-pointer">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-            </div>
-            <div class="p-6 box-border">
-                <form class="space-y-6" onsubmit="event.preventDefault(); closeModal('addVehicleModal');">
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
-                        <h3 class="font-bold text-on-surface mb-3 text-sm">Vehicle Category</h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            <label class="relative flex flex-col items-center justify-center p-4 border border-slate-border rounded-xl cursor-pointer hover:bg-surface-container-high transition-all group box-border">
-                                <input checked class="peer sr-only" name="vehicleCategory" type="radio" value="four_wheeler"/>
-                                <div class="peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary absolute inset-0 rounded-xl pointer-events-none"></div>
-                                <span class="material-symbols-outlined text-3xl text-slate-text-secondary peer-checked:text-primary mb-2">directions_car</span>
-                                <span class="font-semibold text-xs text-slate-text-secondary peer-checked:text-primary">Four Wheeler</span>
-                            </label>
-                            <label class="relative flex flex-col items-center justify-center p-4 border border-slate-border rounded-xl cursor-pointer hover:bg-surface-container-high transition-all group box-border">
-                                <input class="peer sr-only" name="vehicleCategory" type="radio" value="two_wheeler"/>
-                                <div class="peer-checked:ring-2 peer-checked:ring-primary peer-checked:border-primary absolute inset-0 rounded-xl pointer-events-none"></div>
-                                <span class="material-symbols-outlined text-3xl text-slate-text-secondary peer-checked:text-primary mb-2">motorcycle</span>
-                                <span class="font-semibold text-xs text-slate-text-secondary peer-checked:text-primary">Two Wheeler</span>
-                            </label>
-                        </div>
-                    </section>
-
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
-                        <h3 class="font-bold text-on-surface mb-3 text-sm">Basic Details</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-text-secondary uppercase tracking-wider mb-1" for="make">Make</label>
-                                <select class="w-full bg-surface-container-high border border-slate-border rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border text-on-surface" id="make">
-                                    <option disabled selected value="">Select Make</option>
-                                    <option value="maruti">Maruti Suzuki</option>
-                                    <option value="honda">Honda</option>
-                                    <option value="hyundai">Hyundai</option>
-                                    <option value="tata">Tata Motors</option>
-                                    <option value="mahindra">Mahindra</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-text-secondary uppercase tracking-wider mb-1" for="model">Model</label>
-                                <input class="w-full bg-surface-container-high border border-slate-border rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border text-on-surface" id="model" placeholder="e.g. Swift, City" type="text"/>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-text-secondary uppercase tracking-wider mb-1" for="registration">Registration No.</label>
-                                <input class="w-full bg-surface-container-high border border-slate-border rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all uppercase box-border text-on-surface" id="registration" placeholder="MH 01 AB 1234" type="text"/>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-text-secondary uppercase tracking-wider mb-1" for="year">Year</label>
-                                    <input class="w-full bg-surface-container-high border border-slate-border rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border text-on-surface" id="year" max="2026" min="1990" placeholder="YYYY" type="number"/>
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-text-secondary uppercase tracking-wider mb-1" for="odometer">Starting Odo</label>
-                                    <div class="relative">
-                                        <input class="w-full bg-surface-container-high border border-slate-border rounded-xl p-3 pr-12 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border text-on-surface" id="odometer" placeholder="0" type="number"/>
-                                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-text-secondary">KM</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
-                        <h3 class="font-bold text-on-surface mb-3 text-sm">Document Expiry</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-text-secondary uppercase tracking-wider mb-1" for="insurance_expiry">Insurance Expiry Date</label>
-                                <div class="relative">
-                                    <input class="w-full bg-surface-container-high border border-slate-border rounded-xl p-3 pl-10 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border text-on-surface" id="insurance_expiry" type="date"/>
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-text-secondary text-lg">calendar_today</span>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-text-secondary uppercase tracking-wider mb-1" for="puc_expiry">Pollution Cert (PUC) Expiry</label>
-                                <div class="relative">
-                                    <input class="w-full bg-surface-container-high border border-slate-border rounded-xl p-3 pl-10 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all box-border text-on-surface" id="puc_expiry" type="date"/>
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-text-secondary text-lg">eco</span>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <button class="w-full bg-primary text-white rounded-xl py-3.5 font-semibold shadow-md hover:opacity-90 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer box-border" type="submit">
-                        <span class="material-symbols-outlined text-lg">save</span>
-                        Save Vehicle
-                    </button>
-                </form>
+            <div class="modal-loading">
+                <div class="spinner"></div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 2: LOG FUEL -->
     <div class="modal-overlay" id="addFuelModal">
         <div class="modal-content">
-            <div class="flex items-center justify-between p-6 border-b border-slate-border sticky top-0 bg-surface-container-lowest rounded-t-2xl z-10 box-border">
-                <h2 class="text-xl font-extrabold text-emerald-600">Log Fuel Fill-up</h2>
-                <button onclick="closeModal('addFuelModal')" class="text-slate-text-secondary hover:text-on-surface transition-colors p-2 rounded-full hover:bg-surface-container-high cursor-pointer">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-            </div>
-            <div class="p-6 box-border">
-                <form class="space-y-4" onsubmit="event.preventDefault(); closeModal('addFuelModal');">
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
-                        <div class="space-y-4">
-                            <div>
-                                <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="vehicle-select">Vehicle</label>
-                                <div class="relative">
-                                    <select class="w-full appearance-none bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="vehicle-select">
-                                        <option disabled selected value="">Select Vehicle</option>
-                                        <option value="v1">Toyota Innova Crysta (MH-12-AB-1234)</option>
-                                        <option value="v2">Tata Ace Gold (MH-14-CD-5678)</option>
-                                        <option value="v3">Mahindra Bolero (MH-12-EF-9012)</option>
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-text-secondary">
-                                        <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="fuel-company">Fuel Company</label>
-                                <div class="relative">
-                                    <select class="w-full appearance-none bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="fuel-company">
-                                        <option value="hpcl">Hindustan Petroleum (HPCL)</option>
-                                        <option value="iocl">IndianOil (IOCL)</option>
-                                        <option value="bpcl">Bharat Petroleum (BPCL)</option>
-                                        <option value="nayara">Nayara Energy</option>
-                                        <option value="jio-bp">Jio-bp (Reliance-BP)</option>
-                                        <option value="shell">Shell</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-text-secondary">
-                                        <span class="material-symbols-outlined text-[20px]">keyboard_arrow_down</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-xs font-semibold text-slate-text-secondary block mb-2 uppercase tracking-wider">Type of Petrol</label>
-                                <div class="flex bg-surface-container-high rounded-xl p-1 gap-1 box-border">
-                                    <label class="flex-1 text-center cursor-pointer">
-                                        <input checked class="peer sr-only" name="fuel_type" type="radio" value="normal"/>
-                                        <div class="py-2 rounded-lg transition-all peer-checked:bg-surface-container-lowest peer-checked:shadow-xs peer-checked:text-emerald-600 peer-checked:font-semibold text-xs text-slate-text-secondary hover:text-on-surface">
-                                            Normal E20
-                                        </div>
-                                    </label>
-                                    <label class="flex-1 text-center cursor-pointer">
-                                        <input class="peer sr-only" name="fuel_type" type="radio" value="premium"/>
-                                        <div class="py-2 rounded-lg transition-all peer-checked:bg-surface-container-lowest peer-checked:shadow-xs peer-checked:text-emerald-600 peer-checked:font-semibold text-xs text-slate-text-secondary hover:text-on-surface">
-                                            Xtra Premium
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="fill-date">Date</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-text-secondary">
-                                        <span class="material-symbols-outlined text-[18px]">calendar_today</span>
-                                    </div>
-                                    <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="fill-date" type="date"/>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="fill-time">Time</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-text-secondary">
-                                        <span class="material-symbols-outlined text-[18px]">schedule</span>
-                                    </div>
-                                    <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="fill-time" type="time"/>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
-                        <div class="flex flex-col gap-4">
-                            <div>
-                                <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="odometer-fuel">Odometer (km)</label>
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-text-secondary">
-                                        <span class="material-symbols-outlined text-[18px]">speed</span>
-                                    </div>
-                                    <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="odometer-fuel" placeholder="e.g. 45020" type="number"/>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="rate">Rate / Liter (₹)</label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-text-secondary">
-                                            <span class="font-semibold">₹</span>
-                                        </div>
-                                        <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl pl-8 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="rate" placeholder="115.50" step="0.01" type="number"/>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="volume">Fuel Filled (L)</label>
-                                    <div class="relative">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-text-secondary">
-                                            <span class="material-symbols-outlined text-[18px]">local_gas_station</span>
-                                        </div>
-                                        <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl pl-10 pr-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow box-border" id="volume" placeholder="30.5" step="0.1" type="number"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bg-surface-container-high rounded-xl border border-slate-border p-3.5 flex items-center justify-between box-border">
-                                <div>
-                                    <label class="text-xs font-semibold text-slate-text-secondary block uppercase tracking-wider" for="total-cost">Total Cost (₹)</label>
-                                    <p class="text-[10px] text-slate-text-secondary mt-0.5">Calculated automatically</p>
-                                </div>
-                                <div class="relative w-1/2">
-                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-emerald-600 font-bold">
-                                        <span>₹</span>
-                                    </div>
-                                    <input class="w-full bg-surface-container-lowest border border-slate-border font-bold text-lg text-on-surface text-right rounded-lg pl-8 pr-3 py-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-shadow box-border" id="total-cost" placeholder="0.00" step="0.01" type="number"/>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 box-border">
-                        <div>
-                            <label class="text-xs font-semibold text-slate-text-secondary block mb-1 uppercase tracking-wider" for="notes">Notes (Optional)</label>
-                            <textarea class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow resize-none box-border" id="notes" placeholder="Add any details about this fill-up..." rows="3"></textarea>
-                        </div>
-                    </section>
-
-                    <button class="w-full bg-emerald-600 text-white rounded-xl py-3.5 font-semibold shadow-md hover:bg-emerald-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer box-border" type="submit">
-                        <span class="material-symbols-outlined text-lg">save</span>
-                        Save Fuel Log
-                    </button>
-                </form>
+            <div class="modal-loading">
+                <div class="spinner"></div>
             </div>
         </div>
     </div>
 
-    <!-- MODAL 3: LOG SERVICE -->
     <div class="modal-overlay" id="addServiceModal">
         <div class="modal-content">
-            <div class="flex items-center justify-between p-6 border-b border-slate-border sticky top-0 bg-surface-container-lowest rounded-t-2xl z-10 box-border">
-                <h2 class="text-xl font-extrabold text-blue-600">Log Service</h2>
-                <button onclick="closeModal('addServiceModal')" class="text-slate-text-secondary hover:text-on-surface transition-colors p-2 rounded-full hover:bg-surface-container-high cursor-pointer">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-            </div>
-            <div class="p-6 box-border">
-                <form class="space-y-6" onsubmit="event.preventDefault(); closeModal('addServiceModal');">
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 space-y-4 box-border">
-                        <h3 class="font-bold text-on-surface mb-2 text-sm">Vehicle Details</h3>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-text-secondary mb-1 uppercase tracking-wider">Choose Vehicle *</label>
-                            <div class="relative">
-                                <select class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border">
-                                    <option disabled selected value="">Select a vehicle...</option>
-                                    <option value="KL-01-AB-1234">KL-01-AB-1234 (Toyota Innova)</option>
-                                    <option value="MH-12-CD-5678">MH-12-CD-5678 (Honda City)</option>
-                                    <option value="KA-03-EF-9012">KA-03-EF-9012 (Suzuki Swift)</option>
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-text-secondary">
-                                    <span class="material-symbols-outlined">expand_more</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-text-secondary mb-1 uppercase tracking-wider">Service Date *</label>
-                                <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" type="date" value="2025-05-14"/>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-text-secondary mb-1 uppercase tracking-wider">Odometer (km) *</label>
-                                <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="e.g. 45000" type="number"/>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-text-secondary mb-1 uppercase tracking-wider">Service Type *</label>
-                            <div class="relative">
-                                <select class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border">
-                                    <option value="general">General Service</option>
-                                    <option value="periodic">Periodic Maintenance</option>
-                                    <option value="repair">Repair / Replacement</option>
-                                    <option value="oil">Oil Change</option>
-                                    <option value="inspection">Inspection / Tuning</option>
-                                    <option value="paint">Paint Job</option>
-                                    <option value="other">Others</option>
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-text-secondary">
-                                    <span class="material-symbols-outlined">expand_more</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-text-secondary mb-1 uppercase tracking-wider">Total Bill (₹) *</label>
-                            <div class="relative">
-                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <span class="text-slate-text-secondary font-semibold">₹</span>
-                                </div>
-                                <input class="w-full pl-8 pr-4 py-3 bg-surface-container-high border border-slate-border text-on-surface rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="0.00" type="number"/>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 space-y-4 box-border">
-                        <h3 class="font-bold text-on-surface mb-2 text-sm">Workshop Details</h3>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-text-secondary mb-1 uppercase tracking-wider">Work Carried Out By</label>
-                            <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="e.g. John Doe" type="text"/>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-text-secondary mb-1 uppercase tracking-wider">Workshop Name</label>
-                            <input class="w-full bg-surface-container-high border border-slate-border text-on-surface rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm box-border" placeholder="e.g. Apex Auto Care" type="text"/>
-                        </div>
-                    </section>
-
-                    <section class="bg-surface-container-lowest rounded-2xl border border-slate-border p-5 space-y-4 box-border">
-                        <h3 class="font-bold text-on-surface mb-2 text-sm">Tasks &amp; Remarks</h3>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-text-secondary mb-1 uppercase tracking-wider">Remarks / Services Completed</label>
-                            <div class="border border-slate-border rounded-xl overflow-hidden bg-surface-container-high box-border">
-                                <div class="p-2 box-border">
-                                    <div class="relative flex items-center">
-                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <span class="material-symbols-outlined text-slate-text-secondary text-[20px]">search</span>
-                                        </div>
-                                        <input class="w-full bg-surface-container-lowest border border-slate-border text-on-surface rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent box-border" placeholder="Search services..." type="text"/>
-                                    </div>
-                                </div>
-                                <div class="border-t border-slate-border"></div>
-                                <div class="p-4 min-h-[60px] flex items-center box-border">
-                                    <p class="text-slate-text-secondary italic text-sm">Please select a vehicle first...</p>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <button class="w-full bg-blue-600 text-white rounded-xl py-3.5 font-semibold shadow-md hover:bg-blue-700 active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer box-border" type="submit">
-                        <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">save</span>
-                        Save Service Record
-                    </button>
-                </form>
+            <div class="modal-loading">
+                <div class="spinner"></div>
             </div>
         </div>
     </div>
 
     <!-- JavaScript -->
     <script>
-        lucide.createIcons();
-
-        // Apply profile picture from localStorage if saved
-        const savedSettings = JSON.parse(localStorage.getItem('autocare_settings') || '{}');
-        if (savedSettings.profileImage) {
-            const avatar = document.getElementById('global-profile-avatar');
-            if (avatar) avatar.src = savedSettings.profileImage;
-        }
-
-        // Close modal when clicking outside
-        document.querySelectorAll('.modal-overlay').forEach(overlay => {
-            overlay.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
-                    modal.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                });
-            }
-        });
-
-        // Fuel Form Bidirectional Calculation
+        // Initialize Lucide icons
         document.addEventListener('DOMContentLoaded', function() {
-            const rateInput = document.getElementById('rate');
-            const volumeInput = document.getElementById('volume');
-            const totalInput = document.getElementById('total-cost');
-
-            if (rateInput && volumeInput && totalInput) {
-                const calculateTotal = () => {
-                    const rate = parseFloat(rateInput.value) || 0;
-                    const volume = parseFloat(volumeInput.value) || 0;
-                    totalInput.value = (rate > 0 && volume > 0) ? (rate * volume).toFixed(2) : '';
-                };
-
-                const calculateVolume = () => {
-                    const rate = parseFloat(rateInput.value) || 0;
-                    const total = parseFloat(totalInput.value) || 0;
-                    volumeInput.value = (rate > 0 && total > 0) ? (total / rate).toFixed(2) : '';
-                };
-
-                rateInput.addEventListener('input', calculateTotal);
-                volumeInput.addEventListener('input', calculateTotal);
-                totalInput.addEventListener('input', calculateVolume);
-            }
-
-            // Default dates & times
-            const now = new Date();
-            const dateInput = document.getElementById('fill-date');
-            if (dateInput) dateInput.valueAsDate = now;
-            
-            const timeInput = document.getElementById('fill-time');
-            if (timeInput) {
-                timeInput.value = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            }
+            lucide.createIcons();
         });
     </script>
 </body>
