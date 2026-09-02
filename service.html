@@ -231,7 +231,31 @@
                     if (fetchedModal) {
                         const fetchedContent = fetchedModal.querySelector('.modal-content');
                         if (fetchedContent) {
-                            content.innerHTML = fetchedContent.innerHTML;
+                            // Replace hardcoded colors with dynamic ones before injecting
+                            let htmlContent = fetchedContent.innerHTML;
+                            
+                            // Replace service form colors
+                            if (modalId === 'addServiceModal') {
+                                // Replace heading color
+                                htmlContent = htmlContent.replace(/text-blue-600/g, 'text-primary');
+                                // Replace button colors
+                                htmlContent = htmlContent.replace(/bg-blue-600/g, 'bg-primary');
+                                htmlContent = htmlContent.replace(/hover:bg-blue-700/g, 'hover:opacity-90');
+                                // Replace focus ring colors
+                                htmlContent = htmlContent.replace(/ring-blue-500/g, 'ring-primary');
+                                // Replace any other blue-specific classes
+                                htmlContent = htmlContent.replace(/border-blue-500/g, 'border-primary');
+                            }
+                            
+                            // Replace fuel form colors if needed
+                            if (modalId === 'addFuelModal') {
+                                htmlContent = htmlContent.replace(/text-emerald-600/g, 'text-primary');
+                                htmlContent = htmlContent.replace(/bg-emerald-600/g, 'bg-primary');
+                                htmlContent = htmlContent.replace(/hover:bg-emerald-700/g, 'hover:opacity-90');
+                                htmlContent = htmlContent.replace(/ring-emerald-500/g, 'ring-primary');
+                            }
+                            
+                            content.innerHTML = htmlContent;
                             initializeModalScripts(modalId);
                         } else {
                             content.innerHTML = '<div class="p-6 text-center text-red-500">Error: Modal content not found</div>';
@@ -279,6 +303,49 @@
                         e.preventDefault();
                         closeModal('addServiceModal');
                     };
+                }
+            }
+
+            if (modalId === 'addFuelModal') {
+                const rateInput = document.getElementById('rate');
+                const volumeInput = document.getElementById('volume');
+                const totalInput = document.getElementById('total-cost-fuel');
+
+                if (rateInput && volumeInput && totalInput) {
+                    const calculateTotal = () => {
+                        const rate = parseFloat(rateInput.value) || 0;
+                        const volume = parseFloat(volumeInput.value) || 0;
+                        if (rate > 0 && volume > 0) {
+                            totalInput.value = (rate * volume).toFixed(2);
+                        } else {
+                            totalInput.value = '';
+                        }
+                    };
+
+                    const calculateVolume = () => {
+                        const rate = parseFloat(rateInput.value) || 0;
+                        const total = parseFloat(totalInput.value) || 0;
+                        if (rate > 0 && total > 0) {
+                            volumeInput.value = (total / rate).toFixed(2);
+                        } else {
+                            volumeInput.value = '';
+                        }
+                    };
+
+                    rateInput.addEventListener('input', calculateTotal);
+                    volumeInput.addEventListener('input', calculateTotal);
+                    totalInput.addEventListener('input', calculateVolume);
+                }
+
+                const now = new Date();
+                const dateInput = document.getElementById('fill-date');
+                if (dateInput) dateInput.valueAsDate = now;
+                
+                const timeInput = document.getElementById('fill-time');
+                if (timeInput) {
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    timeInput.value = `${hours}:${minutes}`;
                 }
             }
         }
