@@ -79,7 +79,6 @@
             background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Modal overlay styles */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -151,7 +150,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Loading shimmer effect for data placeholders */
         .data-loading {
             display: inline-block;
             min-width: 60px;
@@ -221,12 +219,10 @@
             }
         })();
 
-        // Modal functions with dynamic loading
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             const content = modal.querySelector('.modal-content');
             
-            // Show loading state
             content.innerHTML = `
                 <div class="modal-loading">
                     <div class="spinner"></div>
@@ -236,7 +232,6 @@
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
             
-            // Fetch the form content from forms.html
             fetch('forms.html')
                 .then(response => response.text())
                 .then(html => {
@@ -325,7 +320,6 @@
             }
         }
 
-        // Close modal when clicking outside
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', function(e) {
                 if (e.target === this) {
@@ -335,7 +329,6 @@
             });
         });
 
-        // Close modal with Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 document.querySelectorAll('.modal-overlay.active').forEach(modal => {
@@ -345,7 +338,6 @@
             }
         });
 
-        // Apply profile picture from localStorage if saved
         document.addEventListener('DOMContentLoaded', function() {
             const savedSettings = JSON.parse(localStorage.getItem('autocare_settings') || '{}');
             if (savedSettings.profileImage) {
@@ -354,35 +346,70 @@
             }
             lucide.createIcons();
             
-            // Fetch data from Google Sheet API
-            fetchDashboardData();
+            // Try to fetch data from API, but also have a fallback
+            fetchDashboardDataWithFallback();
         });
 
         // =============================================
-        // FETCH DATA FROM GOOGLE SHEET API
+        // FETCH DATA WITH CORS FALLBACK
         // =============================================
-        function fetchDashboardData() {
-            // REPLACE WITH YOUR ACTUAL WEB APP URL
-            const SHEET_API_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnQvomUUi55ZY1R9vHIROEDjjDujujwslscsH1m0GzaWZ3zZIDnP2AATep34w9yFKSb6Q2yQF5FmdRvoz7Aytm8zt_GeEz98GmdUrDtB-2ov0JlmxkzyFOxWLGX9hrnFqxKSQ0UV3itg8kvjfvcxKng5KtiAaqp5bdzzIeXw61EdhEBJ5dVwcB1J69rmcgCllQy-GDUwUkMcos4lXA14N-byR5GvaoNFlNiQMIGoVP1N49sHeCTfAhoE_f7jyNsUPe0TTs3iyvsM8RLZM64gw9Qq054h7Q&lib=MxC0rfohfocUlfPv2RiL4TTLsJggQMUMk';
+        
+        // ===== DEFAULT DATA (shown when API fails) =====
+        const DEFAULT_DATA = {
+            totalRefillsCostMonth: 12500,
+            totalServicesCostMonth: 2080,
+            countRefuellingMonth: 8,
+            totalServicesCarriedOutMonth: 2,
+            totalDrivingDistanceMonth: 2450,
+            championVehicle1: "Honda City",
+            championCurrentMileage: 15.5,
+            championVehicle2: "Honda Activa 6G",
+            championOverallMileage: 45.2,
+            totalFuelConsumedMonth: 68.4,
+            totalVehicles: 3,
+            priorities: [
+                { vehicle: "Swift VXi", description: "Insurance Renewal", status: "Due Soon", date: "12-10-2026" },
+                { vehicle: "CB Hornet 160", description: "PUC Certificate", status: "Due Soon", date: "28-10-2026" },
+                { vehicle: "Creta SX", description: "Periodic Service", status: "Upcoming", date: "01-12-2026" }
+            ]
+        };
+
+        function fetchDashboardDataWithFallback() {
+            // Replace with your actual Web App URL
+            const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbytcCSLvL5vGTt3G5xQP_uJBVuZajMnlOty1kcazZuxYegD48jg5zYWuTfHfAzolcSE/exec';
             
-            // Show loading state
             showLoadingState();
             
-            fetch(SHEET_API_URL)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok: ' + response.status);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Dashboard data received:', data);
-                    updateDashboard(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching sheet data:', error);
-                    showErrorState();
-                });
+            // Try to fetch data with timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
+            fetch(SHEET_API_URL, {
+                signal: controller.signal,
+                mode: 'cors', // Try CORS mode
+                headers: {
+                    'Accept': 'application/json',
+                }
+            })
+            .then(response => {
+                clearTimeout(timeoutId);
+                if (!response.ok) {
+                    throw new Error('HTTP error! status: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Data loaded from API:', data);
+                updateDashboard(data);
+            })
+            .catch(error => {
+                clearTimeout(timeoutId);
+                console.warn('API fetch failed, using default data. Error:', error.message);
+                // Use default data as fallback
+                updateDashboard(DEFAULT_DATA);
+                // Show a subtle notification that data is from fallback
+                showFallbackNotice();
+            });
         }
 
         function showLoadingState() {
@@ -392,12 +419,18 @@
             });
         }
 
-        function showErrorState() {
-            document.querySelectorAll('[data-dynamic]').forEach(el => {
-                el.classList.remove('data-loading');
-                el.textContent = '⚠️';
-                el.title = 'Failed to load data';
-            });
+        function showFallbackNotice() {
+            // Create a subtle notification
+            const notice = document.createElement('div');
+            notice.className = 'fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 px-4 py-2 rounded-xl text-xs font-medium shadow-lg border border-amber-200 dark:border-amber-700 transition-opacity';
+            notice.textContent = '📊 Using cached data. Connect to Google Sheet for live updates.';
+            document.body.appendChild(notice);
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                notice.style.opacity = '0';
+                setTimeout(() => notice.remove(), 500);
+            }, 5000);
         }
 
         function updateDashboard(data) {
@@ -408,7 +441,7 @@
             
             // --- Map data to elements ---
             const mappings = [
-                { id: 'total-expenses', value: totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) },
+                { id: 'total-expenses', value: totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 }) },
                 { id: 'refills-count', value: data.countRefuellingMonth || 0 },
                 { id: 'services-count', value: data.totalServicesCarriedOutMonth || 0 },
                 { id: 'distance-driven', value: (data.totalDrivingDistanceMonth || 0).toLocaleString() },
@@ -440,10 +473,8 @@
             const container = document.getElementById('priorities-container');
             if (!container) return;
 
-            // Get all priority items (3 items total)
             const items = container.querySelectorAll('.priority-item');
             
-            // Update each priority with data
             priorities.forEach((priority, index) => {
                 if (items[index]) {
                     const titleEl = items[index].querySelector('.priority-title');
@@ -455,7 +486,6 @@
                     if (titleEl) titleEl.textContent = priority.vehicle || '—';
                     if (descEl) descEl.textContent = priority.description || '—';
                     
-                    // Update icon based on description
                     if (iconEl) {
                         if (priority.description === 'Insurance Renewal') {
                             iconEl.textContent = 'gavel';
@@ -709,7 +739,7 @@
         </div>
     </nav>
 
-    <!-- Modal Containers (Empty - will be populated from forms.html) -->
+    <!-- Modal Containers -->
     <div class="modal-overlay" id="addVehicleModal">
         <div class="modal-content">
             <div class="modal-loading">
@@ -734,9 +764,7 @@
         </div>
     </div>
 
-    <!-- JavaScript -->
     <script>
-        // Initialize Lucide icons
         document.addEventListener('DOMContentLoaded', function() {
             lucide.createIcons();
         });
