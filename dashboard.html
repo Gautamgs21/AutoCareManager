@@ -150,6 +150,24 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Loading shimmer effect for data placeholders */
+        .data-loading {
+            display: inline-block;
+            min-width: 60px;
+            height: 20px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .dark .data-loading {
+            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+        }
     </style>
     
     <script>
@@ -222,17 +240,14 @@
             fetch('forms.html')
                 .then(response => response.text())
                 .then(html => {
-                    // Extract the specific modal from the fetched HTML
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
                     const fetchedModal = doc.getElementById(modalId);
                     
                     if (fetchedModal) {
-                        // Get the inner content of the fetched modal
                         const fetchedContent = fetchedModal.querySelector('.modal-content');
                         if (fetchedContent) {
                             content.innerHTML = fetchedContent.innerHTML;
-                            // Re-initialize any scripts or functionality
                             initializeModalScripts(modalId);
                         } else {
                             content.innerHTML = '<div class="p-6 text-center text-red-500">Error: Modal content not found</div>';
@@ -257,7 +272,6 @@
             const modal = document.getElementById(modalId);
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
-            // Reset content to loading state for next open
             const content = modal.querySelector('.modal-content');
             content.innerHTML = `
                 <div class="modal-loading">
@@ -267,15 +281,6 @@
         }
 
         function initializeModalScripts(modalId) {
-            // Re-initialize any functionality for the loaded modal
-            // This includes form submissions, calculations, etc.
-            
-            // Close button functionality within the loaded content
-            document.querySelectorAll(`#${modalId} [onclick*="closeModal"]`).forEach(btn => {
-                // The onclick is already set in the HTML
-            });
-
-            // Fuel form bidirectional calculation
             if (modalId === 'addFuelModal') {
                 const rateInput = document.getElementById('rate');
                 const volumeInput = document.getElementById('volume');
@@ -307,7 +312,6 @@
                     totalInput.addEventListener('input', calculateVolume);
                 }
 
-                // Set default date and time for fuel form
                 const now = new Date();
                 const dateInput = document.getElementById('fill-date');
                 if (dateInput) dateInput.valueAsDate = now;
@@ -318,11 +322,6 @@
                     const minutes = String(now.getMinutes()).padStart(2, '0');
                     timeInput.value = `${hours}:${minutes}`;
                 }
-            }
-
-            // Vehicle form pre-fill (if editing)
-            if (modalId === 'addVehicleModal') {
-                // Any vehicle form specific initialization
             }
         }
 
@@ -354,7 +353,137 @@
                 if (avatar) avatar.src = savedSettings.profileImage;
             }
             lucide.createIcons();
+            
+            // Fetch data from Google Sheet API
+            fetchDashboardData();
         });
+
+        // =============================================
+        // FETCH DATA FROM GOOGLE SHEET API
+        // =============================================
+        function fetchDashboardData() {
+            // REPLACE WITH YOUR ACTUAL WEB APP URL
+            const SHEET_API_URL = 'https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnQvomUUi55ZY1R9vHIROEDjjDujujwslscsH1m0GzaWZ3zZIDnP2AATep34w9yFKSb6Q2yQF5FmdRvoz7Aytm8zt_GeEz98GmdUrDtB-2ov0JlmxkzyFOxWLGX9hrnFqxKSQ0UV3itg8kvjfvcxKng5KtiAaqp5bdzzIeXw61EdhEBJ5dVwcB1J69rmcgCllQy-GDUwUkMcos4lXA14N-byR5GvaoNFlNiQMIGoVP1N49sHeCTfAhoE_f7jyNsUPe0TTs3iyvsM8RLZM64gw9Qq054h7Q&lib=MxC0rfohfocUlfPv2RiL4TTLsJggQMUMk';
+            
+            // Show loading state
+            showLoadingState();
+            
+            fetch(SHEET_API_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.status);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Dashboard data received:', data);
+                    updateDashboard(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching sheet data:', error);
+                    showErrorState();
+                });
+        }
+
+        function showLoadingState() {
+            document.querySelectorAll('[data-dynamic]').forEach(el => {
+                el.classList.add('data-loading');
+                el.textContent = '';
+            });
+        }
+
+        function showErrorState() {
+            document.querySelectorAll('[data-dynamic]').forEach(el => {
+                el.classList.remove('data-loading');
+                el.textContent = '⚠️';
+                el.title = 'Failed to load data';
+            });
+        }
+
+        function updateDashboard(data) {
+            // --- Calculate Monthly Expenses ---
+            const refillsCost = parseFloat(data.totalRefillsCostMonth) || 0;
+            const servicesCost = parseFloat(data.totalServicesCostMonth) || 0;
+            const totalExpenses = refillsCost + servicesCost;
+            
+            // --- Map data to elements ---
+            const mappings = [
+                { id: 'total-expenses', value: totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) },
+                { id: 'refills-count', value: data.countRefuellingMonth || 0 },
+                { id: 'services-count', value: data.totalServicesCarriedOutMonth || 0 },
+                { id: 'distance-driven', value: (data.totalDrivingDistanceMonth || 0).toLocaleString() },
+                { id: 'avg-efficiency', value: data.avgEfficiency || 'N/A' },
+                { id: 'champion-model', value: data.championVehicle1 || 'Honda City' },
+                { id: 'champion-reg', value: data.championReg || 'MH12AB1234' },
+                { id: 'champion-efficiency', value: data.championCurrentMileage || 15.5 },
+                { id: 'champion-model-card', value: data.championVehicle2 || 'Honda Activa 6G' },
+                { id: 'champion-efficiency-card', value: data.championOverallMileage || 45.2 },
+                { id: 'fuel-consumed', value: data.totalFuelConsumedMonth || 0 },
+                { id: 'vehicle-count', value: data.totalVehicles || 2 }
+            ];
+
+            mappings.forEach(({ id, value }) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.remove('data-loading');
+                    el.textContent = value;
+                }
+            });
+
+            // --- Update Priorities ---
+            if (data.priorities && Array.isArray(data.priorities) && data.priorities.length > 0) {
+                updatePriorities(data.priorities);
+            }
+        }
+
+        function updatePriorities(priorities) {
+            const container = document.getElementById('priorities-container');
+            if (!container) return;
+
+            // Get all priority items (3 items total)
+            const items = container.querySelectorAll('.priority-item');
+            
+            // Update each priority with data
+            priorities.forEach((priority, index) => {
+                if (items[index]) {
+                    const titleEl = items[index].querySelector('.priority-title');
+                    const descEl = items[index].querySelector('.priority-desc');
+                    const statusEl = items[index].querySelector('.priority-status');
+                    const dateEl = items[index].querySelector('.priority-date');
+                    const iconEl = items[index].querySelector('.priority-icon');
+                    
+                    if (titleEl) titleEl.textContent = priority.vehicle || '—';
+                    if (descEl) descEl.textContent = priority.description || '—';
+                    
+                    // Update icon based on description
+                    if (iconEl) {
+                        if (priority.description === 'Insurance Renewal') {
+                            iconEl.textContent = 'gavel';
+                        } else if (priority.description === 'PUC Certificate') {
+                            iconEl.textContent = 'description';
+                        } else {
+                            iconEl.textContent = 'oil_barrel';
+                        }
+                    }
+                    
+                    if (statusEl) {
+                        const statusText = priority.status || 'Upcoming';
+                        statusEl.textContent = statusText;
+                        statusEl.className = 'priority-status text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide';
+                        
+                        if (statusText === 'Overdue') {
+                            statusEl.classList.add('bg-red-100', 'text-red-700', 'dark:bg-red-950', 'dark:text-red-300');
+                        } else if (statusText === 'Due Soon') {
+                            statusEl.classList.add('bg-amber-100', 'text-amber-700', 'dark:bg-amber-950', 'dark:text-amber-300');
+                        } else {
+                            statusEl.classList.add('bg-slate-100', 'text-slate-700', 'dark:bg-slate-800', 'dark:text-slate-300');
+                        }
+                    }
+                    
+                    if (dateEl) dateEl.textContent = priority.date || '—';
+                }
+            });
+        }
     </script>
 </head>
 <body class="bg-background text-on-background antialiased transition-colors duration-200">
@@ -414,7 +543,11 @@
                 </div>
                 <div>
                     <h3 class="text-sm font-bold text-on-surface mb-0.5">Mileage Champion of the Month</h3>
-                    <p class="text-xs text-slate-text-secondary">Honda City (MH12AB1234) • <span class="font-bold text-emerald-600">15.5 km/l</span></p>
+                    <p class="text-xs text-slate-text-secondary">
+                        <span id="champion-model" data-dynamic>Honda City</span> 
+                        (<span id="champion-reg" data-dynamic>MH12AB1234</span>) • 
+                        <span class="font-bold text-emerald-600"><span id="champion-efficiency" data-dynamic>15.5</span> km/l</span>
+                    </p>
                 </div>
             </div>
         </section>
@@ -427,12 +560,17 @@
                     <div class="flex items-center justify-between mb-1">
                         <span class="text-[11px] font-bold text-slate-text-secondary uppercase tracking-wider">Monthly Expenses</span>
                     </div>
-                    <h3 class="text-2xl font-black text-on-surface mt-1">₹14,580</h3>
-                    <p class="text-xs text-slate-text-secondary mt-1">12 Refills • 3 Services</p>
+                    <h3 class="text-2xl font-black text-on-surface mt-1">
+                        ₹<span id="total-expenses" data-dynamic>14,580</span>
+                    </h3>
+                    <p class="text-xs text-slate-text-secondary mt-1">
+                        <span id="refills-count" data-dynamic>12</span> Refills • 
+                        <span id="services-count" data-dynamic>3</span> Services
+                    </p>
                 </div>
                 <div class="pt-3 border-t border-slate-border text-xs font-semibold text-slate-text-secondary flex items-center justify-between">
-                    <span>Distance: 2,450 km</span>
-                    <span>Avg: 38.4 km/L</span>
+                    <span>Distance: <span id="distance-driven" data-dynamic>2,450</span> km</span>
+                    <span>Avg: <span id="avg-efficiency" data-dynamic>38.4</span> km/L</span>
                 </div>
             </div>
 
@@ -443,8 +581,12 @@
                         <span class="text-[11px] font-bold text-slate-text-secondary uppercase tracking-wider">Top Performer</span>
                         <span class="material-symbols-outlined text-amber-500 text-xl">emoji_events</span>
                     </div>
-                    <h3 class="text-lg font-black text-on-surface mt-1 truncate">Honda Activa 6G</h3>
-                    <p class="text-xs font-bold text-emerald-600 mt-1">45.2 km/L Efficiency</p>
+                    <h3 class="text-lg font-black text-on-surface mt-1 truncate">
+                        <span id="champion-model-card" data-dynamic>Honda Activa 6G</span>
+                    </h3>
+                    <p class="text-xs font-bold text-emerald-600 mt-1">
+                        <span id="champion-efficiency-card" data-dynamic>45.2</span> km/L Efficiency
+                    </p>
                 </div>
                 <button type="button" class="text-xs font-bold text-primary flex items-center justify-between pt-3 border-t border-slate-border hover:underline cursor-pointer w-full">
                     <span>Efficiency Curves</span>
@@ -458,8 +600,12 @@
                     <div class="flex items-center justify-between mb-1">
                         <span class="text-[11px] font-bold text-slate-text-secondary uppercase tracking-wider">Fuel Consumed</span>
                     </div>
-                    <h3 class="text-2xl font-black text-on-surface mt-1">68.4 Liters</h3>
-                    <p class="text-xs text-slate-text-secondary mt-1">Across 2 registered vehicles</p>
+                    <h3 class="text-2xl font-black text-on-surface mt-1">
+                        <span id="fuel-consumed" data-dynamic>68.4</span> Liters
+                    </h3>
+                    <p class="text-xs text-slate-text-secondary mt-1">
+                        Across <span id="vehicle-count" data-dynamic>2</span> registered vehicles
+                    </p>
                 </div>
                 <button type="button" class="text-xs font-bold text-primary flex items-center justify-between pt-3 border-t border-slate-border hover:underline cursor-pointer w-full">
                     <span>Refuelling History</span>
@@ -474,53 +620,53 @@
                 <h2 class="text-xs font-bold text-slate-text-secondary uppercase tracking-wider">Upcoming Priorities</h2>
                 <a class="text-primary font-semibold text-xs hover:underline" href="#">View All</a>
             </div>
-            <div class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-xs overflow-hidden divide-y divide-slate-border">
+            <div id="priorities-container" class="bg-surface-container-lowest rounded-2xl border border-slate-border shadow-xs overflow-hidden divide-y divide-slate-border">
                 <!-- Priority Item 1 -->
-                <div class="p-4 hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between box-border">
+                <div class="priority-item p-4 hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between box-border">
                     <div class="flex items-center gap-3.5">
                         <div class="w-10 h-10 rounded-xl bg-red-100 text-red-600 dark:bg-red-950 dark:text-red-400 flex items-center justify-center flex-shrink-0">
-                            <span class="material-symbols-outlined text-lg">gavel</span>
+                            <span class="priority-icon material-symbols-outlined text-lg">gavel</span>
                         </div>
                         <div>
-                            <h4 class="text-sm font-semibold text-on-surface">Insurance Renewal</h4>
-                            <p class="text-xs text-slate-text-secondary">Fleet Vehicle #4 (Ford Transit)</p>
+                            <h4 class="priority-title text-sm font-semibold text-on-surface">Loading...</h4>
+                            <p class="priority-desc text-xs text-slate-text-secondary">—</p>
                         </div>
                     </div>
                     <div class="flex flex-col items-end gap-1">
-                        <span class="bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Overdue</span>
-                        <span class="text-[11px] font-medium text-red-600">Oct 12</span>
+                        <span class="priority-status bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Loading</span>
+                        <span class="priority-date text-[11px] font-medium text-slate-text-secondary">—</span>
                     </div>
                 </div>
                 <!-- Priority Item 2 -->
-                <div class="p-4 hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between box-border">
+                <div class="priority-item p-4 hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between box-border">
                     <div class="flex items-center gap-3.5">
                         <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 dark:bg-amber-950 dark:text-amber-400 flex items-center justify-center flex-shrink-0">
-                            <span class="material-symbols-outlined text-lg">description</span>
+                            <span class="priority-icon material-symbols-outlined text-lg">description</span>
                         </div>
                         <div>
-                            <h4 class="text-sm font-semibold text-on-surface">PUC Certificate</h4>
-                            <p class="text-xs text-slate-text-secondary">Fleet Vehicle #2 (Toyota Tacoma)</p>
+                            <h4 class="priority-title text-sm font-semibold text-on-surface">Loading...</h4>
+                            <p class="priority-desc text-xs text-slate-text-secondary">—</p>
                         </div>
                     </div>
                     <div class="flex flex-col items-end gap-1">
-                        <span class="bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Due Soon</span>
-                        <span class="text-[11px] font-medium text-slate-text-secondary">Oct 28</span>
+                        <span class="priority-status bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Loading</span>
+                        <span class="priority-date text-[11px] font-medium text-slate-text-secondary">—</span>
                     </div>
                 </div>
                 <!-- Priority Item 3 -->
-                <div class="p-4 hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between box-border">
+                <div class="priority-item p-4 hover:bg-surface-container-high transition-colors cursor-pointer flex items-center justify-between box-border">
                     <div class="flex items-center gap-3.5">
                         <div class="w-10 h-10 rounded-xl bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300 flex items-center justify-center flex-shrink-0">
-                            <span class="material-symbols-outlined text-lg">oil_barrel</span>
+                            <span class="priority-icon material-symbols-outlined text-lg">oil_barrel</span>
                         </div>
                         <div>
-                            <h4 class="text-sm font-semibold text-on-surface">Scheduled Maintenance</h4>
-                            <p class="text-xs text-slate-text-secondary">Fleet Vehicle #7 (Chevy Express)</p>
+                            <h4 class="priority-title text-sm font-semibold text-on-surface">Loading...</h4>
+                            <p class="priority-desc text-xs text-slate-text-secondary">—</p>
                         </div>
                     </div>
                     <div class="flex flex-col items-end gap-1">
-                        <span class="bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Upcoming</span>
-                        <span class="text-[11px] font-medium text-slate-text-secondary">Nov 05</span>
+                        <span class="priority-status bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Loading</span>
+                        <span class="priority-date text-[11px] font-medium text-slate-text-secondary">—</span>
                     </div>
                 </div>
             </div>
